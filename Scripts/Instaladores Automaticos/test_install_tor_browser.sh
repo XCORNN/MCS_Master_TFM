@@ -7,7 +7,7 @@ if [ "$(id -u)" != "0" ]; then
 fi
 
 # Directorio de instalación del Tor Browser
-TOR_BROWSER_DIR="~/Escritorio/Tor"
+TOR_BROWSER_DIR="$HOME/Escritorio/Tor"
 
 # URL del paquete del Tor Browser y su firma
 TOR_BROWSER_URL="https://www.torproject.org/dist/torbrowser/13.5.1/tor-browser-linux-x86_64-13.5.1.tar.xz"
