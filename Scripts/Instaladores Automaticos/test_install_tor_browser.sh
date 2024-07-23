@@ -1,11 +1,5 @@
 #!/bin/bash
 
-# Verifica si el script se está ejecutando como root
-if [ "$(id -u)" != "0" ]; then
-   echo "Este script debe ejecutarse como root" 
-   exit 1
-fi
-
 # Directorio de instalación del Tor Browser
 TOR_BROWSER_DIR="$HOME/Escritorio/Tor"
 
