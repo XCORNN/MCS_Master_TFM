@@ -4,7 +4,8 @@
 URL="https://www.torproject.org/dist/torbrowser/13.5.1/tor-browser-linux-x86_64-13.5.1.tar.xz"
 DIR="/opt/Navegadores"
 TAR_FILE="tor-browser-linux-x86_64-13.5.1.tar.xz"
-DESKTOP_FILE="tor-browser_en-US/start-tor-browser.desktop"
+EXTRACTED_DIR="tor-browser_en-US"
+DESKTOP_FILE="$EXTRACTED_DIR/start-tor-browser.desktop"
 USER_DESKTOP_DIR="/home/$USER/Desktop"
 
 # Crear la carpeta donde se descargará el navegador
@@ -20,9 +21,10 @@ sudo wget $URL
 sudo tar -xvf $TAR_FILE
 
 # Copiar el archivo .desktop al escritorio del usuario
-sudo cp $DIR/tor-browser_en-US/start-tor-browser.desktop $USER_DESKTOP_DIR
+sudo cp $DIR/$DESKTOP_FILE $USER_DESKTOP_DIR
 
 # Cambiar permisos del archivo .desktop para que sea ejecutable
 sudo chmod +x $USER_DESKTOP_DIR/start-tor-browser.desktop
 
 echo "La instalación ha sido completada y el acceso directo está en el escritorio del usuario."
+
