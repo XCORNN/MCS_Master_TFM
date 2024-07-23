@@ -10,4 +10,4 @@ git clone https://github.com/laramies/theHarvester.git
 cd theHarvester
 
 # Instalar las dependencias de theHarvester
-sudo pip3 install -r requirements/base.txt
+sudo pip3 install -r requirements/base.txt --break-system-packages 
