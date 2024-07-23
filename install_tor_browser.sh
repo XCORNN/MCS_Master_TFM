@@ -54,5 +54,15 @@ gpg --verify "$TOR_BROWSER_SIG" "$TOR_BROWSER_TAR"
 echo "Extrayendo Tor Browser..."
 tar -xf "$TOR_BROWSER_TAR"
 
+# Cambia los permisos del directorio y los archivos para permitir el acceso de otros usuarios
+echo "Configurando permisos..."
+chown -R root:root "$TOR_BROWSER_DIR"
+chmod -R 755 "$TOR_BROWSER_DIR"
+
 echo "Tor Browser ha sido instalado en $TOR_BROWSER_DIR."
+
+# Mensaje informativo para el usuario sobre cómo ejecutar Tor Browser
+echo "Para ejecutar Tor Browser, cada usuario puede usar el siguiente comando:"
+echo "$TOR_BROWSER_DIR/tor-browser/Browser/start-tor-browser"
+
 
