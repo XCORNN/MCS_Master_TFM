@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# Verifica si el script se está ejecutando como root
+if [ "$(id -u)" != "0" ]; then
+   echo "Este script debe ejecutarse como root" 
+   exit 1
+fi
+
 # Instalar dependencias necesarias
 sudo apt install -y python3-pip
 
