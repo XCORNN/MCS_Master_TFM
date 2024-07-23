@@ -9,11 +9,22 @@ fi
 # Directorio de instalación del Tor Browser
 TOR_BROWSER_DIR="/opt/tor-browser"
 
-# URL del paquete del Tor Browser
+# URL del paquete del Tor Browser y su firma
 TOR_BROWSER_URL="https://dist.torproject.org/torbrowser/13.5.1/tor-browser-linux-x86_64-13.5.1.tar.xz"
+TOR_BROWSER_SIG_URL="https://dist.torproject.org/torbrowser/13.5.1/tor-browser-linux-x86_64-13.5.1.tar.xz.asc"
+TOR_GPG_KEY_URL="https://dist.torproject.org/torproject.org.gpg"
 
 # Nombre del archivo descargado
 TOR_BROWSER_TAR="tor-browser-linux-x86_64-13.5.1.tar.xz"
+TOR_BROWSER_SIG="tor-browser-linux-x86_64-13.5.1.tar.xz.asc"
+
+# Verifica si wget y gpg están instalados, si no lo están, lo instala
+if ! command -v wget &> /dev/null || ! command -v gpg &> /dev/null
+then
+    echo "wget o gpg no están instalados. Instalando..."
+    apt update
+    apt install -y wget gnupg
+fi
 
 # Crea el directorio de instalación si no existe
 mkdir -p "$TOR_BROWSER_DIR"
@@ -21,19 +32,22 @@ mkdir -p "$TOR_BROWSER_DIR"
 # Cambia al directorio de instalación
 cd "$TOR_BROWSER_DIR"
 
-# Descarga el paquete del Tor Browser
-echo "Descargando Tor Browser..."
+# Descarga el paquete del Tor Browser y su firma
+echo "Descargando Tor Browser y su firma..."
 wget -O "$TOR_BROWSER_TAR" "$TOR_BROWSER_URL"
+wget -O "$TOR_BROWSER_SIG" "$TOR_BROWSER_SIG_URL"
+wget -O torproject.org.gpg "$TOR_GPG_KEY_URL"
+
+# Importa la clave pública de GPG
+echo "Importando la clave pública de GPG..."
+gpg --import torproject.org.gpg
+
+# Verifica la firma del paquete
+echo "Verificando la firma del paquete..."
+gpg --verify "$TOR_BROWSER_SIG" "$TOR_BROWSER_TAR"
 
 # Extrae el archivo descargado
 echo "Extrayendo Tor Browser..."
 tar -xf "$TOR_BROWSER_TAR"
 
-# Cambia al directorio extraído
-cd tor-browser_en-US
-
-# Inicia el Navegador Tor
-echo "Iniciando Tor Browser..."
-./start-tor-browser.desktop &
-
-echo "Tor Browser se ha instalado y está ejecutándose."
+echo "Tor Browser ha sido instalado en $TOR_BROWSER_DIR."
