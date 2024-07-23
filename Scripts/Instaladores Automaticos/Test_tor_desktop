@@ -1,30 +1,19 @@
 #!/bin/bash
 
-# Variables
-URL="https://www.torproject.org/dist/torbrowser/13.5.1/tor-browser-linux-x86_64-13.5.1.tar.xz"
-DIR="/opt/Navegadores"
-TAR_FILE="tor-browser-linux-x86_64-13.5.1.tar.xz"
-EXTRACTED_DIR="tor-browser_en-US"
-DESKTOP_FILE="$EXTRACTED_DIR/start-tor-browser.desktop"
-USER_DESKTOP_DIR="/home/$USER/Desktop"
+# Crear carpeta Tor en el Escritorio
+mkdir -p ~/Escritorio/Tor
 
-# Crear la carpeta donde se descargará el navegador
-sudo mkdir -p $DIR
+# Moverse a la carpeta creada
+cd ~/Escritorio/Tor
 
-# Cambiar a la carpeta de destino
-cd $DIR
+# Descargar el archivo de Tor Browser
+wget https://www.torproject.org/dist/torbrowser/13.5.1/tor-browser-linux-x86_64-13.5.1.tar.xz
 
-# Descargar el archivo usando wget
-sudo wget $URL
+# Descomprimir el archivo descargado
+tar -xvf tor-browser-linux-x86_64-13.5.1.tar.xz
 
-# Extraer el archivo descargado
-sudo tar -xvf $TAR_FILE
+# Borrar el archivo comprimido descargado
+rm tor-browser-linux-x86_64-13.5.1.tar.xz
 
-# Copiar el archivo .desktop al escritorio del usuario
-sudo cp $DIR/$DESKTOP_FILE $USER_DESKTOP_DIR
-
-# Cambiar permisos del archivo .desktop para que sea ejecutable
-sudo chmod +x $USER_DESKTOP_DIR/start-tor-browser.desktop
-
-echo "La instalación ha sido completada y el acceso directo está en el escritorio del usuario."
+echo "Tor Browser ha sido instalado correctamente"
 
