@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# Verifica si el script se está ejecutando como root
+if [ "$(id -u)" != "0" ]; then
+   echo "Este script debe ejecutarse como root" 
+   exit 1
+fi
+
 #instalación de Malt
 wget https://downloads.maltego.com/maltego-v4/linux/Maltego.v4.7.0.deb
 
