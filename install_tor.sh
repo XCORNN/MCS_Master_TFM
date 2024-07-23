@@ -8,13 +8,6 @@ if [ "$(id -u)" != "0" ]; then
    exit 1
 fi
 
-# Verifica la arquitectura de la CPU
-ARCH=$(dpkg --print-architecture)
-if [[ "$ARCH" != "amd64" && "$ARCH" != "arm64" && "$ARCH" != "i386" ]]; then
-    echo "Arquitectura no soportada: $ARCH"
-    exit 1
-fi
-
 # Actualiza el índice de paquetes
 echo "Actualizando el índice de paquetes..."
 apt update
