@@ -48,11 +48,6 @@ sudo MSSQL_SA_PASSWORD=$MSSQL_SA_PASSWORD \
 echo Installing mssql-tools and unixODBC developer...
 sudo ACCEPT_EULA=Y apt-get install -y mssql-tools unixodbc-dev
 
-# Add SQL Server tools to the path by default:
-echo Adding SQL Server tools to your path...
-echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
-source ~/.bashrc
-
 # Optional Enable SQL Server Agent:
 if [ ! -z $SQL_ENABLE_AGENT ]
 then
@@ -71,6 +66,11 @@ fi
 # Trace flags 1204 and 1222 are for deadlock tracing.
 # echo Setting trace flags...
 # sudo /opt/mssql/bin/mssql-conf traceflag 1204 1222 on
+
+# Add SQL Server tools to the path by default:
+echo Adding SQL Server tools to your path...
+echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
+source ~/.bashrc
 
 # Restart SQL Server after installing:
 echo Restarting SQL Server...
