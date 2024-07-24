@@ -46,7 +46,7 @@ sudo MSSQL_SA_PASSWORD=$MSSQL_SA_PASSWORD \
      /opt/mssql/bin/mssql-conf -n setup accept-eula
 
 echo Installing mssql-tools and unixODBC developer...
-sudo ACCEPT_EULA=Y apt-get install -y mssql-tools18 unixodbc-dev
+sudo ACCEPT_EULA=Y apt-get install -y mssql-tools unixodbc-dev
 
 # Add SQL Server tools to the path by default:
 echo Adding SQL Server tools to your path...
