@@ -65,6 +65,11 @@ cd "$HOME/Escritorio/Foca"
 #Importar Foca de Github
 wget https://github.com/ElevenPaths/FOCA/releases/download/v3.4.7.1/FOCA-v3.4.7.1.zip
 
+#Descomprimir Foca.zip
+unzip -d . FOCA-v3.4.7.1.zip
+
+#Borrar compimido
+rm FOCA-v3.4.7.1.zip 
 
 
 echo "All tasks completed successfully."
