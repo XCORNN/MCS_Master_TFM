@@ -1,23 +1,49 @@
-#Instalar Curl
-sudo apt-get install curl
+#!/bin/bash
 
-# Instalación de SQL Server Express
-wget -qO- https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
-sudo add-apt-repository "$(wget -qO- https://packages.microsoft.com/config/ubuntu/20.04/mssql-server-2019.list)"
+# Variables
+DB_NAME="TuBaseDeDatos"
+DB_USER=$(whoami)
+DB_PASSWORD="TuContrasenaFuerte"
+
+# Actualización del sistema e instalación de dependencias
 sudo apt-get update
+sudo apt-get install -y curl wget gnupg2
+
+# Agregar claves y repositorios correctamente
+curl -s https://packages.microsoft.com/keys/microsoft.asc | sudo tee /usr/share/keyrings/microsoft-archive-keyring.gpg > /dev/null
+echo "deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft-archive-keyring.gpg] https://packages.microsoft.com/ubuntu/20.04/mssql-server-2019 focal main" | sudo tee /etc/apt/sources.list.d/mssql-server.list
+echo "deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft-archive-keyring.gpg] https://packages.microsoft.com/ubuntu/20.04/prod focal main" | sudo tee /etc/apt/sources.list.d/msprod.list
+
+# Actualizar lista de paquetes
+sudo apt-get update
+
+# Instalar SQL Server
 sudo apt-get install -y mssql-server
 sudo /opt/mssql/bin/mssql-conf setup
 
-# Instalación de herramientas de línea de comandos de SQL Server
-curl -s https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
-sudo add-apt-repository "$(wget -qO- https://packages.microsoft.com/config/ubuntu/20.04/prod.list)"
-sudo apt-get update
+# Iniciar SQL Server
+sudo systemctl start mssql-server
+sudo systemctl enable mssql-server
+
+# Instalar herramientas de línea de comandos de SQL Server
 sudo apt-get install -y mssql-tools unixodbc-dev
+
+# Agregar sqlcmd y bcp al PATH
 echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bash_profile
 echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
 source ~/.bashrc
 
+# Verificar la instalación de sqlcmd
+if ! command -v sqlcmd &> /dev/null
+then
+    echo "sqlcmd no se pudo encontrar, asegúrate de que está instalado y en el PATH."
+    exit 1
+fi
+
+# Esperar un momento para asegurar que SQL Server está completamente iniciado
+sleep 10
+
 # Creación de la base de datos y usuario
-sqlcmd -S localhost -U SA -P "$DB_PASSWORD" -Q "CREATE DATABASE $DB_NAME;"
-sqlcmd -S localhost -U SA -P "$DB_PASSWORD" -Q "CREATE LOGIN $DB_USER WITH PASSWORD = '$DB_PASSWORD';"
-sqlcmd -S localhost -U SA -P "$DB_PASSWORD" -Q "USE $DB_NAME; CREATE USER $DB_USER FOR LOGIN $DB_USER; EXEC sp_addrolemember 'db_owner', '$DB_USER';"
+/opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P "$DB_PASSWORD" -Q "CREATE DATABASE $DB_NAME;"
+/opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P "$DB_PASSWORD" -Q "CREATE LOGIN $DB_USER WITH PASSWORD = '$DB_PASSWORD';"
+/opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P "$DB_PASSWORD" -Q "USE $DB_NAME; CREATE USER $DB_USER FOR LOGIN $DB_USER; EXEC sp_addrolemember 'db_owner', '$DB_USER';"
