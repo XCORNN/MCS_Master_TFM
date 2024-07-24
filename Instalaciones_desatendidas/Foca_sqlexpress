@@ -19,8 +19,23 @@ sudo add-apt-repository "$(wget -qO- https://packages.microsoft.com/config/ubunt
 # Actualizar la lista de paquetes
 sudo apt-get update || error_exit "Error al actualizar la lista de paquetes después de agregar el repositorio de Microsoft"
 
+# Añadir el repositorio de Debian Bullseye para libldap-2.4-2
+sudo sh -c 'echo "deb http://deb.debian.org/debian bullseye main" > /etc/apt/sources.list.d/bullseye.list' || error_exit "Error al añadir el repositorio de Bullseye"
+
+# Actualizar la lista de paquetes
+sudo apt-get update || error_exit "Error al actualizar la lista de paquetes después de agregar el repositorio de Bullseye"
+
+# Instalar libldap-2.4-2 desde Bullseye
+sudo apt-get install -y libldap-2.4-2/bullseye || error_exit "Error al instalar libldap-2.4-2"
+
 # Instalar SQL Server
 sudo apt-get install -y mssql-server || error_exit "Error al instalar mssql-server"
+
+# Eliminar el repositorio de Bullseye
+sudo rm /etc/apt/sources.list.d/bullseye.list || error_exit "Error al eliminar el repositorio de Bullseye"
+
+# Actualizar la lista de paquetes
+sudo apt-get update || error_exit "Error al actualizar la lista de paquetes después de eliminar el repositorio de Bullseye"
 
 # Configurar SQL Server
 sudo /opt/mssql/bin/mssql-conf setup || error_exit "Error al configurar SQL Server"
@@ -45,3 +60,4 @@ if ! command -v sqlcmd &> /dev/null; then
 fi
 
 echo "Instalación y configuración de SQL Server completadas exitosamente."
+
