@@ -8,29 +8,19 @@ error_exit() {
 
 # Actualizar lista de paquetes e instalar dependencias iniciales
 sudo apt-get update || error_exit "Error al actualizar la lista de paquetes"
-sudo apt-get install -y wget curl gnupg2 || error_exit "Error al instalar wget, curl y gnupg2"
+sudo apt-get install -y wget curl gnupg2 software-properties-common || error_exit "Error al instalar wget, curl, gnupg2 y software-properties-common"
 
 # Importar claves GPG del repositorio público
 curl https://packages.microsoft.com/keys/microsoft.asc | sudo tee /etc/apt/trusted.gpg.d/microsoft.asc || error_exit "Error al importar la clave GPG de Microsoft"
 
-# Registrar el repositorio de Ubuntu de Microsoft para Ubuntu 20.04 (se usará en Debian)
-curl https://packages.microsoft.com/config/ubuntu/20.04/prod.list | sudo tee /etc/apt/sources.list.d/mssql-release.list || error_exit "Error al registrar el repositorio de Microsoft"
+# Registrar el repositorio de Ubuntu de SQL Server
+sudo add-apt-repository "$(wget -qO- https://packages.microsoft.com/config/ubuntu/20.04/mssql-server-2019.list)" || error_exit "Error al registrar el repositorio de Microsoft"
 
-# Actualizar la lista de paquetes y asegurarse de que las dependencias necesarias están disponibles
+# Actualizar la lista de paquetes
 sudo apt-get update || error_exit "Error al actualizar la lista de paquetes después de agregar el repositorio de Microsoft"
 
-# Instalar SQL Server y las herramientas de línea de comandos
-sudo apt-get install -y mssql-server mssql-tools18 unixodbc-dev || error_exit "Error al instalar mssql-server, mssql-tools18 y unixodbc-dev"
-
-# Comprobar si la instalación de SQL Server y las herramientas de línea de comandos se realizó correctamente
-if ! command -v sqlcmd &> /dev/null; then
-  error_exit "sqlcmd no se pudo encontrar, asegúrate de que está instalado y en el PATH."
-fi
-
-# Agregar /opt/mssql-tools18/bin/ a la variable de entorno PATH
-echo 'export PATH="$PATH:/opt/mssql-tools18/bin"' >> ~/.bash_profile
-echo 'export PATH="$PATH:/opt/mssql-tools18/bin"' >> ~/.bashrc
-source ~/.bashrc
+# Instalar SQL Server
+sudo apt-get install -y mssql-server || error_exit "Error al instalar mssql-server"
 
 # Configurar SQL Server
 sudo /opt/mssql/bin/mssql-conf setup || error_exit "Error al configurar SQL Server"
@@ -40,5 +30,18 @@ sudo systemctl start mssql-server || error_exit "Error al iniciar el servicio de
 
 # Habilitar el servicio de SQL Server para que inicie al arrancar el sistema
 sudo systemctl enable mssql-server || error_exit "Error al habilitar el servicio de SQL Server"
+
+# Instalar herramientas de línea de comandos de SQL Server
+sudo apt-get install -y mssql-tools unixodbc-dev || error_exit "Error al instalar mssql-tools y unixodbc-dev"
+
+# Agregar /opt/mssql-tools/bin/ a la variable de entorno PATH
+echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bash_profile
+echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
+source ~/.bashrc
+
+# Verificar que sqlcmd está en el PATH
+if ! command -v sqlcmd &> /dev/null; then
+  error_exit "sqlcmd no se pudo encontrar, asegúrate de que está instalado y en el PATH."
+fi
 
 echo "Instalación y configuración de SQL Server completadas exitosamente."
