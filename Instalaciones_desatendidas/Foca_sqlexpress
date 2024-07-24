@@ -9,28 +9,40 @@ DB_PASSWORD="TuContrasenaFuerte"
 sudo apt-get update
 sudo apt-get install -y curl wget gnupg2
 
-# Agregar claves y repositorios correctamente
-curl -s https://packages.microsoft.com/keys/microsoft.asc | sudo tee /usr/share/keyrings/microsoft-archive-keyring.gpg > /dev/null
-echo "deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft-archive-keyring.gpg] https://packages.microsoft.com/ubuntu/20.04/mssql-server-2019 focal main" | sudo tee /etc/apt/sources.list.d/mssql-server.list
-echo "deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft-archive-keyring.gpg] https://packages.microsoft.com/ubuntu/20.04/prod focal main" | sudo tee /etc/apt/sources.list.d/msprod.list
+# Importar claves de GPG del repositorio público
+curl https://packages.microsoft.com/keys/microsoft.asc | sudo tee /etc/apt/trusted.gpg.d/microsoft.asc
+
+# Registrar el repositorio de Ubuntu de SQL Server
+curl https://packages.microsoft.com/config/ubuntu/20.04/mssql-server-2019.list | sudo tee /etc/apt/sources.list.d/mssql-server.list
 
 # Actualizar lista de paquetes
 sudo apt-get update
 
 # Instalar SQL Server
 sudo apt-get install -y mssql-server
+
+# Configurar SQL Server
 sudo /opt/mssql/bin/mssql-conf setup
 
-# Iniciar SQL Server
+# Iniciar y habilitar SQL Server
 sudo systemctl start mssql-server
 sudo systemctl enable mssql-server
 
+# Verificar que el servicio se esté ejecutando
+systemctl status mssql-server --no-pager
+
+# Registrar el repositorio de Ubuntu de Microsoft para mssql-tools
+curl https://packages.microsoft.com/config/ubuntu/20.04/prod.list | sudo tee /etc/apt/sources.list.d/mssql-release.list
+
+# Actualizar lista de paquetes
+sudo apt-get update
+
 # Instalar herramientas de línea de comandos de SQL Server
-sudo apt-get install -y mssql-tools unixodbc-dev
+sudo apt-get install -y mssql-tools18 unixodbc-dev
 
 # Agregar sqlcmd y bcp al PATH
-echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bash_profile
-echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
+echo 'export PATH="$PATH:/opt/mssql-tools18/bin"' >> ~/.bash_profile
+echo 'export PATH="$PATH:/opt/mssql-tools18/bin"' >> ~/.bashrc
 source ~/.bashrc
 
 # Verificar la instalación de sqlcmd
@@ -44,6 +56,8 @@ fi
 sleep 10
 
 # Creación de la base de datos y usuario
-/opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P "$DB_PASSWORD" -Q "CREATE DATABASE $DB_NAME;"
-/opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P "$DB_PASSWORD" -Q "CREATE LOGIN $DB_USER WITH PASSWORD = '$DB_PASSWORD';"
-/opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P "$DB_PASSWORD" -Q "USE $DB_NAME; CREATE USER $DB_USER FOR LOGIN $DB_USER; EXEC sp_addrolemember 'db_owner', '$DB_USER';"
+/opt/mssql-tools18/bin/sqlcmd -S localhost -U SA -P "$DB_PASSWORD" -Q "CREATE DATABASE $DB_NAME;"
+/opt/mssql-tools18/bin/sqlcmd -S localhost -U SA -P "$DB_PASSWORD" -Q "CREATE LOGIN $DB_USER WITH PASSWORD = '$DB_PASSWORD';"
+/opt/mssql-tools18/bin/sqlcmd -S localhost -U SA -P "$DB_PASSWORD" -Q "USE $DB_NAME; CREATE USER $DB_USER FOR LOGIN $DB_USER; EXEC sp_addrolemember 'db_owner', '$DB_USER';"
+
+echo "Instalación y configuración completadas exitosamente."
