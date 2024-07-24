@@ -48,8 +48,7 @@ winetricks dotnet20 gdiplus fontfix
 
 # Install wine-mono
 echo "Installing wine-mono..."
-wget https://dl.winehq.org/wine/wine-mono/current/wine-mono.tar.xz
-sudo mkdir -p /usr/share/wine/mono
-sudo tar -xvf wine-mono.tar.xz -C /usr/share/wine/mono
+sudo apt install -y wine-mono
 
 echo "All tasks completed successfully."
+
