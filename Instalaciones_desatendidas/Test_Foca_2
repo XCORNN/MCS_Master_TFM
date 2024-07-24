@@ -32,7 +32,7 @@ curl -s https://packages.microsoft.com/keys/microsoft.asc | sudo tee /etc/apt/tr
 # Add SQL Server 2022 repository for Ubuntu 22.04
 sudo wget -O /etc/apt/sources.list.d/mssql-server-2022.list https://packages.microsoft.com/config/ubuntu/22.04/mssql-server-2022.list
 # Add prod repository
-sudo wget -O /etc/apt/sources.list.d/prod.list https://packages.microsoft.com/config/debian/12/prod.list
+sudo wget -O /etc/apt/sources.list.d/prod.list https://packages.microsoft.com/config/ubuntu/22.04/prod.list
 
 echo Running apt-get update -y...
 sudo apt-get update -y
