@@ -67,11 +67,6 @@ then
     sudo apt-get install -y mssql-server-fts
 fi
 
-# Configure firewall to allow TCP port 1433:
-echo Configuring UFW to allow traffic on port 1433...
-sudo ufw allow 1433/tcp
-sudo ufw reload
-
 # Optional example of post-installation configuration.
 # Trace flags 1204 and 1222 are for deadlock tracing.
 # echo Setting trace flags...
