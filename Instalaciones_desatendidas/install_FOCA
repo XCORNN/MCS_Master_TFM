@@ -53,8 +53,19 @@ echo "Installing additional components with Winetricks..."
 winetricks -q dotnet40 gdiplus fontfix
 
 # Install wine-mono
-echo "Installing wine-mono..."
-sudo apt install -y wine-mono
+#echo "Installing wine-mono..."
+#sudo apt install -y wine-mono
+
+# Crear carpeta FOCA en el Escritorio
+mkdir -p "$HOME/Escritorio/Foca"
+
+# Moverse a la carpeta creada
+cd "$HOME/Escritorio/Foca"
+
+#Importar Foca de Github
+wget https://github.com/ElevenPaths/FOCA/releases/download/v3.4.7.1/FOCA-v3.4.7.1.zip
+
+
 
 echo "All tasks completed successfully."
 
