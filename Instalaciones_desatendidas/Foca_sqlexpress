@@ -6,58 +6,44 @@ error_exit() {
   exit 1
 }
 
-# Actualizar lista de paquetes e instalar dependencias iniciales
-sudo apt-get update || error_exit "Error al actualizar la lista de paquetes"
-sudo apt-get install -y wget curl gnupg2 software-properties-common || error_exit "Error al instalar wget, curl, gnupg2 y software-properties-common"
+# Actualizar y mejorar el sistema
+sudo apt update && sudo apt upgrade -y || error_exit "Error al actualizar el sistema"
 
-# Importar claves GPG del repositorio público
-curl https://packages.microsoft.com/keys/microsoft.asc | sudo tee /etc/apt/trusted.gpg.d/microsoft.asc || error_exit "Error al importar la clave GPG de Microsoft"
+# Instalar dependencias necesarias
+sudo apt install -y gnupg2 apt-transport-https wget curl || error_exit "Error al instalar gnupg2, apt-transport-https, wget y curl"
 
-# Registrar el repositorio de Ubuntu de SQL Server
-sudo add-apt-repository "$(wget -qO- https://packages.microsoft.com/config/ubuntu/20.04/mssql-server-2019.list)" || error_exit "Error al registrar el repositorio de Microsoft"
+# Importar clave pública de Microsoft
+wget -q -O- https://packages.microsoft.com/keys/microsoft.asc | \
+gpg --dearmor | sudo tee /usr/share/keyrings/microsoft.gpg > /dev/null 2>&1 || error_exit "Error al importar la clave pública de Microsoft"
 
-# Actualizar la lista de paquetes
-sudo apt-get update || error_exit "Error al actualizar la lista de paquetes después de agregar el repositorio de Microsoft"
-
-# Añadir el repositorio de Debian Bullseye para libldap-2.4-2
-sudo sh -c 'echo "deb http://deb.debian.org/debian bullseye main" > /etc/apt/sources.list.d/bullseye.list' || error_exit "Error al añadir el repositorio de Bullseye"
+# Añadir el repositorio de SQL Server
+echo "deb [signed-by=/usr/share/keyrings/microsoft.gpg arch=amd64,armhf,arm64] https://packages.microsoft.com/ubuntu/22.04/mssql-server-2022 jammy main" | \
+sudo tee /etc/apt/sources.list.d/mssql-server-2022.list || error_exit "Error al añadir el repositorio de SQL Server"
 
 # Actualizar la lista de paquetes
-sudo apt-get update || error_exit "Error al actualizar la lista de paquetes después de agregar el repositorio de Bullseye"
-
-# Instalar libldap-2.4-2 desde Bullseye
-sudo apt-get install -y libldap-2.4-2/bullseye || error_exit "Error al instalar libldap-2.4-2"
+sudo apt update || error_exit "Error al actualizar la lista de paquetes"
 
 # Instalar SQL Server
-sudo apt-get install -y mssql-server || error_exit "Error al instalar mssql-server"
-
-# Eliminar el repositorio de Bullseye
-sudo rm /etc/apt/sources.list.d/bullseye.list || error_exit "Error al eliminar el repositorio de Bullseye"
-
-# Actualizar la lista de paquetes
-sudo apt-get update || error_exit "Error al actualizar la lista de paquetes después de eliminar el repositorio de Bullseye"
+sudo apt install -y mssql-server || error_exit "Error al instalar mssql-server"
 
 # Configurar SQL Server
 sudo /opt/mssql/bin/mssql-conf setup || error_exit "Error al configurar SQL Server"
 
-# Iniciar el servicio de SQL Server
-sudo systemctl start mssql-server || error_exit "Error al iniciar el servicio de SQL Server"
-
-# Habilitar el servicio de SQL Server para que inicie al arrancar el sistema
+# Habilitar y verificar el estado del servicio de SQL Server
 sudo systemctl enable mssql-server || error_exit "Error al habilitar el servicio de SQL Server"
+sudo systemctl status mssql-server || error_exit "Error al verificar el estado del servicio de SQL Server"
 
-# Instalar herramientas de línea de comandos de SQL Server
-sudo apt-get install -y mssql-tools unixodbc-dev || error_exit "Error al instalar mssql-tools y unixodbc-dev"
+# Instalar herramientas de SQL Server
+curl https://packages.microsoft.com/keys/microsoft.asc | sudo tee /etc/apt/trusted.gpg.d/microsoft.asc || error_exit "Error al importar la clave pública de Microsoft para herramientas SQL"
 
-# Agregar /opt/mssql-tools/bin/ a la variable de entorno PATH
-echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bash_profile
-echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
-source ~/.bashrc
+curl https://packages.microsoft.com/config/ubuntu/22.04/prod.list | sudo tee /etc/apt/sources.list.d/mssql-release.list || error_exit "Error al añadir el repositorio de herramientas SQL Server"
 
-# Verificar que sqlcmd está en el PATH
-if ! command -v sqlcmd &> /dev/null; then
-  error_exit "sqlcmd no se pudo encontrar, asegúrate de que está instalado y en el PATH."
-fi
+sudo apt-get update || error_exit "Error al actualizar la lista de paquetes después de añadir el repositorio de herramientas SQL Server"
+sudo apt-get install -y mssql-tools18 || error_exit "Error al instalar mssql-tools18"
+
+# Agregar /opt/mssql-tools18/bin/ al PATH
+echo 'export PATH="$PATH:/opt/mssql-tools18/bin"' >> ~/.bash_profile || error_exit "Error al modificar .bash_profile"
+echo 'export PATH="$PATH:/opt/mssql-tools18/bin"' >> ~/.bashrc || error_exit "Error al modificar .bashrc"
+source ~/.bashrc || error_exit "Error al recargar .bashrc"
 
 echo "Instalación y configuración de SQL Server completadas exitosamente."
-
