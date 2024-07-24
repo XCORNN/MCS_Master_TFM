@@ -1,63 +1,44 @@
 #!/bin/bash
 
-# Variables
-DB_NAME="TuBaseDeDatos"
-DB_USER=$(whoami)
-DB_PASSWORD="TuContrasenaFuerte"
+# Función para mostrar mensajes de error
+error_exit() {
+  echo "$1" 1>&2
+  exit 1
+}
 
-# Actualización del sistema e instalación de dependencias
-sudo apt-get update
-sudo apt-get install -y curl wget gnupg2
+# Actualizar lista de paquetes e instalar dependencias iniciales
+sudo apt-get update || error_exit "Error al actualizar la lista de paquetes"
+sudo apt-get install -y wget curl gnupg2 || error_exit "Error al instalar wget, curl y gnupg2"
 
-# Importar claves de GPG del repositorio público
-curl https://packages.microsoft.com/keys/microsoft.asc | sudo tee /etc/apt/trusted.gpg.d/microsoft.asc
+# Importar claves GPG del repositorio público
+curl https://packages.microsoft.com/keys/microsoft.asc | sudo tee /etc/apt/trusted.gpg.d/microsoft.asc || error_exit "Error al importar la clave GPG de Microsoft"
 
-# Registrar el repositorio de Ubuntu de SQL Server
-curl https://packages.microsoft.com/config/ubuntu/20.04/mssql-server-2019.list | sudo tee /etc/apt/sources.list.d/mssql-server.list
+# Registrar el repositorio de Ubuntu de Microsoft para Ubuntu 20.04 (se usará en Debian)
+curl https://packages.microsoft.com/config/ubuntu/20.04/prod.list | sudo tee /etc/apt/sources.list.d/mssql-release.list || error_exit "Error al registrar el repositorio de Microsoft"
 
-# Actualizar lista de paquetes
-sudo apt-get update
+# Actualizar la lista de paquetes y asegurarse de que las dependencias necesarias están disponibles
+sudo apt-get update || error_exit "Error al actualizar la lista de paquetes después de agregar el repositorio de Microsoft"
 
-# Instalar SQL Server
-sudo apt-get install -y mssql-server
+# Instalar SQL Server y las herramientas de línea de comandos
+sudo apt-get install -y mssql-server mssql-tools18 unixodbc-dev || error_exit "Error al instalar mssql-server, mssql-tools18 y unixodbc-dev"
 
-# Configurar SQL Server
-sudo /opt/mssql/bin/mssql-conf setup
+# Comprobar si la instalación de SQL Server y las herramientas de línea de comandos se realizó correctamente
+if ! command -v sqlcmd &> /dev/null; then
+  error_exit "sqlcmd no se pudo encontrar, asegúrate de que está instalado y en el PATH."
+fi
 
-# Iniciar y habilitar SQL Server
-sudo systemctl start mssql-server
-sudo systemctl enable mssql-server
-
-# Verificar que el servicio se esté ejecutando
-systemctl status mssql-server --no-pager
-
-# Registrar el repositorio de Ubuntu de Microsoft para mssql-tools
-curl https://packages.microsoft.com/config/ubuntu/20.04/prod.list | sudo tee /etc/apt/sources.list.d/mssql-release.list
-
-# Actualizar lista de paquetes
-sudo apt-get update
-
-# Instalar herramientas de línea de comandos de SQL Server
-sudo apt-get install -y mssql-tools18 unixodbc-dev
-
-# Agregar sqlcmd y bcp al PATH
+# Agregar /opt/mssql-tools18/bin/ a la variable de entorno PATH
 echo 'export PATH="$PATH:/opt/mssql-tools18/bin"' >> ~/.bash_profile
 echo 'export PATH="$PATH:/opt/mssql-tools18/bin"' >> ~/.bashrc
 source ~/.bashrc
 
-# Verificar la instalación de sqlcmd
-if ! command -v sqlcmd &> /dev/null
-then
-    echo "sqlcmd no se pudo encontrar, asegúrate de que está instalado y en el PATH."
-    exit 1
-fi
+# Configurar SQL Server
+sudo /opt/mssql/bin/mssql-conf setup || error_exit "Error al configurar SQL Server"
 
-# Esperar un momento para asegurar que SQL Server está completamente iniciado
-sleep 10
+# Iniciar el servicio de SQL Server
+sudo systemctl start mssql-server || error_exit "Error al iniciar el servicio de SQL Server"
 
-# Creación de la base de datos y usuario
-/opt/mssql-tools18/bin/sqlcmd -S localhost -U SA -P "$DB_PASSWORD" -Q "CREATE DATABASE $DB_NAME;"
-/opt/mssql-tools18/bin/sqlcmd -S localhost -U SA -P "$DB_PASSWORD" -Q "CREATE LOGIN $DB_USER WITH PASSWORD = '$DB_PASSWORD';"
-/opt/mssql-tools18/bin/sqlcmd -S localhost -U SA -P "$DB_PASSWORD" -Q "USE $DB_NAME; CREATE USER $DB_USER FOR LOGIN $DB_USER; EXEC sp_addrolemember 'db_owner', '$DB_USER';"
+# Habilitar el servicio de SQL Server para que inicie al arrancar el sistema
+sudo systemctl enable mssql-server || error_exit "Error al habilitar el servicio de SQL Server"
 
-echo "Instalación y configuración completadas exitosamente."
+echo "Instalación y configuración de SQL Server completadas exitosamente."
