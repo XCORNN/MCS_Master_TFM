@@ -50,7 +50,7 @@ sudo apt install -y winetricks
 
 # Install additional components using Winetricks
 echo "Installing additional components with Winetricks..."
-winetricks -q dotnet40 gdiplus fontfix
+winetricks -q dotnet48 gdiplus fontfix
 
 # Install wine-mono
 #echo "Installing wine-mono..."
