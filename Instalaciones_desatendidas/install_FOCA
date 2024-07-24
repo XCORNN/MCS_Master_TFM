@@ -21,6 +21,12 @@ if ! echo "$FOREIGN_ARCH" | grep -q "i386"; then
     sudo dpkg --add-architecture i386
 fi
 
+# Add the contrib repository
+echo "Adding contrib repository..."
+sudo tee -a /etc/apt/sources.list.d/contrib.list > /dev/null <<EOL
+deb http://deb.debian.org/debian bullseye main contrib non-free
+EOL
+
 # Download and add the WineHQ repository key
 echo "Adding WineHQ repository key..."
 sudo mkdir -pm755 /etc/apt/keyrings
