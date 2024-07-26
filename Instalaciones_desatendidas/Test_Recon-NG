@@ -6,24 +6,19 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
-# Obtener el nombre del usuario no root
+# Obtener el nombre del usuario actual
 USER=$(logname)
 
-# Crear la carpeta en el escritorio del usuario
+# Definir el directorio
 DIRECTORIO="/home/$USER/Escritorio/Recon-NG"
-echo "Creando directorio $DIRECTORIO..."
-mkdir -p $DIRECTORIO
 
-# Moverse al directorio creado
+# Moverse al directorio creado por el usuario
 cd $DIRECTORIO
-
-# Actualizar la lista de paquetes
-echo "Actualizando lista de paquetes..."
-apt-get update -y
 
 # Instalar dependencias necesarias
 echo "Instalando dependencias necesarias..."
-apt-get install -y git python3 python3-pip
+apt-get update -y
+apt-get install -y git python3 python3-pip python3-venv
 
 # Clonar el repositorio de Recon-NG
 echo "Clonando el repositorio de Recon-NG en $DIRECTORIO..."
@@ -32,9 +27,14 @@ git clone https://github.com/lanmaster53/recon-ng.git
 # Cambiar al directorio de Recon-NG
 cd recon-ng
 
+# Crear y activar un entorno virtual
+echo "Creando y activando el entorno virtual..."
+python3 -m venv venv
+source venv/bin/activate
+
 # Instalar las dependencias de Python
 echo "Instalando dependencias de Python..."
-pip3 install -r REQUIREMENTS
+pip install -r REQUIREMENTS
 
 # Crear enlace simbólico para facilitar la ejecución de Recon-NG
 echo "Creando enlace simbólico para Recon-NG..."
