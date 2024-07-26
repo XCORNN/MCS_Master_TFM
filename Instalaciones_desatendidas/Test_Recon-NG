@@ -1,0 +1,43 @@
+#!/bin/bash
+
+# Comprobar si se está ejecutando como root
+if [[ $EUID -ne 0 ]]; then
+   echo "Este script debe ejecutarse como root" 
+   exit 1
+fi
+
+# Obtener el nombre del usuario no root
+USER=$(logname)
+
+# Crear la carpeta en el escritorio del usuario
+DIRECTORIO="/home/$USER/Escritorio/Recon-NG"
+echo "Creando directorio $DIRECTORIO..."
+mkdir -p $DIRECTORIO
+
+# Moverse al directorio creado
+cd $DIRECTORIO
+
+# Actualizar la lista de paquetes
+echo "Actualizando lista de paquetes..."
+apt-get update -y
+
+# Instalar dependencias necesarias
+echo "Instalando dependencias necesarias..."
+apt-get install -y git python3 python3-pip
+
+# Clonar el repositorio de Recon-NG
+echo "Clonando el repositorio de Recon-NG en $DIRECTORIO..."
+git clone https://github.com/lanmaster53/recon-ng.git
+
+# Cambiar al directorio de Recon-NG
+cd recon-ng
+
+# Instalar las dependencias de Python
+echo "Instalando dependencias de Python..."
+pip3 install -r REQUIREMENTS
+
+# Crear enlace simbólico para facilitar la ejecución de Recon-NG
+echo "Creando enlace simbólico para Recon-NG..."
+ln -s $DIRECTORIO/recon-ng/recon-ng /usr/local/bin/recon-ng
+
+echo "Instalación de Recon-NG completada. Puedes ejecutarlo con el comando 'recon-ng'."
