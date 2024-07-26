@@ -58,5 +58,5 @@ else
     pip install pyyaml requests
 fi
 
-# Ejecuta Recon-NG
-./recon-ng
+# echo de Instalacion completa
+echo "Instalando Completa de Recon-NG"
