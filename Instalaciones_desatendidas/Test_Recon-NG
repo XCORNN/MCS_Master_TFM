@@ -6,31 +6,54 @@ if ! sudo -v; then
     exit 1
 fi
 
-# Actualiza la lista de paquetes y asegúrate de tener los repositorios más recientes
+# Obtiene el directorio de escritorio del usuario actual
+DEST_DIR="$HOME/Escritorio/Recon-NG"
+
+# Crea el directorio de destino si no existe
+if [ ! -d "$DEST_DIR" ]; then
+    echo "Creando el directorio $DEST_DIR..."
+    mkdir -p "$DEST_DIR"
+    if [ $? -ne 0 ]; then
+        echo "Error al crear el directorio $DEST_DIR. Verifica los permisos."
+        exit 1
+    fi
+else
+    echo "El directorio $DEST_DIR ya existe."
+fi
+
+# Actualiza la lista de paquetes y asegura que los repositorios están al día
 sudo apt update
 
 # Instala las dependencias necesarias para la construcción y ejecución de Recon-NG
 sudo apt install -y build-essential git python3 python3-pip python3-venv
 
-# Define el directorio de destino
-DEST_DIR="/home/$USER/Escritorio/Recon-NG"
-
-# Crea el directorio de destino si no existe y establece los permisos adecuados
-mkdir -p "$DEST_DIR"
-chmod 755 "$DEST_DIR"
-
 # Clona el repositorio de Recon-NG desde GitHub en el directorio del usuario
-git clone https://github.com/lanmaster53/recon-ng.git "$DEST_DIR"
+if [ ! -d "$DEST_DIR/.git" ]; then
+    echo "Clonando el repositorio de Recon-NG en $DEST_DIR..."
+    git clone https://github.com/lanmaster53/recon-ng.git "$DEST_DIR"
+    if [ $? -ne 0 ]; then
+        echo "Error al clonar el repositorio. Verifica la conexión a Internet y los permisos."
+        exit 1
+    fi
+else
+    echo "El repositorio de Recon-NG ya está clonado en $DEST_DIR."
+fi
 
 # Cambia al directorio de Recon-NG
-cd "$DEST_DIR"
+cd "$DEST_DIR" || { echo "No se pudo cambiar al directorio $DEST_DIR."; exit 1; }
 
 # Crea un entorno virtual para Python y actívalo
 python3 -m venv venv
 source venv/bin/activate
 
-# Instala las dependencias de Python para Recon-NG desde el archivo requirements.txt
-pip install -r requirements.txt
+# Comprueba si el archivo requirements.txt existe antes de intentar instalar las dependencias
+if [ -f "requirements.txt" ]; then
+    echo "Instalando dependencias desde requirements.txt..."
+    pip install -r requirements.txt
+else
+    echo "requirements.txt no encontrado. Instalando pyyaml manualmente..."
+    pip install pyyaml
+fi
 
 # Ejecuta Recon-NG
 ./recon-ng
