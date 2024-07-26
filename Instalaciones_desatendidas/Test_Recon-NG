@@ -1,43 +1,36 @@
 #!/bin/bash
 
-# Comprobar si se está ejecutando como root
-if [[ $EUID -ne 0 ]]; then
-   echo "Este script debe ejecutarse como root" 
-   exit 1
+# Verifica si el usuario tiene permisos de sudo
+if ! sudo -v; then
+    echo "El usuario no tiene permisos de sudo. Por favor, asegúrate de tener permisos para instalar paquetes."
+    exit 1
 fi
 
-# Obtener el nombre del usuario actual
-USER=$(logname)
+# Actualiza la lista de paquetes y asegúrate de tener los repositorios más recientes
+sudo apt update
 
-# Definir el directorio
-DIRECTORIO="/home/$USER/Escritorio/Recon-NG"
+# Instala las dependencias necesarias para la construcción y ejecución de Recon-NG
+sudo apt install -y build-essential git python3 python3-pip python3-venv
 
-# Moverse al directorio creado por el usuario
-cd $DIRECTORIO
+# Define el directorio de destino
+DEST_DIR="/home/$USER/Escritorio/Recon-NG"
 
-# Instalar dependencias necesarias
-echo "Instalando dependencias necesarias..."
-apt-get update -y
-apt-get install -y git python3 python3-pip python3-venv
+# Crea el directorio de destino si no existe y establece los permisos adecuados
+mkdir -p "$DEST_DIR"
+chmod 755 "$DEST_DIR"
 
-# Clonar el repositorio de Recon-NG
-echo "Clonando el repositorio de Recon-NG en $DIRECTORIO..."
-git clone https://github.com/lanmaster53/recon-ng.git
+# Clona el repositorio de Recon-NG desde GitHub en el directorio del usuario
+git clone https://github.com/lanmaster53/recon-ng.git "$DEST_DIR"
 
-# Cambiar al directorio de Recon-NG
-cd recon-ng
+# Cambia al directorio de Recon-NG
+cd "$DEST_DIR"
 
-# Crear y activar un entorno virtual
-echo "Creando y activando el entorno virtual..."
+# Crea un entorno virtual para Python y actívalo
 python3 -m venv venv
 source venv/bin/activate
 
-# Instalar las dependencias de Python
-echo "Instalando dependencias de Python..."
-pip install -r REQUIREMENTS
+# Instala las dependencias de Python para Recon-NG desde el archivo requirements.txt
+pip install -r requirements.txt
 
-# Crear enlace simbólico para facilitar la ejecución de Recon-NG
-echo "Creando enlace simbólico para Recon-NG..."
-ln -s $DIRECTORIO/recon-ng/recon-ng /usr/local/bin/recon-ng
-
-echo "Instalación de Recon-NG completada. Puedes ejecutarlo con el comando 'recon-ng'."
+# Ejecuta Recon-NG
+./recon-ng
