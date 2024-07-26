@@ -36,6 +36,3 @@ systemctl start tor >/dev/null 2>&1
 systemctl enable tor >/dev/null 2>&1
 
 echo "Tor se ha instalado y está ejecutándose."
-
-# Verifica el estado de Tor
-systemctl status tor
