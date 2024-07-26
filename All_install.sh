@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Define the base URL of the GitHub repository
-REPO_URL="https://github.com/XCORNN/MCS_Master_TFM/tree/main/Instalaciones_desatendidas"
+REPO_URL="https://github.com/XCORNN/MCS_Master_TFM"
 
 # List of scripts to execute
 SCRIPTS=(
@@ -30,17 +30,25 @@ check_success() {
 # Clone the repository (if not already cloned)
 if [ ! -d "MCS_Master_TFM" ]; then
     echo "Cloning the repository..."
-    git clone https://github.com/XCORNN/MCS_Master_TFM.git
+    git clone "$REPO_URL.git"
     check_success "git clone"
 fi
 
 # Navigate to the directory containing the scripts
 cd MCS_Master_TFM/Instalaciones_desatendidas || { echo "Failed to change directory"; exit 1; }
 
+# Make all scripts executable
+echo "Setting execute permissions for all scripts..."
+chmod +x *.sh
+check_success "chmod +x *.sh"
+
+# Navigate back to the main directory
+cd ../.. || { echo "Failed to return to the main directory"; exit 1; }
+
 # Execute each script in the sequence
 for script in "${SCRIPTS[@]}"; do
     echo "Executing $script..."
-    bash "$script"
+    bash "MCS_Master_TFM/Instalaciones_desatendidas/$script"
     check_success "$script"
 done
 
