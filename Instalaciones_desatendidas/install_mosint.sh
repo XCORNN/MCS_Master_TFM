@@ -16,10 +16,10 @@ else
         sudo apt install -y python3 python3-pip
 fi
 
-mkdir -p $HOME/Mosint
-cd $HOME/Mosint
+mkdir -p $HOME/Escritorio/Mosint
+cd $HOME/Escritorio/Mosint
 
-git clone https://github.com/alpeskin/mosint
+git clone https://github.com/alpkeskin/mosint
 
 cd mosint/v3/cmd/mosint
 
