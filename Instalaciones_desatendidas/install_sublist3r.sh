@@ -19,7 +19,7 @@ cd "$DEST_DIR"
 git clone https://github.com/aboul3la/Sublist3r.git .
 
 # Instalar dependencias de Python
-pip3 install -r requirements.txt
+pip3 install --break-system-packages -r requirements.txt
 
 # Confirmación de instalación
 echo "Sublist3r ha sido instalado correctamente en $DEST_DIR"
