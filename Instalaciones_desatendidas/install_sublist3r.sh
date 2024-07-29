@@ -21,9 +21,5 @@ git clone https://github.com/aboul3la/Sublist3r.git .
 # Instalar dependencias de Python
 pip3 install -r requirements.txt
 
-# Borrar archivos temporales
-sudo apt clean
-rm -rf /var/lib/apt/lists/*
-
 # Confirmación de instalación
 echo "Sublist3r ha sido instalado correctamente en $DEST_DIR"
