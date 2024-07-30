@@ -23,7 +23,7 @@ cd /home/master/Escritorio/inurlbr
 
 # Clonar el repositorio en la nueva ruta
 echo "Clonando el repositorio de INURLBR en /home/$USER/Escritorio/inurlbr..."
-git clone https://github.com/googleinurl/SCANNER-INURLBR.git .
+git clone https://github.com/MrCl0wnLab/SCANNER-INURLBR.git
 
 # Instalar dependencias adicionales si las hubiera (ejemplo: curl, php)
 echo "Instalando dependencias adicionales..."
