@@ -27,7 +27,7 @@ git clone https://github.com/googleinurl/SCANNER-INURLBR.git .
 
 # Instalar dependencias adicionales si las hubiera (ejemplo: curl, php)
 echo "Instalando dependencias adicionales..."
-apt-get install curl libcurl3 libcurl3-dev php5 php5-cli php5-curl -y
+apt-get install curl libcurl4 libcurl4-openssl-dev php php-cli php-curl -y
 
 # Dar permisos de ejecución a los scripts
 echo "Dando permisos de ejecución a los scripts..."
