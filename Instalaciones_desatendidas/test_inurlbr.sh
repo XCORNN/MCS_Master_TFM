@@ -6,7 +6,7 @@ if [ "$EUID" -ne 0 ]; then
   exit 1
 fi
 
-# Definir el directorio de instalación
+# Definir el directorio de instalación y URL del repositorio
 INSTALL_DIR="/home/master/Escritorio/inurlbr"
 REPO_URL="https://github.com/MrCl0wnLab/SCANNER-INURLBR.git"
 
@@ -30,11 +30,23 @@ cd $INSTALL_DIR
 echo "Clonando el repositorio de SCANNER-INURLBR en $INSTALL_DIR..."
 git clone $REPO_URL .
 
+# Verificar el nombre de la carpeta clonada
+CLONED_DIR=$(ls -d */ | head -n 1 | sed 's#/##')
+
+# Comprobar si la carpeta clonada existe
+if [ -z "$CLONED_DIR" ]; then
+  echo "No se encontró ninguna carpeta clonada."
+  exit 1
+fi
+
 # Mover el contenido del repositorio a la raíz del directorio de instalación
-echo "Moviendo el contenido del repositorio..."
-mv SCANNER-INURLBR/* .
-mv SCANNER-INURLBR/.[!.]* .  # Mover archivos ocultos (como .git)
-rmdir SCANNER-INURLBR  # Eliminar la carpeta vacía
+echo "Moviendo el contenido del repositorio desde '$CLONED_DIR'..."
+mv "$CLONED_DIR"/* . || { echo "Error moviendo archivos."; exit 1; }
+mv "$CLONED_DIR"/.[!.]* . || { echo "Error moviendo archivos ocultos."; exit 1; }
+
+# Eliminar la carpeta clonada
+echo "Eliminando la carpeta vacía '$CLONED_DIR'..."
+rmdir "$CLONED_DIR" || { echo "Error eliminando la carpeta '$CLONED_DIR'."; exit 1; }
 
 # Instalar dependencias de PHP, si existen
 echo "Instalando dependencias adicionales para PHP..."
@@ -42,11 +54,10 @@ echo "Instalando dependencias adicionales para PHP..."
 
 # Dar permisos de ejecución a los scripts PHP si es necesario
 echo "Dando permisos de ejecución a los scripts PHP..."
-chmod +x scanner-inurlbr.php
+chmod +x scanner-inurlbr.php || { echo "Error al dar permisos de ejecución."; exit 1; }
 
 # Cambiar la propiedad del directorio al usuario no root
 chown -R master:master $INSTALL_DIR
 
 # Confirmar que la instalación ha finalizado
 echo "Instalación completada. Puedes empezar a usar SCANNER-INURLBR desde el directorio '$INSTALL_DIR'."
-
