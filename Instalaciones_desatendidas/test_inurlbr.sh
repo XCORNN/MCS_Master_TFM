@@ -29,6 +29,9 @@ git clone https://github.com/MrCl0wnLab/SCANNER-INURLBR.git
 echo "Instalando dependencias adicionales..."
 apt-get install curl libcurl4 libcurl4-openssl-dev php php-cli php-curl -y
 
+#Mover a carpeta interna:
+cd /home/master/Escritorio/inurlbr/SCANNER-INURLBR
+
 # Dar permisos de ejecución a los scripts
 echo "Dando permisos de ejecución a los scripts..."
 chmod +x inurlbr.php
