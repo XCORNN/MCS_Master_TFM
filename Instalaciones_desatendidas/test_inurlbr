@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# Actualizar los paquetes
+echo "Actualizando los paquetes..."
+sudo apt-get update -y
+
+# Instalar Git
+echo "Instalando Git..."
+sudo apt-get install git -y
+
+# Clonar el repositorio
+echo "Clonando el repositorio de INURLBR..."
+git clone https://github.com/googleinurl/SCANNER-INURLBR.git inurlbr
+
+# Cambiar al directorio del repositorio clonado
+cd inurlbr
+
+# Instalar dependencias adicionales si las hubiera (ejemplo: curl, php)
+echo "Instalando dependencias adicionales..."
+apt-get install curl libcurl3 libcurl3-dev php5 php5-cli php5-curl -y
+
+# Dar permisos de ejecución a los scripts
+echo "Dando permisos de ejecución a los scripts..."
+chmod +x inurlbr.php
+
+# Confirmar que la instalación ha finalizado
+echo "Instalación completada. Puedes empezar a usar INURLBR desde el directorio 'inurlbr'."
