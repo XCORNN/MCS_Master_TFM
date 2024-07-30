@@ -1,5 +1,7 @@
 #!/bin/bash
 
+export PATH=$PATH:/usr/local/sbin:/usr/sbin:/sbin
+
 sudo apt update
 
 sudo apt install -y megatools
