@@ -15,11 +15,11 @@ echo "Instalando Git..."
 sudo apt-get install git -y
 
 # Crear la ruta /home/$USER/Escritorio/inurlbr
-echo "Creando la ruta /home/$USER/Escritorio/inurlbr..."
-mkdir -p /home/$USER/Escritorio/inurlbr
+echo "Creando la ruta /home/master/Escritorio/inurlbr..."
+mkdir -p /home/master/Escritorio/inurlbr
 
 # Cambiar al directorio creado
-cd /home/$USER/Escritorio/inurlbr
+cd /home/master/Escritorio/inurlbr
 
 # Clonar el repositorio en la nueva ruta
 echo "Clonando el repositorio de INURLBR en /home/$USER/Escritorio/inurlbr..."
@@ -34,4 +34,4 @@ echo "Dando permisos de ejecución a los scripts..."
 chmod +x inurlbr.php
 
 # Confirmar que la instalación ha finalizado
-echo "Instalación completada. Puedes empezar a usar INURLBR desde el directorio '/home/$USER/Escritorio/inurlbr'."
+echo "Instalación completada. Puedes empezar a usar INURLBR desde el directorio '/home/master/Escritorio/inurlbr'."
