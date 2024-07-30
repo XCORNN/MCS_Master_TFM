@@ -8,6 +8,7 @@ fi
 
 # Definir el directorio de instalación
 INSTALL_DIR="/home/master/Escritorio/inurlbr"
+REPO_URL="https://github.com/MrCl0wnLab/SCANNER-INURLBR.git"
 
 # Actualizar los paquetes
 echo "Actualizando los paquetes..."
@@ -27,7 +28,13 @@ cd $INSTALL_DIR
 
 # Clonar el repositorio de SCANNER-INURLBR
 echo "Clonando el repositorio de SCANNER-INURLBR en $INSTALL_DIR..."
-git clone https://github.com/MrCl0wnLab/SCANNER-INURLBR.git .
+git clone $REPO_URL .
+
+# Mover el contenido del repositorio a la raíz del directorio de instalación
+echo "Moviendo el contenido del repositorio..."
+mv SCANNER-INURLBR/* .
+mv SCANNER-INURLBR/.[!.]* .  # Mover archivos ocultos (como .git)
+rmdir SCANNER-INURLBR  # Eliminar la carpeta vacía
 
 # Instalar dependencias de PHP, si existen
 echo "Instalando dependencias adicionales para PHP..."
@@ -42,3 +49,4 @@ chown -R master:master $INSTALL_DIR
 
 # Confirmar que la instalación ha finalizado
 echo "Instalación completada. Puedes empezar a usar SCANNER-INURLBR desde el directorio '$INSTALL_DIR'."
+
