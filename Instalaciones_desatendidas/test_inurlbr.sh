@@ -6,35 +6,39 @@ if [ "$EUID" -ne 0 ]; then
   exit 1
 fi
 
+# Definir el directorio de instalación
+INSTALL_DIR="/home/master/Escritorio/inurlbr"
+
 # Actualizar los paquetes
 echo "Actualizando los paquetes..."
-sudo apt-get update -y
+apt-get update -y
+apt-get upgrade -y
 
-# Instalar Git
-echo "Instalando Git..."
-sudo apt-get install git -y
+# Instalar Git y PHP
+echo "Instalando Git y PHP..."
+apt-get install git php php-cli php-curl -y
 
-# Crear la ruta /home/$USER/Escritorio/inurlbr
-echo "Creando la ruta /home/master/Escritorio/inurlbr..."
-mkdir -p /home/master/Escritorio/inurlbr
+# Crear el directorio para SCANNER-INURLBR
+echo "Creando el directorio $INSTALL_DIR..."
+mkdir -p $INSTALL_DIR
 
 # Cambiar al directorio creado
-cd /home/master/Escritorio/inurlbr
+cd $INSTALL_DIR
 
-# Clonar el repositorio en la nueva ruta
-echo "Clonando el repositorio de INURLBR en /home/$USER/Escritorio/inurlbr..."
-git clone https://github.com/MrCl0wnLab/SCANNER-INURLBR.git
+# Clonar el repositorio de SCANNER-INURLBR
+echo "Clonando el repositorio de SCANNER-INURLBR en $INSTALL_DIR..."
+git clone https://github.com/MrCl0wnLab/SCANNER-INURLBR.git .
 
-# Instalar dependencias adicionales si las hubiera (ejemplo: curl, php)
-echo "Instalando dependencias adicionales..."
-apt-get install curl libcurl4 libcurl4-openssl-dev php php-cli php-curl -y
+# Instalar dependencias de PHP, si existen
+echo "Instalando dependencias adicionales para PHP..."
+# En este caso, no hay un archivo composer.json ni requisitos adicionales especificados en el repositorio
 
-#Mover a carpeta interna:
-cd /home/master/Escritorio/inurlbr/SCANNER-INURLBR
+# Dar permisos de ejecución a los scripts PHP si es necesario
+echo "Dando permisos de ejecución a los scripts PHP..."
+chmod +x scanner-inurlbr.php
 
-# Dar permisos de ejecución a los scripts
-echo "Dando permisos de ejecución a los scripts..."
-chmod +x inurlbr.php
+# Cambiar la propiedad del directorio al usuario no root
+chown -R master:master $INSTALL_DIR
 
 # Confirmar que la instalación ha finalizado
-echo "Instalación completada. Puedes empezar a usar INURLBR desde el directorio '/home/master/Escritorio/inurlbr'."
+echo "Instalación completada. Puedes empezar a usar SCANNER-INURLBR desde el directorio '$INSTALL_DIR'."
