@@ -10,3 +10,4 @@ then
 else
 	sudo apt install -y python3-pip
 	sudo pip3 install sherlock-project --break-system-packages
+fi
