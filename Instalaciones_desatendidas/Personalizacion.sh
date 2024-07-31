@@ -33,6 +33,12 @@ EOF
 # Asegurarse de que el archivo .desktop sea ejecutable
 chmod +x "$DESKTOP_DIR/AccesoCarpetaDePrueba.desktop"
 
-# Informar al usuario que reinicie la sesión
-echo "La extensión ha sido instalada y el acceso directo ha sido creado en el escritorio."
-echo "Por favor, cierra y vuelve a iniciar sesión para que la extensión se aplique correctamente."
+# Habilitar la extensión usando dconf
+echo "Habilitando la extensión de escritorio..."
+dconf write /org/gnome/shell/enabled-extensions "['desktop-icons@gnome-shell-extensions.gcampax.github.com']"
+
+# Reiniciar GNOME Shell para aplicar los cambios
+echo "Reiniciando GNOME Shell para aplicar los cambios..."
+pkill -HUP gnome-shell
+
+echo "La extensión ha sido instalada, habilitada y GNOME Shell ha sido reiniciado. El acceso directo ha sido creado en el escritorio."
