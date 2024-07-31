@@ -24,7 +24,7 @@ git clone "$REPO_URL"
 
 # Cambiar permisos del directorio clonado
 echo "[*] Cambiando permisos del directorio clonado..."
-sudo chmod +x "$DESKTOP_DIR/Goohak"
+sudo chmod +x "$DESKTOP_DIR/Goohak/goohak"
 
 # Mensaje de éxito
 echo "[*] Instalación completada con éxito. GooHak está listo para usarse."
