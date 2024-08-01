@@ -3,13 +3,7 @@ Master_TFM
 
 Este repositorio tiene como objetivo automatizar las descargas e instalaciones de ciertas herramientas de OSINT en un Entorno Debian 12 limpio, para realizar un desplegamiento rapido y seguro.
 
-Mediante la descarga e instalación del repositorio obtienes los script de ejecución para crear todo el desplegamiento o tan solo las herraminentas necesarias, puedes ejecutar el script 
-
-    "sudo ./install_ALL.sh" 
-
-o puedes utilizar el script 
-    
-    "sudo ./install_NOMBREdeHERRAMIENTA"
+Mediante la descarga e instalación del repositorio obtienes los script de ejecución para crear todo el desplegamiento o tan solo las herraminentas necesarias.
 
 ## Descripción
 Herramientas de código abierto utilizadas para la recolección de correos electrónicos, nombres de usuarios, hosts y subdominios de diferentes fuentes públicas como motores de búsqueda y claves PGP.
@@ -60,7 +54,7 @@ Paquete de personalización de gnome
 
 Es importante que NO se ejecuten las instalaciones como root ya que esta programado para que utilice la variable SUDO_USER para crear las necesidades en el escritorio del usuario.
 
-Des de el usuario root
+Des de el usuario root:
 
     "sudo usermod -aG sudo TU_USUARIO"
 
@@ -74,6 +68,10 @@ Modificar permisos para permitir ejecución:
 
     "sudo chmod +x install_All.sh"
 
-Ejecución del scrip (root)
+Ejecutar el script para TODAS las herramientas: 
 
-    "sudo ./ install_All"
+    "sudo ./install_ALL.sh" 
+
+Instalacion INDIVIDUAL de las herramientas: 
+    
+    "sudo ./install_NOMBREdeHERRAMIENTA"
