@@ -13,35 +13,35 @@ Herramientas de código abierto utilizadas para la recolección de correos elect
 Añadir el usuario principal (no root) al grupo sudoers para la correcta ejecución de los scripts.
 
 ## Paquetes:
-    "Harvester"
-    "Maltego"
-    "Exiftool"
-    "Photon"
-    "Spiderfoot"
-    "Tor service"
-    "Tor_browser"
-    "Recon-NG"
-    "FOCA"
-    "Dimitry"
-    "GooHack"
-    "Sherlock"
-    "Sslscan"
-    "BurpSuite CE"
-    "Sublist3r"
-    "Mosint"
-    "osrframework"
+Harvester
+Maltego
+Exiftool
+Photon
+Spiderfoot
+Tor service
+Tor_browser
+Recon-NG
+FOCA
+Dimitry
+GooHack
+Sherlock
+Sslscan
+BurpSuite CE
+Sublist3r
+Mosint
+osrframework
     "Paquete de personalización de gnome"
 
 ## Instalación
 
 Para clonar este repositorio:
 
-git clone https://github.com/XCORNN/MCS_Master_TFM
+"git clone https://github.com/XCORNN/MCS_Master_TFM2"
 
 Modificar permisos para permitir ejecución:
 
-chmod +x install_All.sh
+"chmod +x install_All.sh"
 
 Ejecución del scrip (root)
 
-sudo ./ install_All
+"sudo ./ install_All"
