@@ -18,7 +18,7 @@ mkdir -p "$TEST_DIR"
 
 # Reiniciar GNOME Shell para aplicar los cambios
 echo "Reiniciando GNOME Shell para aplicar los cambios..."
-pkill -HUP -u $USER gnome-shell
+sudo pkill -9 ^gnome-shell
 
 # Esperar a que el proceso de GNOME Shell se reinicie
 echo "Esperando a que GNOME Shell se reinicie..."
