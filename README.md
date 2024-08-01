@@ -64,6 +64,9 @@ Añadir usuario a sudoers:
 
 (es posible que necesites reiniciar para aplicar los cambios)
 
+
+Desde tu usuario
+
 Actualizar repositorios y actualizaciones a última versión:
 
     sudo apt update && sudo apt upgrade -y
