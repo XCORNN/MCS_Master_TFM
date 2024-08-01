@@ -16,29 +16,13 @@ mkdir -p "$DESKTOP_DIR"
 TEST_DIR="$DESKTOP_DIR/CarpetaDePrueba"
 mkdir -p "$TEST_DIR"
 
-# Crear un archivo .desktop que apunte a la carpeta de prueba
-echo "Creando el acceso directo en el escritorio..."
-cat <<EOF > "$DESKTOP_DIR/AccesoCarpetaDePrueba.desktop"
-[Desktop Entry]
-Version=1.0
-Name=Carpeta de Prueba
-Comment=Este es un acceso directo a una carpeta de prueba
-Exec=nautilus $TEST_DIR
-Icon=folder
-Terminal=false
-Type=Application
-Categories=Utility;
-EOF
-
-# Asegurarse de que el archivo .desktop sea ejecutable
-chmod +x "$DESKTOP_DIR/AccesoCarpetaDePrueba.desktop"
-
-# Habilitar la extensión usando dconf
+# Habilitar la extensión usando gnome-extensions
 echo "Habilitando la extensión de escritorio..."
-dconf write /org/gnome/shell/enabled-extensions "['desktop-icons@gnome-shell-extensions.gcampax.github.com']"
+gnome-extensions enable ding@rastersoft.com
 
 # Reiniciar GNOME Shell para aplicar los cambios
 echo "Reiniciando GNOME Shell para aplicar los cambios..."
-pkill -HUP gnome-shell
+pkill -HUP -u $USER gnome-shell
 
-echo "La extensión ha sido instalada, habilitada y GNOME Shell ha sido reiniciado. El acceso directo ha sido creado en el escritorio."
+echo "La extensión ha sido instalada, habilitada y GNOME Shell ha sido reiniciado. La carpeta de prueba ha sido creada en el escritorio."
+
