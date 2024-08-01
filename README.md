@@ -15,22 +15,39 @@ Añadir el usuario principal (no root) al grupo sudoers para la correcta ejecuci
 ## Paquetes:
 
 Harvester
+
 Maltego
+
 Exiftool
+
 Photon
+
 Spiderfoot
+
 Tor service
+
 Tor_browser
+
 Recon-NG
+
 FOCA
+
 Dimitry
+
 GooHack
+
 Sherlock
+
 Sslscan
+
 BurpSuite CE
+
 Sublist3r
+
 Mosint
+
 Osrframework
+
 Paquete de personalización de gnome
 
 ## Instalación
