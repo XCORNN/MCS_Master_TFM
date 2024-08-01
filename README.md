@@ -64,6 +64,7 @@ Añadir usuario a sudoers:
 
 (es posible que necesites reiniciar para aplicar los cambios)
 
+-
 
 Desde tu usuario
 
