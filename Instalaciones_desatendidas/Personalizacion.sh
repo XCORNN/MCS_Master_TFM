@@ -16,9 +16,16 @@ mkdir -p "$DESKTOP_DIR"
 TEST_DIR="$DESKTOP_DIR/CarpetaDePrueba"
 mkdir -p "$TEST_DIR"
 
+# Reiniciar GNOME Shell para aplicar los cambios
+echo "Reiniciando GNOME Shell para aplicar los cambios..."
+pkill -HUP -u $USER gnome-shell
+
+# Esperar a que el proceso de GNOME Shell se reinicie
+echo "Esperando a que GNOME Shell se reinicie..."
+while ! pgrep -u $USER gnome-shell > /dev/null; do sleep 1; done
+
 # Habilitar la extensión usando gnome-extensions
 echo "Habilitando la extensión de escritorio..."
 gnome-extensions enable ding@rastersoft.com
 
 echo "La extensión ha sido instalada, habilitada y GNOME Shell ha sido reiniciado. La carpeta de prueba ha sido creada en el escritorio."
-
