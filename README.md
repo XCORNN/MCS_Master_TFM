@@ -17,7 +17,9 @@ Para clonar este repositorio:
 git clone https://github.com/XCORNN/MCS_Master_TFM
 
 Modificar permisos para permitir ejecución:
+
 chmod +x install_All.sh
 
 Ejecución del scrip (root)
+
 sudo ./ install_All
