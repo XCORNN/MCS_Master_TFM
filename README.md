@@ -30,7 +30,7 @@ Sslscan
 BurpSuite CE
 Sublist3r
 Mosint
-osrframework
+Osrframework
 Paquete de personalización de gnome
 
 ## Instalación
