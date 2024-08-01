@@ -20,9 +20,5 @@ mkdir -p "$TEST_DIR"
 echo "Habilitando la extensión de escritorio..."
 gnome-extensions enable ding@rastersoft.com
 
-# Reiniciar GNOME Shell para aplicar los cambios
-echo "Reiniciando GNOME Shell para aplicar los cambios..."
-pkill -HUP -u $USER gnome-shell
-
 echo "La extensión ha sido instalada, habilitada y GNOME Shell ha sido reiniciado. La carpeta de prueba ha sido creada en el escritorio."
 
