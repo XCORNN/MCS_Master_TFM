@@ -66,7 +66,7 @@ Actualizar repositorios y actualizaciones a última versión:
 
 Instalar git, curl, wget
 
-    "sudo apt install git && curl && wget"
+    "sudo apt install git curl wget"
 
 Para clonar este repositorio:
 
