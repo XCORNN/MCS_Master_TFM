@@ -24,9 +24,9 @@ Photon
 
 Spiderfoot
 
-Tor service
+Servicio Tor
 
-Tor_browser
+Navegador Tor
 
 Recon-NG
 
