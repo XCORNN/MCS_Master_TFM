@@ -56,34 +56,34 @@ Es importante que NO se ejecuten las instalaciones como root ya que esta program
 
 Acceso a root:
 
-    "sudo su"
+    sudo su
 
 Añadir usuario a sudoers:
 
-    "sudo usermod -aG sudo TU_USUARIO"
+    sudo usermod -aG sudo TU_USUARIO
 
 (es posible que necesites reiniciar para aplicar los cambios)
 
 Actualizar repositorios y actualizaciones a última versión:
 
-    "sudo apt update && sudo apt upgrade -y"
+    sudo apt update && sudo apt upgrade -y
 
 Instalar git, curl, wget
 
-    "sudo apt install git curl wget"
+    sudo apt install git curl wget
 
 Para clonar este repositorio:
 
-    "git clone https://github.com/XCORNN/MCS_Master_TFM"
+    git clone https://github.com/XCORNN/MCS_Master_TFM
 
 Modificar permisos para permitir ejecución:
 
-    "sudo chmod +x install_All.sh"
+    sudo chmod +x install_All.sh
 
 Ejecutar el script para TODAS las herramientas: 
 
-    "sudo ./install_ALL.sh" 
+    sudo ./install_ALL.sh
 
 Instalacion INDIVIDUAL de las herramientas: 
     
-    "sudo ./install_NOMBREdeHERRAMIENTA"
+    sudo ./install_NOMBREdeHERRAMIENTA
