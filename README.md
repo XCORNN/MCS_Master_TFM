@@ -54,7 +54,7 @@ Paquete de personalización de gnome
 
 Para clonar este repositorio:
 
-    "git clone https://github.com/XCORNN/MCS_Master_TFM2"
+    "git clone https://github.com/XCORNN/MCS_Master_TFM"
 
 Modificar permisos para permitir ejecución:
 
