@@ -54,6 +54,10 @@ Paquete de personalización de gnome
 
 Es importante que NO se ejecuten las instalaciones como root ya que esta programado para que utilice la variable SUDO_USER para crear las necesidades en el escritorio del usuario.
 
+Des de el usuario root
+    "sudo usermod -aG sudo TU_USUARIO"
+(es posible que necesites reiniciar para aplicar los cambios)
+
 Para clonar este repositorio:
 
     "git clone https://github.com/XCORNN/MCS_Master_TFM"
