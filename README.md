@@ -31,7 +31,7 @@ Añadir el usuario principal (no root) al grupo sudoers para la correcta ejecuci
     "Mosint"
     "osrframework"
     "Paquete de personalización de gnome"
-    ""
+
 ## Instalación
 
 Para clonar este repositorio:
