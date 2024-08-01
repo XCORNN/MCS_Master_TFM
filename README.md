@@ -62,7 +62,11 @@ Des de el usuario root:
 
 Actualizar repositorios y actualizaciones a última versión:
 
-    "sudo apt update & upgrade -y"
+    "sudo apt update && sudo apt upgrade -y"
+
+Instalar git, curl, wget
+
+    "sudo apt install git && curl && wget"
 
 Para clonar este repositorio:
 
