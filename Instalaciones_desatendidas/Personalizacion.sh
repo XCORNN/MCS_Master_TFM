@@ -16,33 +16,15 @@ mkdir -p "$DESKTOP_DIR"
 TEST_DIR="$DESKTOP_DIR/CarpetaDePrueba"
 mkdir -p "$TEST_DIR"
 
-# Fase 5: Crear el script de inicio
+# Fase 5: Crear el script de inicio simplificado
 cat << 'EOF' > /home/$USER/habilitar_extension.sh
 #!/bin/bash
 
 # Esperar a que GNOME Shell esté activo
-echo "Esperando a que GNOME Shell se reinicie..."
-while ! pgrep -u $USER gnome-shell > /dev/null; do sleep 1; done
+sleep 10
 
-# Comprobar el estado de la extensión
-echo "Verificando el estado de la extensión..."
-if gnome-extensions list | grep -q 'ding@rastersoft.com'; then
-    echo "La extensión de escritorio está instalada."
-else
-    echo "La extensión de escritorio no está instalada. Instalando..."
-    gnome-extensions install ding@rastersoft.com
-fi
-
-# Habilitar la extensión si no está habilitada
-echo "Habilitando la extensión de escritorio..."
+# Habilitar la extensión de escritorio
 gnome-extensions enable ding@rastersoft.com
-
-# Verificar que la extensión está habilitada
-if gnome-extensions list | grep -q 'ding@rastersoft.com'; then
-    echo "La extensión de escritorio ha sido habilitada."
-else
-    echo "No se pudo habilitar la extensión de escritorio."
-fi
 EOF
 
 # Hacer el script ejecutable
@@ -65,4 +47,5 @@ EOF
 echo "Cerrando la sesión para aplicar los cambios..."
 gnome-session-quit --logout --no-prompt
 
-echo "La extensión ha sido instalada. La sesión se cerrará para aplicar los cambios. Al iniciar sesión nuevamente, se verificará y habilitará la extensión de escritorio."
+echo "La extensión ha sido instalada. La sesión se cerrará para aplicar los cambios. Al iniciar sesión nuevamente, el script de inicio habilitará la extensión de escritorio."
+
