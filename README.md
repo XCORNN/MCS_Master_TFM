@@ -60,6 +60,10 @@ Des de el usuario root:
 
 (es posible que necesites reiniciar para aplicar los cambios)
 
+Actualizar repositorios y actualizaciones a última versión:
+
+    "sudo apt update & upgrade -y"
+
 Para clonar este repositorio:
 
     "git clone https://github.com/XCORNN/MCS_Master_TFM"
