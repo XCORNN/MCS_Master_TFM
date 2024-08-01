@@ -57,10 +57,10 @@ winetricks -q dotnet48 gdiplus fontfix
 #sudo apt install -y wine-mono
 
 # Crear carpeta FOCA en el Escritorio
-mkdir -p "/home/$USER/Escritorio/Foca"
+mkdir -p "/$HOME/Escritorio/Foca"
 
 # Moverse a la carpeta creada
-cd "/home/$USER/Escritorio/Foca"
+cd "/$HOME/Escritorio/Foca"
 
 #Importar Foca de Github
 wget https://github.com/ElevenPaths/FOCA/releases/download/v3.4.7.1/FOCA-v3.4.7.1.zip
