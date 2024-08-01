@@ -60,7 +60,7 @@ Para clonar este repositorio:
 
 Modificar permisos para permitir ejecución:
 
-    "chmod +x install_All.sh"
+    "sudo chmod +x install_All.sh"
 
 Ejecución del scrip (root)
 
