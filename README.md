@@ -91,4 +91,4 @@ Ejecutar el script para TODAS las herramientas:
 
 Instalacion INDIVIDUAL de las herramientas: 
     
-    sudo ./install_NOMBREdeHERRAMIENTA
+    sudo ./install_NOMBREdeHERRAMIENTA.sh
