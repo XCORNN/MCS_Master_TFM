@@ -20,11 +20,18 @@ mkdir -p "$TEST_DIR"
 cat << 'EOF' > /home/$USER/habilitar_extension.sh
 #!/bin/bash
 
-# Esperar a que GNOME Shell esté activo
-sleep 10
+# Esperar 2 segundos para que GNOME Shell esté activo
+sleep 2
 
 # Habilitar la extensión de escritorio
 gnome-extensions enable ding@rastersoft.com
+
+# Verificar que la extensión está habilitada
+if gnome-extensions list | grep -q 'ding@rastersoft.com'; then
+    echo "La extensión de escritorio ha sido habilitada correctamente."
+else
+    echo "No se pudo habilitar la extensión de escritorio."
+fi
 EOF
 
 # Hacer el script ejecutable
@@ -43,9 +50,11 @@ Name=Habilitar Extensión de Escritorio
 Comment=Habilita la extensión de íconos en el escritorio al iniciar sesión
 EOF
 
+# Ajustar los permisos del archivo .desktop
+chmod 644 /home/$USER/.config/autostart/habilitar_extension.desktop
+
 # Fase 7: Cerrar la sesión del usuario para aplicar los cambios
 echo "Cerrando la sesión para aplicar los cambios..."
 gnome-session-quit --logout --no-prompt
 
 echo "La extensión ha sido instalada. La sesión se cerrará para aplicar los cambios. Al iniciar sesión nuevamente, el script de inicio habilitará la extensión de escritorio."
-
