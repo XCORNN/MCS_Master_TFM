@@ -6,7 +6,7 @@ REPO_URL="https://github.com/XCORNN/MCS_Master_TFM"
 # List of scripts to execute
 SCRIPTS=(
     "install_Harvester.sh"
-    "install_Maltego.sh"
+    "V2_install_Maltego.sh"
     "install_exiftool.sh"
     "install_photon.sh"
     "install_spiderfoot.sh"
