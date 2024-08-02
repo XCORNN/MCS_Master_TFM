@@ -41,6 +41,20 @@ depriv git clone https://github.com/laramies/theHarvester.git
 # Entrar en el directorio de theHarvester
 cd theHarvester || { echo "No se pudo cambiar al directorio theHarvester."; exit 1; }
 
+# Verifica e instala python3-venv si no está instalado
+echo "Verificando e instalando python3-venv..."
+if ! dpkg -l | grep -qw python3-venv; then
+    echo "python3-venv no está instalado. Instalando..."
+    apt-get update
+    apt-get install -y python3-venv
+    if [ $? -ne 0 ]; then
+        echo "Error al instalar python3-venv. Verifica los permisos y la conexión a Internet."
+        exit 1
+    fi
+else
+    echo "python3-venv ya está instalado."
+fi
+
 # Crear y activar un entorno virtual para Python
 depriv bash -c "
 python3 -m venv venv
@@ -52,5 +66,5 @@ depriv bash -c "
 source venv/bin/activate
 pip install -r requirements/base.txt
 "
-
 echo "Instalación completa de theHarvester"
+
