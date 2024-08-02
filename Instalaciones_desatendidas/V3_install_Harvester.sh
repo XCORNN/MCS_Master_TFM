@@ -36,7 +36,12 @@ fi
 cd "$DEST_DIR" || { echo "No se pudo cambiar al directorio $DEST_DIR."; exit 1; }
 
 # Clona el repositorio de theHarvester
-depriv git clone https://github.com/laramies/theHarvester.git .
+if [ ! -d "$DEST_DIR/theHarvester" ]; then
+    echo "Clonando el repositorio de theHarvester..."
+    depriv git clone https://github.com/laramies/theHarvester.git
+else
+    echo "El repositorio de theHarvester ya está clonado."
+fi
 
 # Verifica e instala python3-venv si no está instalado
 echo "Verificando e instalando python3-venv..."
@@ -53,26 +58,21 @@ else
 fi
 
 # Crea y activa un entorno virtual para Python
+echo "Creando y activando un entorno virtual para Python..."
 depriv bash -c "
+cd '$DEST_DIR/theHarvester'
 python3 -m venv venv
 source venv/bin/activate
 "
 
 # Instala las dependencias de theHarvester dentro del entorno virtual
+echo "Instalando las dependencias de theHarvester..."
 depriv bash -c "
+cd '$DEST_DIR/theHarvester'
 source venv/bin/activate
 pip install -r requirements/base.txt
 "
 
-# Mueve los archivos necesarios al directorio raíz y limpia la estructura
-echo "Moviendo archivos al directorio raíz y limpiando la estructura..."
-depriv bash -c "
-cd theHarvester
-find . -mindepth 1 -maxdepth 1 ! -name 'venv' -exec mv -t ../ \{\} +
-cd ..
-rm -rf theHarvester
-"
-
 echo "Instalación completa de theHarvester. Puedes ejecutar el script manualmente usando:"
-echo "source ~/Escritorio/theHarvester/venv/bin/activate"
-echo "python3 ~/Escritorio/theHarvester/theHarvester.py"
+echo "source ~/Escritorio/theHarvester/theHarvester/venv/bin/activate"
+echo "python3 ~/Escritorio/theHarvester/theHarvester/theHarvester.py"
