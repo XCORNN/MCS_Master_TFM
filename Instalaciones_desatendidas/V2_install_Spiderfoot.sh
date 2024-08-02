@@ -17,22 +17,23 @@ fi
 
 # Instalación de Spiderfoot
 echo "Instalando Spiderfoot..."
-depriv bash -c 'mkdir -p ~/Escritorio/Spiderfoot && cd ~/Escritorio/Spiderfoot && wget https://github.com/smicallef/spiderfoot/archive/refs/tags/v4.0.tar.gz'
+depriv mkdir -p ~/Escritorio/Spiderfoot
+depriv bash -c 'cd ~/Escritorio/Spiderfoot && wget https://github.com/smicallef/spiderfoot/archive/refs/tags/v4.0.tar.gz'
 
 # Instalación de dependencias
 echo "Instalando dependencias..."
-if [ which pip3 &>/dev/null ]; then
-    depriv sudo pip3 install lxml netaddr cherrypy mako requests bs4 pyyaml --break-system-packages
+if command -v pip3 &>/dev/null; then
+    depriv pip3 install lxml netaddr cherrypy mako requests bs4 pyyaml --break-system-packages
 else
-    depriv sudo apt-get install -y python3-pip
-    depriv sudo pip3 install lxml netaddr cherrypy mako requests bs4 pyyaml --break-system-packages
+    depriv apt-get install -y python3-pip
+    depriv pip3 install lxml netaddr cherrypy mako requests bs4 pyyaml --break-system-packages
 fi
 
 # Instalación de m2crypto
-depriv sudo apt-get install python3-m2crypto
+depriv apt-get install -y python3-m2crypto
 
 # Extracción e instalación de Spiderfoot
 echo "Extrayendo e instalando Spiderfoot..."
-depriv bash -c 'tar xzvf v4.0.tar.gz && cd spiderfoot-4.0 && sed -i "/pyyaml/d" requirements.txt && pip3 install -r requirements.txt --break-system-packages'
+depriv bash -c 'cd ~/Escritorio/Spiderfoot && tar xzvf v4.0.tar.gz && cd spiderfoot-4.0 && sed -i "/pyyaml/d" requirements.txt && pip3 install -r requirements.txt --break-system-packages'
 
 echo "Script completado."
