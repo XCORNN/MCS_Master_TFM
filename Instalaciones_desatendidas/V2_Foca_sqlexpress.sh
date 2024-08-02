@@ -25,6 +25,9 @@ then
   echo Environment variable MSSQL_SA_PASSWORD must be set for unattended install
   exit 1
 fi
+echo Running apt-get update -y...
+sudo apt-get update -y
+sudo apt-get install -y curl
 
 echo Adding Microsoft repositories...
 # Add Microsoft GPG key
