@@ -13,7 +13,7 @@ SCRIPTS=(
     "install_tor_service.sh"
     "install_tor_browser.sh"
     "install_Recon-NG.sh"
-    "install_FOCA.sh"
+    "V2_install_FOCA.sh"
     "Foca_sqlExpress.sh"
 )
 
