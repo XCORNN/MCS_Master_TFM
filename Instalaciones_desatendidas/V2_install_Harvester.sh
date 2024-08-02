@@ -36,10 +36,10 @@ fi
 cd "$DEST_DIR" || { echo "No se pudo cambiar al directorio $DEST_DIR."; exit 1; }
 
 # Clonar el repositorio de theHarvester
-depriv git clone https://github.com/laramies/theHarvester.git
+depriv git clone https://github.com/laramies/theHarvester.git .
 
-# Entrar en el directorio de theHarvester
-cd theHarvester || { echo "No se pudo cambiar al directorio theHarvester."; exit 1; }
+# Elimina la subcarpeta innecesaria (theHarvester)
+rm -rf theHarvester
 
 # Verifica e instala python3-venv si no está instalado
 echo "Verificando e instalando python3-venv..."
