@@ -78,3 +78,6 @@ unzip -d . FOCA-v3.4.7.1.zip && \
 rm FOCA-v3.4.7.1.zip"
 
 echo "All tasks completed successfully."
+
+#Se conecta con los siguientes datos de conexion:
+# localhost / SA / Passw0rd!
