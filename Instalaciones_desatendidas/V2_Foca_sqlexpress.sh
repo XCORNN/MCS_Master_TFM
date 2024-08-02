@@ -117,3 +117,6 @@ echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
 source ~/.bashrc
 
 echo Done!
+
+#para comprobar si se ha hecho correctamente:
+# /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P 'Passw0rd!'
