@@ -37,7 +37,7 @@ python3 -m venv venv
 source venv/bin/activate
 
 # Instala las dependencias necesarias dentro del entorno virtual
-pip install lxml netaddr cherrypy mako requests bs4 pyyaml --break-system-packages
+pip install lxml netaddr cherrypy mako requests bs4 pyyaml
 
 # Instala python3-m2crypto usando apt
 sudo apt-get install -y python3-m2crypto
@@ -48,8 +48,7 @@ mv spiderfoot-4.0/* .
 rm -rf spiderfoot-4.0
 
 # Instala las dependencias de Spiderfoot desde requirements.txt
-source venv/bin/activate
 sed -i '/pyyaml/d' requirements.txt
-pip install -r requirements.txt --break-system-packages
+pip install -r requirements.txt
 
 echo "Instalación completa de Spiderfoot"
