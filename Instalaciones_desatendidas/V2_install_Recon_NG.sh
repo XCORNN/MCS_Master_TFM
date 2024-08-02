@@ -52,24 +52,26 @@ else
 fi
 "
 
-# Cambia al directorio de Recon-NG
-depriv bash -c "cd '$DEST_DIR' || { echo 'No se pudo cambiar al directorio $DEST_DIR.'; exit 1; }"
+# Cambia al directorio de Recon-NG y crea un entorno virtual para Python
+depriv bash -c "
+cd '$DEST_DIR' || { echo 'No se pudo cambiar al directorio $DEST_DIR.'; exit 1; }
+python3 -m venv venv
+source venv/bin/activate
+"
 
-# Crea un entorno virtual para Python y actívalo
-depriv bash -c "cd '$DEST_DIR' && python3 -m venv venv && source venv/bin/activate"
-
-# Comprueba si el archivo REQUIREMENTS existe antes de intentar instalar las dependencias
+# Instala las dependencias en el entorno virtual
 depriv bash -c "
 cd '$DEST_DIR'
+source venv/bin/activate
 if [ -f 'REQUIREMENTS' ]; then
     echo 'Instalando dependencias desde REQUIREMENTS...'
-    pip install -r REQUIREMENTS
+    venv/bin/pip install -r REQUIREMENTS
 elif [ -f 'requirements.txt' ]; then
     echo 'Instalando dependencias desde requirements.txt...'
-    pip install -r requirements.txt
+    venv/bin/pip install -r requirements.txt
 else
     echo 'Archivo de dependencias no encontrado. Instalando pyyaml y requests manualmente...'
-    pip install pyyaml requests
+    venv/bin/pip install pyyaml requests
 fi
 "
 
