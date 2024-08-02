@@ -30,42 +30,42 @@ if ! command -v wget &> /dev/null || ! command -v gpg &> /dev/null; then
 fi
 
 # Crear carpeta Tor en el Escritorio
-depriv bash -c "
-mkdir -p '$TOR_BROWSER_DIR'
-"
+depriv mkdir -p "$TOR_BROWSER_DIR"
 
-# Moverse a la carpeta creada
-cd "$TOR_BROWSER_DIR" || { echo "No se pudo cambiar al directorio $TOR_BROWSER_DIR."; exit 1; }
+# Moverse a la carpeta creada como usuario que invocó sudo
+depriv bash -c "
+cd '$TOR_BROWSER_DIR' || { echo 'No se pudo cambiar al directorio $TOR_BROWSER_DIR.'; exit 1; }
 
 # Descargar el archivo de Tor Browser y su firma
-echo "Descargando Tor Browser y su firma..."
-wget -O "$TOR_BROWSER_TAR" "$TOR_BROWSER_URL"
-wget -O "$TOR_BROWSER_SIG" "$TOR_BROWSER_SIG_URL"
+echo 'Descargando Tor Browser y su firma...'
+wget -O '$TOR_BROWSER_TAR' '$TOR_BROWSER_URL'
+wget -O '$TOR_BROWSER_SIG' '$TOR_BROWSER_SIG_URL'
 
 # Descargar la clave pública de GPG
-echo "Descargando la clave pública de GPG..."
-wget -O "$TOR_GPG_KEY" "$TOR_GPG_KEY_URL"
+echo 'Descargando la clave pública de GPG...'
+wget -O '$TOR_GPG_KEY' '$TOR_GPG_KEY_URL'
 
 # Importar la clave pública de GPG
-echo "Importando la clave pública de GPG..."
-gpg --import "$TOR_GPG_KEY"
+echo 'Importando la clave pública de GPG...'
+gpg --import '$TOR_GPG_KEY'
 
 # Verificar la firma del paquete
-echo "Verificando la firma del paquete..."
-gpg --verify "$TOR_BROWSER_SIG" "$TOR_BROWSER_TAR"
-if [ $? -ne 0 ]; then
-    echo "La verificación de la firma GPG ha fallado. Abortando la instalación."
+echo 'Verificando la firma del paquete...'
+gpg --verify '$TOR_BROWSER_SIG' '$TOR_BROWSER_TAR'
+if [ \$? -ne 0 ]; then
+    echo 'La verificación de la firma GPG ha fallado. Abortando la instalación.'
     exit 1
 fi
 
 # Descomprimir el archivo descargado
-echo "Extrayendo Tor Browser..."
-tar -xvf "$TOR_BROWSER_TAR"
+echo 'Extrayendo Tor Browser...'
+tar -xvf '$TOR_BROWSER_TAR'
 
 # Borrar el archivo comprimido descargado
-rm "$TOR_BROWSER_TAR" "$TOR_BROWSER_SIG" "$TOR_GPG_KEY"
+rm '$TOR_BROWSER_TAR' '$TOR_BROWSER_SIG' '$TOR_GPG_KEY'
 
-echo "Tor Browser ha sido instalado correctamente en $TOR_BROWSER_DIR."
+echo 'Tor Browser ha sido instalado correctamente en $TOR_BROWSER_DIR.'
 
 # Mensaje informativo para el usuario sobre cómo ejecutar Tor Browser
-echo "Para ejecutar Tor Browser, dirígete a la carpeta $TOR_BROWSER_DIR/tor-browser y ejecuta ./start-tor-browser"
+echo 'Para ejecutar Tor Browser, dirígete a la carpeta $TOR_BROWSER_DIR/tor-browser y ejecuta ./start-tor-browser'
+"
