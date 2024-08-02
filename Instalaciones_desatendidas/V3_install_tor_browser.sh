@@ -10,7 +10,7 @@ depriv() {
 }
 
 # Directorio de instalación del Tor Browser
-TOR_BROWSER_DIR="$HOME/Escritorio/Tor"
+TOR_BROWSER_DIR="/home/$SUDO_USER/Escritorio/Tor"
 
 # URL del paquete del Tor Browser y su firma
 TOR_BROWSER_URL="https://www.torproject.org/dist/torbrowser/13.5.1/tor-browser-linux-x86_64-13.5.1.tar.xz"
@@ -35,18 +35,14 @@ fi
 echo "Creando carpeta Tor en el Escritorio..."
 depriv mkdir -p "$TOR_BROWSER_DIR"
 
-# Moverse a la carpeta creada
+# Moverse a la carpeta creada y descargar archivos
 echo "Moviéndose a la carpeta $TOR_BROWSER_DIR..."
-depriv bash -c "cd '$TOR_BROWSER_DIR' && echo 'Directorio actual:' && pwd"
-
-# Descargar el archivo de Tor Browser y su firma
-echo "Descargando Tor Browser y su firma..."
-depriv wget -O "$TOR_BROWSER_TAR" "$TOR_BROWSER_URL"
-depriv wget -O "$TOR_BROWSER_SIG" "$TOR_BROWSER_SIG_URL"
-
-# Descargar la clave pública de GPG
-echo "Descargando la clave pública de GPG..."
-depriv wget -O "$TOR_GPG_KEY" "$TOR_GPG_KEY_URL"
+depriv bash -c "cd '$TOR_BROWSER_DIR' && echo 'Directorio actual:' && pwd && \
+echo 'Descargando Tor Browser y su firma...' && \
+wget -O '$TOR_BROWSER_TAR' '$TOR_BROWSER_URL' && \
+wget -O '$TOR_BROWSER_SIG' '$TOR_BROWSER_SIG_URL' && \
+echo 'Descargando la clave pública de GPG...' && \
+wget -O '$TOR_GPG_KEY' '$TOR_GPG_KEY_URL'"
 
 # Importar la clave pública de GPG
 echo "Importando la clave pública de GPG..."
@@ -62,7 +58,7 @@ fi
 
 # Descomprimir el archivo descargado
 echo "Extrayendo Tor Browser..."
-depriv tar -xvf "$TOR_BROWSER_TAR"
+depriv tar -xvf "$TOR_BROWSER_TAR" -C "$TOR_BROWSER_DIR"
 
 # Borrar el archivo comprimido descargado
 echo "Borrando archivos descargados..."
