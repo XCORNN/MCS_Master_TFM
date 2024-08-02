@@ -1,69 +1,59 @@
 #!/bin/bash
 
-# Función para cambiar al usuario que invocó sudo
-depriv() {
-  if [[ $SUDO_USER ]]; then
-    sudo -u "$SUDO_USER" -- "$@"
-  else
-    "$@"
-  fi
-}
-
-# Verifica si el usuario tiene permisos de sudo
-if ! sudo -v; then
-    echo "El usuario no tiene permisos de sudo. Por favor, asegúrate de tener permisos para instalar paquetes."
-    exit 1
+# Verifica si el script se está ejecutando como root
+if [ "$(id -u)" != "0" ]; then
+   echo "Este script debe ejecutarse como root" 
+   exit 1
 fi
 
 # Define el directorio de destino
 DEST_DIR="/home/$SUDO_USER/Escritorio/TheHarvester"
 
 # Crea el directorio de destino si no existe
-depriv bash -c "
-if [ ! -d '$DEST_DIR' ]; then
-    echo 'Creando el directorio $DEST_DIR...'
-    mkdir -p '$DEST_DIR'
+if [ ! -d "$DEST_DIR" ]; then
+    echo "Creando el directorio $DEST_DIR..."
+    mkdir -p "$DEST_DIR"
     if [ $? -ne 0 ]; then
-        echo 'Error al crear el directorio $DEST_DIR. Verifica los permisos.'
+        echo "Error al crear el directorio $DEST_DIR. Verifica los permisos."
         exit 1
     fi
 else
-    echo 'El directorio $DEST_DIR ya existe.'
+    echo "El directorio $DEST_DIR ya existe."
 fi
-"
 
-# Cambia al directorio de destino
-depriv bash -c "
-cd '$DEST_DIR' || { echo 'No se pudo cambiar al directorio $DEST_DIR.'; exit 1; }
-"
+# Navega al directorio de destino
+cd "$DEST_DIR" || { echo "No se pudo cambiar al directorio $DEST_DIR."; exit 1; }
 
-# Clona el repositorio de theHarvester si no está clonado
-depriv bash -c "
-if [ ! -d '$DEST_DIR/theHarvester/.git' ]; then
-    echo 'Clonando el repositorio de theHarvester en $DEST_DIR...'
-    git clone https://github.com/laramies/theHarvester.git '$DEST_DIR/theHarvester'
+# Clona el repositorio de theHarvester
+git clone https://github.com/laramies/theHarvester.git .
+
+# Verifica e instala python3-venv si no está instalado
+echo "Verificando e instalando python3-venv..."
+if ! dpkg -l | grep -qw python3-venv; then
+    echo "python3-venv no está instalado. Instalando..."
+    apt-get update
+    apt-get install -y python3-venv
     if [ $? -ne 0 ]; then
-        echo 'Error al clonar el repositorio. Verifica la conexión a Internet y los permisos.'
+        echo "Error al instalar python3-venv. Verifica los permisos y la conexión a Internet."
         exit 1
     fi
 else
-    echo 'El repositorio de theHarvester ya está clonado en $DEST_DIR.'
+    echo "python3-venv ya está instalado."
 fi
-"
 
-# Instala las dependencias de theHarvester
-depriv bash -c "
-cd '$DEST_DIR/theHarvester' || { echo 'No se pudo cambiar al directorio de theHarvester.'; exit 1; }
-if command -v pip3 &>/dev/null; then
-    echo 'pip3 encontrado. Instalando dependencias...'
-    pip3 install -r requirements/base.txt --break-system-packages
-else
-    echo 'pip3 no encontrado. Instalando pip3...'
-    sudo apt update
-    sudo apt install -y python3-pip
-    pip3 install -r requirements/base.txt --break-system-packages
-fi
-"
+# Crea y activa el entorno virtual para Python
+python3 -m venv venv
+source venv/bin/activate
 
-# Mensaje de instalación completa
-depriv bash -c "echo 'Instalación completa de theHarvester'"
+# Instala las dependencias de theHarvester dentro del entorno virtual
+pip install -r theHarvester/requirements/base.txt
+deactivate
+
+# Mueve los archivos necesarios al directorio raíz y limpia la estructura
+echo "Moviendo archivos al directorio raíz y limpiando la estructura..."
+mv theHarvester/* ./
+rm -rf theHarvester
+
+echo "Instalación completa de theHarvester. Puedes ejecutar el script manualmente usando:"
+echo "source ~/Escritorio/TheHarvester/venv/bin/activate"
+echo "python3 ~/Escritorio/TheHarvester/theHarvester.py"
