@@ -64,7 +64,7 @@ source venv/bin/activate
 pip install -r requirements/base.txt
 "
 
-# Mueve los archivos al directorio raíz y limpia la estructura
+# Mueve los archivos necesarios al directorio raíz y limpia la estructura
 echo "Moviendo archivos al directorio raíz y limpiando la estructura..."
 depriv bash -c "
 cd theHarvester
@@ -73,4 +73,6 @@ cd ..
 rm -rf theHarvester
 "
 
-echo "Instalación completa de theHarvester"
+echo "Instalación completa de theHarvester. Puedes ejecutar el script manualmente usando:"
+echo "source ~/Escritorio/TheHarvester/venv/bin/activate"
+echo "python3 ~/Escritorio/TheHarvester/theHarvester.py"
