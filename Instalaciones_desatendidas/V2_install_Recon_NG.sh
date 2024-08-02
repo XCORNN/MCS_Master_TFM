@@ -77,3 +77,11 @@ fi
 
 # echo de Instalacion completa
 depriv bash -c "echo 'Instalación completa de Recon-NG'"
+
+
+#Uso:
+#Primero, abre una terminal y navega al directorio donde instalaste Recon-NG. Luego activa el entorno virtual:
+#  cd /home/$SUDO_USER/Escritorio/Recon-NG
+#  source venv/bin/activate
+# Una vez activado y dentro del (venv)
+#  ./recon-ng
