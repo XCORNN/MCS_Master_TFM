@@ -35,11 +35,8 @@ fi
 # Navega al directorio de destino
 cd "$DEST_DIR" || { echo "No se pudo cambiar al directorio $DEST_DIR."; exit 1; }
 
-# Clonar el repositorio de theHarvester
+# Clona el repositorio de theHarvester
 depriv git clone https://github.com/laramies/theHarvester.git .
-
-# Elimina la subcarpeta innecesaria (theHarvester)
-rm -rf theHarvester
 
 # Verifica e instala python3-venv si no está instalado
 echo "Verificando e instalando python3-venv..."
@@ -55,16 +52,25 @@ else
     echo "python3-venv ya está instalado."
 fi
 
-# Crear y activar un entorno virtual para Python
+# Crea y activa un entorno virtual para Python
 depriv bash -c "
 python3 -m venv venv
 source venv/bin/activate
 "
 
-# Instalar las dependencias de theHarvester dentro del entorno virtual
+# Instala las dependencias de theHarvester dentro del entorno virtual
 depriv bash -c "
 source venv/bin/activate
 pip install -r requirements/base.txt
+"
+
+# Mueve los archivos al directorio raíz y limpia la estructura
+echo "Moviendo archivos al directorio raíz y limpiando la estructura..."
+depriv bash -c "
+cd theHarvester
+find . -mindepth 1 -maxdepth 1 ! -name 'venv' -exec mv -t ../ \{\} +
+cd ..
+rm -rf theHarvester
 "
 
 echo "Instalación completa de theHarvester"
