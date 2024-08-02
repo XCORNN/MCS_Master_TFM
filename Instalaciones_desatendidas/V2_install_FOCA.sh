@@ -79,5 +79,7 @@ rm FOCA-v3.4.7.1.zip"
 
 echo "All tasks completed successfully."
 
+# Arranque en carpeta con:
+#   wine Foca.exe
 #Se conecta con los siguientes datos de conexion:
-# localhost / SA / Passw0rd!
+#   localhost / SA / Passw0rd!
