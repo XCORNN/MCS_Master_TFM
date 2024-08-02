@@ -8,7 +8,7 @@ SCRIPTS=(
     "install_Harvester.sh"
     "V2_install_Maltego.sh"
     "install_exiftool.sh"
-    "install_photon.sh"
+    "V2_install_Photon.sh"
     "install_spiderfoot.sh"
     "install_tor_service.sh"
     "install_tor_browser.sh"
