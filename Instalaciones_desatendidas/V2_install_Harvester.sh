@@ -66,5 +66,5 @@ depriv bash -c "
 source venv/bin/activate
 pip install -r requirements/base.txt
 "
-echo "Instalación completa de theHarvester"
 
+echo "Instalación completa de theHarvester"
