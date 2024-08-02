@@ -1,7 +1,7 @@
 # MCS_Master_TFM
 Master_TFM
 
-Este repositorio tiene como objetivo automatizar las descargas e instalaciones de ciertas herramientas de OSINT en un Entorno Debian 12 limpio, para realizar un des plegamiento rápido y seguro.
+Este repositorio tiene como objetivo automatizar las descargas e instalaciones de ciertas herramientas de OSINT en un Entorno Debian 12 limpio, para realizar un despliegue rápido y seguro.
 
 Mediante la descarga e instalación del repositorio obtienes los scripts de ejecución para crear todo el despliegue o tan solo las herramientas necesarias.
 
