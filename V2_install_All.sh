@@ -14,7 +14,7 @@ SCRIPTS=(
     "install_tor_browser.sh"
     "install_Recon-NG.sh"
     "V2_install_FOCA.sh"
-    "Foca_sqlExpress.sh"
+    "V2_Foca_sqlExpress.sh"
 )
 
 # Function to check if the script executed successfully
