@@ -74,3 +74,5 @@ rm FOCA-v3.4.7.1.zip
 
 echo "All tasks completed successfully."
 
+#Arrancar foca, situarse en repositorio y " wine Foca.exe"
+#SQL --> localhost / mismo user que sistema / Passw0rd!
