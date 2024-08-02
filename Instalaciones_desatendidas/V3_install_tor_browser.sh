@@ -9,6 +9,12 @@ depriv() {
   fi
 }
 
+# Verifica si el script se está ejecutando como root
+if [ "$(id -u)" -ne "0" ]; then
+    echo "Este script debe ejecutarse como root"
+    exit 1
+fi
+
 # Directorio de instalación del Tor Browser
 TOR_BROWSER_DIR="/home/$SUDO_USER/Escritorio/Tor"
 
@@ -31,8 +37,8 @@ then
     sudo apt install -y wget gnupg
 fi
 
-# Crear carpeta Tor en el Escritorio
-echo "Creando carpeta Tor en el Escritorio..."
+# Crear carpeta Tor en el Escritorio del usuario
+echo "Creando carpeta Tor en el Escritorio del usuario..."
 depriv mkdir -p "$TOR_BROWSER_DIR"
 
 # Moverse a la carpeta creada y descargar archivos
@@ -44,13 +50,25 @@ wget -O '$TOR_BROWSER_SIG' '$TOR_BROWSER_SIG_URL' && \
 echo 'Descargando la clave pública de GPG...' && \
 wget -O '$TOR_GPG_KEY' '$TOR_GPG_KEY_URL'"
 
+# Verificar la existencia de los archivos descargados
+echo "Verificando la existencia de archivos..."
+if [ ! -f "$TOR_BROWSER_DIR/$TOR_GPG_KEY" ]; then
+    echo "Error: No se pudo encontrar la clave pública de GPG. Abortando la instalación."
+    exit 1
+fi
+
+if [ ! -f "$TOR_BROWSER_DIR/$TOR_BROWSER_SIG" ]; then
+    echo "Error: No se pudo encontrar la firma del paquete. Abortando la instalación."
+    exit 1
+fi
+
 # Importar la clave pública de GPG
 echo "Importando la clave pública de GPG..."
-depriv gpg --import "$TOR_GPG_KEY"
+depriv gpg --import "$TOR_BROWSER_DIR/$TOR_GPG_KEY"
 
 # Verificar la firma del paquete
 echo "Verificando la firma del paquete..."
-depriv gpg --verify "$TOR_BROWSER_SIG" "$TOR_BROWSER_TAR"
+depriv gpg --verify "$TOR_BROWSER_DIR/$TOR_BROWSER_SIG" "$TOR_BROWSER_DIR/$TOR_BROWSER_TAR"
 if [ $? -ne 0 ]; then
     echo "La verificación de la firma GPG ha fallado. Abortando la instalación."
     exit 1
@@ -58,11 +76,11 @@ fi
 
 # Descomprimir el archivo descargado
 echo "Extrayendo Tor Browser..."
-depriv tar -xvf "$TOR_BROWSER_TAR" -C "$TOR_BROWSER_DIR"
+depriv tar -xvf "$TOR_BROWSER_DIR/$TOR_BROWSER_TAR" -C "$TOR_BROWSER_DIR"
 
 # Borrar el archivo comprimido descargado
 echo "Borrando archivos descargados..."
-depriv rm "$TOR_BROWSER_TAR" "$TOR_BROWSER_SIG" "$TOR_GPG_KEY"
+depriv rm "$TOR_BROWSER_DIR/$TOR_BROWSER_TAR" "$TOR_BROWSER_DIR/$TOR_BROWSER_SIG" "$TOR_BROWSER_DIR/$TOR_GPG_KEY"
 
 echo "Tor Browser ha sido instalado correctamente en $TOR_BROWSER_DIR."
 
