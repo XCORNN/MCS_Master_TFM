@@ -28,3 +28,6 @@ else
   sudo apt install -y python3-pip
   depriv pip3 install tld requests --break-system-packages
 fi
+
+#Comando para utilizarlo (dentro de la carpeta Escritorio)
+# python3 photon.py
