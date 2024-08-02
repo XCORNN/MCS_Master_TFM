@@ -17,7 +17,7 @@ depriv bash -c "
 if [ ! -d '$DEST_DIR' ]; then
     echo 'Creando el directorio $DEST_DIR...'
     mkdir -p '$DEST_DIR'
-    if [ $? -ne 0 ]; then
+    if [ \$? -ne 0 ]; then
         echo 'Error al crear el directorio $DEST_DIR. Verifica los permisos.'
         exit 1
     fi
@@ -27,7 +27,7 @@ fi
 "
 
 # Navega al directorio de destino
-cd "$DEST_DIR"
+cd "$DEST_DIR" || { echo "No se pudo cambiar al directorio $DEST_DIR."; exit 1; }
 
 # Descarga el archivo tar.gz de Spiderfoot
 wget https://github.com/smicallef/spiderfoot/archive/refs/tags/v4.0.tar.gz
