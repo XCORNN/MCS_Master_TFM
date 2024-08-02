@@ -12,7 +12,7 @@ SCRIPTS=(
     "install_spiderfoot.sh"
     "install_tor_service.sh"
     "install_tor_browser.sh"
-    "install_Recon-NG.sh"
+    "V2_install_Recon_NG.sh"
     "V2_install_FOCA.sh"
     "V2_Foca_sqlExpress.sh"
 )
