@@ -5,13 +5,13 @@ REPO_URL="https://github.com/XCORNN/MCS_Master_TFM"
 
 # List of scripts to execute
 SCRIPTS=(
-    "install_Harvester.sh"
+    "V2_install_Harvester.sh"
     "V2_install_Maltego.sh"
     "install_exiftool.sh"
     "V2_install_Photon.sh"
-    "install_spiderfoot.sh"
+    "V2_install_Spiderfoot.sh"
     "install_tor_service.sh"
-    "install_tor_browser.sh"
+    "V2_install_tor_browser.sh"
     "V2_install_Recon_NG.sh"
     "V2_install_FOCA.sh"
     "V2_Foca_sqlExpress.sh"
