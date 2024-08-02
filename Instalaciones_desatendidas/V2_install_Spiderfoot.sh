@@ -80,3 +80,9 @@ sed -i '/pyyaml/d' requirements.txt
 pip install -r requirements.txt
 
 echo "Instalación completa de Spiderfoot"
+
+
+#Intrucciones de Uso: 
+#  cd ~/Escritorio/Spiderfoot/
+#  source venv/bin/activate
+#  python3 sf.py -l 127.0.0.1:5001
