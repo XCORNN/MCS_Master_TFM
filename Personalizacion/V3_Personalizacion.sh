@@ -10,7 +10,7 @@ depriv() {
 }
 
 # Obtener el directorio del script
-SCRIPT_DIR="$(dirname "$(realpath "$0")")"
+SCRIPT_DIR="$(dirname "$(realpath "$0")")/.."
 
 # 1. Actualizar el sistema
 echo "Actualizando el sistema..."
