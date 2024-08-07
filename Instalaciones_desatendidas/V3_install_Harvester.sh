@@ -86,6 +86,10 @@ Type=Application
 Categories=Info-Gath;
 EOF
 
+# Cambiar permisos del archivo .desktop
+echo "Asignando permisos 644 al archivo .desktop..."
+chmod 644 /usr/share/applications/theHarvester.desktop
+
 echo "Instalación completa de theHarvester. Puedes ejecutar el script manualmente usando:"
 echo "source ~/Escritorio/theHarvester/theHarvester/venv/bin/activate"
 echo "python3 ~/Escritorio/theHarvester/theHarvester/theHarvester.py"
