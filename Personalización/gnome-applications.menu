@@ -472,3 +472,12 @@
     </Include>
   </Menu> <!-- End Information Gathering Tools -->
 </Menu> <!-- End Applications -->
+
+ <!-- Information Gathering Tools -->
+  <Menu>
+    <Name>Herramientas OSINT</Name>
+    <Directory>osint-tools.directory</Directory>
+    <Include>
+      <Category>OSINT</Category>
+    </Include>
+  </Menu> <!-- End Herramientas OSINT -->
