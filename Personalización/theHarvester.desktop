@@ -1,0 +1,6 @@
+[Desktop Entry]
+Version=1.0
+Name=TheHarvester
+Exec=python3 /home/master/Documentos/Escritorio/TheHarvester/theHarvester/theHarvester.py --help
+Type=Application
+Categories=Info-Gath;
