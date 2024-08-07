@@ -41,7 +41,7 @@ Hidden=false
 NoDisplay=false
 X-GNOME-Autostart-enabled=true
 Name=Habilitar Extensión de Escritorio
-Comment=Habilita la extensión de íconos en el escritorio al iniciar sesión
+Comment=Habilita las extensiones de GNOME al iniciar sesión
 EOF
 
 # Asegurarse de que el archivo .desktop tenga los permisos correctos
@@ -55,14 +55,24 @@ cat <<EOF > "$SCRIPT_FILE"
 # Esperar 2 segundos para que GNOME Shell esté activo
 sleep 2
 
-# Intentar habilitar la extensión de escritorio
+# Intentar habilitar la extensión de íconos en el escritorio
 gnome-extensions enable ding@rastersoft.com
 
-# Verificar si la extensión está habilitada
+# Intentar habilitar la extensión de menú de aplicaciones
+gnome-extensions enable apps-menu@gnome-shell-extensions.gcampax.github.com
+
+# Verificar si la extensión de íconos en el escritorio está habilitada
 if gnome-extensions list | grep -q 'ding@rastersoft.com'; then
-    echo "La extensión de escritorio ha sido habilitada correctamente."
+    echo "La extensión de íconos en el escritorio ha sido habilitada correctamente."
 else
-    echo "No se pudo habilitar la extensión de escritorio."
+    echo "No se pudo habilitar la extensión de íconos en el escritorio."
+fi
+
+# Verificar si la extensión de menú de aplicaciones está habilitada
+if gnome-extensions list | grep -q 'apps-menu@gnome-shell-extensions.gcampax.github.com'; then
+    echo "La extensión de menú de aplicaciones ha sido habilitada correctamente."
+else
+    echo "No se pudo habilitar la extensión de menú de aplicaciones."
 fi
 EOF
 
@@ -91,3 +101,7 @@ chmod 644 /usr/share/desktop-directories/information-gathering-tools.directory'
 # 9. Cierre de sesión
 echo "Reiniciando GNOME Shell para aplicar los cambios..."
 depriv gnome-session-quit --logout --no-prompt
+
+# 9. Cierre de sesión
+echo "Reiniciando GNOME Shell para aplicar los cambios..."
+depriv killall -3 gnome-shell
