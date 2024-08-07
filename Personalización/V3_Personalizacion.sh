@@ -85,4 +85,5 @@ chmod 644 /usr/share/desktop-directories/information-gathering-tools.directory'
 
 # 9. Cierre de sesión
 echo "Reiniciando GNOME Shell para aplicar los cambios..."
-gnome-session-quit --logout --no-prompt
+depriv gnome-session-quit --logout --no-prompt
+
