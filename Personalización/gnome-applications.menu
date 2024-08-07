@@ -471,7 +471,6 @@
       <Category>Info-Gath</Category>
     </Include>
   </Menu> <!-- End Information Gathering Tools -->
-</Menu> <!-- End Applications -->
 
  <!-- Information Gathering Tools -->
   <Menu>
@@ -481,3 +480,4 @@
       <Category>OSINT</Category>
     </Include>
   </Menu> <!-- End Herramientas OSINT -->
+</Menu> <!-- End Applications -->
