@@ -73,6 +73,11 @@ chmod +x "$SCRIPT_FILE"
 echo "Copiando gnome-applications.menu..."
 sudo cp -p "$SCRIPT_DIR/Files/gnome-applications.menu" /etc/xdg/menus/gnome-applications.menu
 
+# Ajustar permisos y propiedad del archivo gnome-applications.menu
+echo "Ajustando permisos y propiedad del archivo gnome-applications.menu..."
+sudo chmod 644 /etc/xdg/menus/gnome-applications.menu
+sudo chown root:root /etc/xdg/menus/gnome-applications.menu
+
 # 8. Crear el archivo .directory en /usr/share/desktop-directories
 echo "Creando el archivo .directory..."
 sudo bash -c 'cat <<EOF > /usr/share/desktop-directories/information-gathering-tools.directory
