@@ -1,5 +1,14 @@
 #!/bin/bash
 
+# Función para cambiar al usuario que invocó sudo
+depriv() {
+  if [[ $SUDO_USER ]]; then
+    sudo -u "$SUDO_USER" -- "$@"
+  else
+    "$@"
+  fi
+}
+
 # 1. Actualizar el sistema
 echo "Actualizando el sistema..."
 sudo apt update && sudo apt upgrade -y
@@ -63,12 +72,13 @@ sudo cp -p "$HOME/Files/gnome-applications.menu" /etc/xdg/menus/gnome-applicatio
 
 # 8. Crear el archivo .directory en /usr/share/desktop-directories
 echo "Creando el archivo .directory..."
-sudo tee /usr/share/desktop-directories/information-gathering-tools.directory > /dev/null <<EOF
+sudo bash -c 'cat <<EOF > /usr/share/desktop-directories/information-gathering-tools.directory
 [Desktop Entry]
 Name=Information Gathering Tools
 Comment=Herramientas para recopilación de información pública
 Type=Directory
 EOF
+chmod 644 /usr/share/desktop-directories/information-gathering-tools.directory'
 
 # 9. Cierre de sesión
 echo "Reiniciando GNOME Shell para aplicar los cambios..."
