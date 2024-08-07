@@ -1,0 +1,6 @@
+[Desktop Entry]
+Version=1.0
+Name=TheHarvester
+Exec= echo "source ~/Escritorio/theHarvester/theHarvester/venv/bin/activate && python3 ~/Escritorio/theHarvester/theHarvester/theHarvester.py"
+Type=Application
+Categories=Info-Gath;
