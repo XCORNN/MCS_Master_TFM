@@ -9,6 +9,9 @@ depriv() {
   fi
 }
 
+# Obtener el directorio del script
+SCRIPT_DIR="$(dirname "$(realpath "$0")")"
+
 # 1. Actualizar el sistema
 echo "Actualizando el sistema..."
 sudo apt update && sudo apt upgrade -y
@@ -68,7 +71,7 @@ chmod +x "$SCRIPT_FILE"
 
 # 7. Copiar el archivo gnome-applications.menu a /etc/xdg/menus/
 echo "Copiando gnome-applications.menu..."
-sudo cp -p "$HOME/Files/gnome-applications.menu" /etc/xdg/menus/gnome-applications.menu
+sudo cp -p "$SCRIPT_DIR/Files/gnome-applications.menu" /etc/xdg/menus/gnome-applications.menu
 
 # 8. Crear el archivo .directory en /usr/share/desktop-directories
 echo "Creando el archivo .directory..."
