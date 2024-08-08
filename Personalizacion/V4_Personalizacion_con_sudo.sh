@@ -34,6 +34,10 @@ mkdir -p "$DESKTOP_DIR"
 TEST_DIR="$DESKTOP_DIR/CarpetaDePrueba"
 mkdir -p "$TEST_DIR"
 
+# Asignar la propiedad y permisos correctos al usuario normal para la carpeta de prueba
+sudo chown "$SUDO_USER":"$SUDO_USER" "$TEST_DIR"
+sudo chmod 755 "$TEST_DIR"  # Permisos típicos para directorios
+
 # 5. Configurar el archivo .desktop para el autoarranque en el contexto del usuario
 AUTOSTART_DIR="$USER_HOME/.config/autostart"
 mkdir -p "$AUTOSTART_DIR"
@@ -50,7 +54,7 @@ Name=Habilitar Extensión de Escritorio
 Comment=Habilita las extensiones de GNOME al iniciar sesión
 EOF
 
-# Asegurarse de que el archivo .desktop tenga los permisos correctos
+# Asegurarse de que el archivo .desktop tenga los permisos correctos (manteniendo permisos originales)
 chmod 644 "$AUTOSTART_FILE"
 
 # 6. Crear el script de habilitación de extensión en el contexto del usuario
@@ -85,8 +89,10 @@ EOF
 # Hacer el script ejecutable
 chmod +x "$SCRIPT_FILE"
 
-# 7. (Opcional) Copiar el archivo gnome-applications.menu o realizar otras tareas administrativas (añadir si es necesario)
+# Asignar la propiedad y permisos correctos al usuario normal para el script
+sudo chown "$SUDO_USER":"$SUDO_USER" "$SCRIPT_FILE"
+sudo chmod 755 "$SCRIPT_FILE"  # Mantiene el permiso de ejecución
 
 # 9. Reiniciar GNOME Shell para aplicar los cambios en el contexto del usuario
 echo "Reiniciando GNOME Shell para aplicar los cambios..."
-gnome-session-quit --logout --no-prompt
+sudo reboot now
