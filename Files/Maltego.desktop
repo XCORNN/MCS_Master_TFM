@@ -1,0 +1,8 @@
+[Desktop Entry]
+Version=1.0
+Name=Maltego
+Exec=gnome-terminal -- bash -c "maltego; exec bash"
+Icon=utilities-terminal
+Terminal=false
+Type=Application
+Categories=Info-Gath;
