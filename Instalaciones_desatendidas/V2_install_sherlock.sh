@@ -22,10 +22,10 @@ sudo apt upgrade -y
 # Instala dependencias necesarias incluyendo python3-pip y python3-venv
 sudo apt install -y python3-pip python3-venv
 
-# Crea el directorio Sherlock en el Escritorio
+# Crea el directorio Sherlock en el Escritorio del usuario
 depriv bash -c "mkdir -p $HOME/Escritorio/sherlock"
 
-# Cambia al directorio Sherlock en el Escritorio
+# Cambia al directorio Sherlock en el Escritorio del usuario
 depriv bash -c "cd $HOME/Escritorio/sherlock || { echo 'No se pudo cambiar al directorio $HOME/Escritorio/sherlock.'; exit 1; }"
 
 # Crea un entorno virtual en el directorio Sherlock
