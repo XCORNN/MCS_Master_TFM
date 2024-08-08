@@ -8,57 +8,31 @@ if [ "$(id -u)" != "0" ]; then
    exit 1
 fi
 
-# Verifica si wget y gpg están instalados
-for cmd in wget gpg; do
-    if ! command -v $cmd >/dev/null 2>&1; then
-        echo "El comando $cmd no está instalado. Instalando..."
-        apt-get install -y $cmd
-    fi
-done
-
 # Actualiza el índice de paquetes e instala apt-transport-https
 echo "Instalando apt-transport-https..."
-apt-get update -y
-apt-get install -y apt-transport-https
+apt update
+apt install -y apt-transport-https
 
 # Agrega la clave del repositorio de Tor
 echo "Agregando la clave del repositorio de Tor..."
-if ! wget -qO- https://deb.torproject.org/torproject.org/A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89.asc | gpg --dearmor -o /usr/share/keyrings/deb.torproject.org-keyring.gpg; then
-    echo "Error al agregar la clave del repositorio de Tor"
-    exit 1
-fi
+wget -qO- https://deb.torproject.org/torproject.org/A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89.asc | gpg --dearmor -o /usr/share/keyrings/deb.torproject.org-keyring.gpg
 
 # Obtiene el nombre del código de la distribución
 DIST=$(lsb_release -c | awk '{print $2}')
 
 # Agrega el repositorio de Tor a sources.list.d
-TOR_LIST="/etc/apt/sources.list.d/tor.list"
 echo "Agregando el repositorio de Tor a sources.list.d..."
-if [ -f "$TOR_LIST" ]; then
-    echo "El archivo $TOR_LIST ya existe. Asegúrate de que no haya duplicados."
-else
-    echo "deb [signed-by=/usr/share/keyrings/deb.torproject.org-keyring.gpg] https://deb.torproject.org/torproject.org $DIST main" > "$TOR_LIST"
-    echo "deb-src [signed-by=/usr/share/keyrings/deb.torproject.org-keyring.gpg] https://deb.torproject.org/torproject.org $DIST main" >> "$TOR_LIST"
-fi
+echo "deb [signed-by=/usr/share/keyrings/deb.torproject.org-keyring.gpg] https://deb.torproject.org/torproject.org $DIST main" > /etc/apt/sources.list.d/tor.list
+echo "deb-src [signed-by=/usr/share/keyrings/deb.torproject.org-keyring.gpg] https://deb.torproject.org/torproject.org $DIST main" >> /etc/apt/sources.list.d/tor.list
 
 # Actualiza el índice de paquetes e instala Tor y el keyring de Tor
 echo "Actualizando el índice de paquetes e instalando Tor..."
-apt-get update -y
-if ! apt-get install -y tor deb.torproject.org-keyring; then
-    echo "Error al instalar Tor"
-    exit 1
-fi
+apt update
+apt install -y tor deb.torproject.org-keyring
 
 # Inicia y habilita el servicio Tor
 echo "Iniciando y habilitando el servicio Tor..."
-if ! systemctl start tor >/dev/null 2>&1; then
-    echo "Error al iniciar el servicio Tor"
-    exit 1
-fi
-
-if ! systemctl enable tor >/dev/null 2>&1; then
-    echo "Error al habilitar el servicio Tor"
-    exit 1
-fi
+systemctl start tor >/dev/null 2>&1
+systemctl enable tor >/dev/null 2>&1
 
 echo "Tor se ha instalado y está ejecutándose."
