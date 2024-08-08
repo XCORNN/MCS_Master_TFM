@@ -45,12 +45,12 @@ python3 -m venv venv
 source venv/bin/activate
 "
 
-# Clona el repositorio de Sublist3r en el directorio del usuario
+# Clona el repositorio de Sublist3r en el directorio de destino
 depriv bash -c "
 cd '$DEST_DIR'
 if [ ! -d 'Sublist3r/.git' ]; then
     echo 'Clonando el repositorio de Sublist3r en $DEST_DIR...'
-    git clone https://github.com/aboul3la/Sublist3r.git .
+    git clone https://github.com/aboul3la/Sublist3r.git
     if [ $? -ne 0 ]; then
         echo 'Error al clonar el repositorio. Verifica la conexión a Internet y los permisos.'
         exit 1
@@ -60,18 +60,18 @@ else
 fi
 "
 
-# Instala dependencias de Python en el entorno virtual
+# Instala dependencias de Python en el entorno virtual desde la subcarpeta
 depriv bash -c "
-cd '$DEST_DIR'
-source venv/bin/activate
+cd '$DEST_DIR/Sublist3r'
+source ../venv/bin/activate
 if [ -f 'requirements.txt' ]; then
     echo 'Instalando dependencias desde requirements.txt...'
-    venv/bin/pip install -r requirements.txt
+    pip install -r requirements.txt
 else
-    echo 'Archivo requirements.txt no encontrado.'
+    echo 'Archivo requirements.txt no encontrado en Sublist3r.'
     exit 1
 fi
 "
 
 # Confirmación de instalación
-depriv bash -c "echo 'Sublist3r ha sido instalado correctamente en $DEST_DIR'"
+depriv bash -c "echo 'Sublist3r ha sido instalado correctamente en $DEST_DIR/Sublist3r'"
