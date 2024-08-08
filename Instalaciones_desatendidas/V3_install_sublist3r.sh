@@ -73,5 +73,8 @@ else
 fi
 "
 
-# Confirmación de instalación
-depriv bash -c "echo 'Sublist3r ha sido instalado correctamente en $DEST_DIR/Sublist3r'"
+# Confirmación de instalación y comando para usar Sublist3r
+depriv bash -c "
+echo 'Sublist3r ha sido instalado correctamente en $DEST_DIR/Sublist3r'
+echo 'Para ejecutar Sublist3r, usa el siguiente comando:'
+echo 'source $DEST_DIR/venv/bin/activate && python3 $DEST_DIR/Sublist3r/sublist3r.py'
