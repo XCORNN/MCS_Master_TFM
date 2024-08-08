@@ -10,9 +10,12 @@ SCRIPTS=(
     "V2_install_exiftool.sh"
     "V2_install_Photon.sh"
     "V2_install_Spiderfoot.sh"
+    "V2_install_sublist3r.sh"
+    "V2_install_GooHak.sh"
     "V2_install_tor_service.sh"
     "V2_install_tor_browser.sh"
     "V2_install_Recon_NG.sh"
+    "V2_install_sslscan.sh"
     "V2_install_FOCA.sh"
     "V2_Foca_sqlExpress.sh"
 )
