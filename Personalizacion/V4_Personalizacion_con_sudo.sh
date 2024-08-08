@@ -1,13 +1,18 @@
 #!/bin/bash
 
-# Función para ejecutar comandos en el contexto del usuario que invocó el script
-depriv() {
-  if [[ $SUDO_USER ]]; then
-    sudo -u "$SUDO_USER" -- "$@"
-  else
-    "$@"
-  fi
-}
+# Evitar que sudo pida contraseña durante la ejecución del script
+sudo -v || exit 1  # Verifica que se tiene acceso sudo y solicita la contraseña una vez si es necesario
+( sudo -n true ) 2>/dev/null || ( echo "Se requiere acceso sudo sin contraseña" && exit 1 )
+
+# Actualizar el timestamp para evitar la solicitud de contraseña
+sudo -v
+
+# Continuamente actualizar el timestamp de sudo cada minuto para evitar que expire durante la ejecución del script
+while true; do
+    sudo -n true;
+    sleep 60;
+    kill -0 "$$" || exit;
+done 2>/dev/null &
 
 # Obtener el directorio del script
 SCRIPT_DIR="$(dirname "$(realpath "$0")")/.."
