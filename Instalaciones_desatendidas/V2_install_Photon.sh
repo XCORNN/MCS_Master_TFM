@@ -35,9 +35,6 @@ if [ $? -ne 0 ]; then
 fi
 # Mueve el contenido de Photon/Photon a Photon
 mv Photon/* .
-# Elimina la carpeta Photon si está vacía
-rmdir Photon 2>/dev/null || echo 'La carpeta Photon no está vacía, no se pudo eliminar.'
-"
 
 # Crea un entorno virtual y activa el entorno virtual
 depriv bash -c "
