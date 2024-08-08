@@ -21,7 +21,7 @@ echo "Instalando la extensión de escritorio..."
 sudo apt install gnome-shell-extension-desktop-icons-ng -y
 
 # 3. Crear directorios en el contexto del usuario
-DESKTOP_DIR="$HOME/Escritorio"
+DESKTOP_DIR="$SUDO_USER/Escritorio"
 depriv mkdir -p "$DESKTOP_DIR"
 
 # 4. Crear una carpeta de prueba en el contexto del usuario
