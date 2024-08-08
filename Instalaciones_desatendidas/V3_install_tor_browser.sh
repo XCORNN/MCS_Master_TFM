@@ -46,14 +46,12 @@ echo "Moviéndose a la carpeta $TOR_BROWSER_DIR..."
 depriv bash -c "cd '$TOR_BROWSER_DIR' && echo 'Directorio actual:' && pwd && \
 echo 'Descargando Tor Browser y su firma...' && \
 wget -O '$TOR_BROWSER_TAR' '$TOR_BROWSER_URL' && \
-wget -O '$TOR_BROWSER_SIG' '$TOR_BROWSER_SIG_URL' && \
-echo 'Descargando la clave pública de GPG...' && \
-wget -O '$TOR_GPG_KEY' '$TOR_GPG_KEY_URL'"
+wget -O '$TOR_BROWSER_SIG' '$TOR_BROWSER_SIG_URL'"
 
 # Verificar la existencia de los archivos descargados
 echo "Verificando la existencia de archivos..."
-if [ ! -f "$TOR_BROWSER_DIR/$TOR_GPG_KEY" ]; then
-    echo "Error: No se pudo encontrar la clave pública de GPG. Abortando la instalación."
+if [ ! -f "$TOR_BROWSER_DIR/$TOR_BROWSER_TAR" ]; then
+    echo "Error: No se pudo encontrar el archivo del Tor Browser. Abortando la instalación."
     exit 1
 fi
 
@@ -62,7 +60,14 @@ if [ ! -f "$TOR_BROWSER_DIR/$TOR_BROWSER_SIG" ]; then
     exit 1
 fi
 
-# Importar la clave pública de GPG sin verificar la confianza
+# Descargar y verificar la clave pública de GPG
+echo "Descargando la clave pública de GPG..."
+if ! wget -O "$TOR_BROWSER_DIR/$TOR_GPG_KEY" "$TOR_GPG_KEY_URL"; then
+    echo "Error al descargar la clave pública de GPG. Verifica la URL y descarga manualmente si es necesario."
+    exit 1
+fi
+
+# Importar la clave pública de GPG
 echo "Importando la clave pública de GPG..."
 if ! depriv gpg --import "$TOR_BROWSER_DIR/$TOR_GPG_KEY"; then
     echo "Error al importar la clave pública de GPG. Abortando la instalación."
