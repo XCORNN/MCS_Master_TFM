@@ -19,13 +19,13 @@ fi
 TOR_BROWSER_DIR="/home/$SUDO_USER/Escritorio/Tor"
 
 # URL del paquete del Tor Browser y su firma
-TOR_BROWSER_URL="https://www.torproject.org/dist/torbrowser/13.5.1/tor-browser-linux-x86_64-13.5.1.tar.xz"
-TOR_BROWSER_SIG_URL="https://www.torproject.org/dist/torbrowser/13.5.1/tor-browser-linux-x86_64-13.5.1.tar.xz.asc"
+TOR_BROWSER_URL="https://www.torproject.org/dist/torbrowser/13.5.2/tor-browser-linux-x86_64-13.5.2.tar.xz"
+TOR_BROWSER_SIG_URL="https://www.torproject.org/dist/torbrowser/13.5.2/tor-browser-linux-x86_64-13.5.2.tar.xz.asc"
 TOR_GPG_KEY_URL="https://keys.openpgp.org/vks/v1/by-fingerprint/EF6E286DDA85EA2A4BA7DE684E2C6E8793298290"
 
 # Nombre del archivo descargado
-TOR_BROWSER_TAR="tor-browser-linux-x86_64-13.5.1.tar.xz"
-TOR_BROWSER_SIG="tor-browser-linux-x86_64-13.5.1.tar.xz.asc"
+TOR_BROWSER_TAR="tor-browser-linux-x86_64-13.5.2.tar.xz"
+TOR_BROWSER_SIG="tor-browser-linux-x86_64-13.5.2.tar.xz.asc"
 TOR_GPG_KEY="torproject-key.asc"
 
 # Verifica si wget y gpg están instalados, si no lo están, lo instala
@@ -46,12 +46,14 @@ echo "Moviéndose a la carpeta $TOR_BROWSER_DIR..."
 depriv bash -c "cd '$TOR_BROWSER_DIR' && echo 'Directorio actual:' && pwd && \
 echo 'Descargando Tor Browser y su firma...' && \
 wget -O '$TOR_BROWSER_TAR' '$TOR_BROWSER_URL' && \
-wget -O '$TOR_BROWSER_SIG' '$TOR_BROWSER_SIG_URL'"
+wget -O '$TOR_BROWSER_SIG' '$TOR_BROWSER_SIG_URL' && \
+echo 'Descargando la clave pública de GPG...' && \
+wget -O '$TOR_GPG_KEY' '$TOR_GPG_KEY_URL'"
 
 # Verificar la existencia de los archivos descargados
 echo "Verificando la existencia de archivos..."
-if [ ! -f "$TOR_BROWSER_DIR/$TOR_BROWSER_TAR" ]; then
-    echo "Error: No se pudo encontrar el archivo del Tor Browser. Abortando la instalación."
+if [ ! -f "$TOR_BROWSER_DIR/$TOR_GPG_KEY" ]; then
+    echo "Error: No se pudo encontrar la clave pública de GPG. Abortando la instalación."
     exit 1
 fi
 
@@ -60,33 +62,21 @@ if [ ! -f "$TOR_BROWSER_DIR/$TOR_BROWSER_SIG" ]; then
     exit 1
 fi
 
-# Descargar y verificar la clave pública de GPG
-echo "Descargando la clave pública de GPG..."
-if ! wget -O "$TOR_BROWSER_DIR/$TOR_GPG_KEY" "$TOR_GPG_KEY_URL"; then
-    echo "Error al descargar la clave pública de GPG. Verifica la URL y descarga manualmente si es necesario."
-    exit 1
-fi
-
 # Importar la clave pública de GPG
 echo "Importando la clave pública de GPG..."
-if ! depriv gpg --import "$TOR_BROWSER_DIR/$TOR_GPG_KEY"; then
-    echo "Error al importar la clave pública de GPG. Abortando la instalación."
-    exit 1
-fi
+depriv gpg --import "$TOR_BROWSER_DIR/$TOR_GPG_KEY"
 
 # Verificar la firma del paquete
 echo "Verificando la firma del paquete..."
-if ! depriv gpg --verify "$TOR_BROWSER_DIR/$TOR_BROWSER_SIG" "$TOR_BROWSER_DIR/$TOR_BROWSER_TAR"; then
+depriv gpg --verify "$TOR_BROWSER_DIR/$TOR_BROWSER_SIG" "$TOR_BROWSER_DIR/$TOR_BROWSER_TAR"
+if [ $? -ne 0 ]; then
     echo "La verificación de la firma GPG ha fallado. Abortando la instalación."
     exit 1
 fi
 
 # Descomprimir el archivo descargado
 echo "Extrayendo Tor Browser..."
-if ! depriv tar -xvf "$TOR_BROWSER_DIR/$TOR_BROWSER_TAR" -C "$TOR_BROWSER_DIR"; then
-    echo "Error al extraer el Tor Browser. Abortando la instalación."
-    exit 1
-fi
+depriv tar -xvf "$TOR_BROWSER_DIR/$TOR_BROWSER_TAR" -C "$TOR_BROWSER_DIR"
 
 # Borrar el archivo comprimido descargado
 echo "Borrando archivos descargados..."
