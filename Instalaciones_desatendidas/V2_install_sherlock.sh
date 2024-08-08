@@ -15,6 +15,13 @@ if ! sudo -v; then
     exit 1
 fi
 
+# Actualiza el sistema
+sudo apt update
+sudo apt upgrade -y
+
+# Instala dependencias necesarias incluyendo python3-pip y python3-venv
+sudo apt install -y python3-pip python3-venv
+
 # Crea el directorio Sherlock en el Escritorio
 depriv bash -c "mkdir -p $HOME/Escritorio/sherlock"
 
@@ -28,7 +35,7 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-# Activa el entorno virtual y instala sherlock-project
+# Activa el entorno virtual e instala sherlock-project
 depriv bash -c "
 source $HOME/Escritorio/sherlock/venv/bin/activate
 pip install sherlock-project
@@ -38,6 +45,7 @@ if [ \$? -ne 0 ]; then
 fi
 "
 
+# Confirmación de instalación
 echo 'Sherlock ha sido instalado correctamente en $HOME/Escritorio/sherlock'
 echo 'Para usar Sherlock, activa el entorno virtual y ejecuta sherlock:'
 echo 'source $HOME/Escritorio/sherlock/venv/bin/activate && sherlock'
