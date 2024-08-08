@@ -41,9 +41,10 @@ fi
 # Activa el entorno virtual e instala sherlock-project
 depriv bash -c "
 source '$DEST_DIR/venv/bin/activate'
+pip install --upgrade pip
 pip install sherlock-project
 if [ \$? -ne 0 ]; then
-    echo 'Error al instalar sherlock-project. Verifica que pip esté correctamente configurado.'
+    echo 'Error al instalar sherlock-project. Verifica que pip esté correctamente configurado y que el entorno virtual esté activado.'
     exit 1
 fi
 "
