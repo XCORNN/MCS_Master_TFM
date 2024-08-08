@@ -17,6 +17,7 @@ SCRIPTS=(
     "V2_install_Recon_NG.sh"
     "V2_install_sslscan.sh"
     "V2_install_dmitry.sh"
+    "V2_install_sherlock.sh"
     "V2_install_FOCA.sh"
     "V2_Foca_sqlExpress.sh"
 )
