@@ -19,12 +19,12 @@ fi
 sudo apt update
 
 # Instala dependencias necesarias
-sudo apt install -y git python3 python3-pip
+sudo apt install -y git python3 python3-pip python3-venv
 
 # Define la carpeta de destino
 DEST_DIR="/home/$SUDO_USER/Escritorio/Sublist3r"
 
-# Crea la carpeta de destino
+# Crea la carpeta de destino si no existe
 depriv bash -c "
 if [ ! -d '$DEST_DIR' ]; then
     echo 'Creando el directorio $DEST_DIR...'
@@ -38,11 +38,19 @@ else
 fi
 "
 
+# Cambia al directorio de destino y crea un entorno virtual para Python
+depriv bash -c "
+cd '$DEST_DIR' || { echo 'No se pudo cambiar al directorio $DEST_DIR.'; exit 1; }
+python3 -m venv venv
+source venv/bin/activate
+"
+
 # Clona el repositorio de Sublist3r en el directorio del usuario
 depriv bash -c "
-if [ ! -d '$DEST_DIR/.git' ]; then
+cd '$DEST_DIR'
+if [ ! -d 'Sublist3r/.git' ]; then
     echo 'Clonando el repositorio de Sublist3r en $DEST_DIR...'
-    git clone https://github.com/aboul3la/Sublist3r.git '$DEST_DIR'
+    git clone https://github.com/aboul3la/Sublist3r.git .
     if [ $? -ne 0 ]; then
         echo 'Error al clonar el repositorio. Verifica la conexión a Internet y los permisos.'
         exit 1
@@ -52,10 +60,17 @@ else
 fi
 "
 
-# Instala dependencias de Python en el entorno del usuario
+# Instala dependencias de Python en el entorno virtual
 depriv bash -c "
 cd '$DEST_DIR'
-pip3 install --break-system-packages -r requirements.txt
+source venv/bin/activate
+if [ -f 'requirements.txt' ]; then
+    echo 'Instalando dependencias desde requirements.txt...'
+    venv/bin/pip install -r requirements.txt
+else
+    echo 'Archivo requirements.txt no encontrado.'
+    exit 1
+fi
 "
 
 # Confirmación de instalación
