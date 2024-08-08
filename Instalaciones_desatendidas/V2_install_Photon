@@ -15,6 +15,12 @@ if ! sudo -v; then
     exit 1
 fi
 
+# Actualiza el sistema
+sudo apt update
+
+# Instala dependencias necesarias incluyendo python3-venv
+sudo apt install -y git python3 python3-pip python3-venv
+
 # Crea el directorio Photon en el Escritorio
 depriv bash -c "mkdir -p /home/$SUDO_USER/Escritorio/Photon"
 
@@ -29,14 +35,18 @@ if [ $? -ne 0 ]; then
 fi
 # Mueve el contenido de Photon/Photon a Photon
 mv Photon/* .
-# Elimina la carpeta Photon vacía
-rmdir Photon
+# Elimina la carpeta Photon si está vacía
+rmdir Photon 2>/dev/null || echo 'La carpeta Photon no está vacía, no se pudo eliminar.'
 "
 
 # Crea un entorno virtual y activa el entorno virtual
 depriv bash -c "
 cd /home/$SUDO_USER/Escritorio/Photon || { echo 'No se pudo cambiar al directorio /home/$SUDO_USER/Escritorio/Photon.'; exit 1; }
 python3 -m venv venv
+if [ $? -ne 0 ]; then
+    echo 'Error al crear el entorno virtual. Verifica que el paquete python3-venv esté instalado.'
+    exit 1
+fi
 source venv/bin/activate
 "
 
@@ -53,3 +63,4 @@ echo 'Photon ha sido instalado correctamente en /home/$SUDO_USER/Escritorio/Phot
 echo 'Para ejecutar Photon, usa el siguiente comando:'
 echo 'source /home/$SUDO_USER/Escritorio/Photon/venv/bin/activate && python3 /home/$SUDO_USER/Escritorio/Photon/photon.py'
 "
+
