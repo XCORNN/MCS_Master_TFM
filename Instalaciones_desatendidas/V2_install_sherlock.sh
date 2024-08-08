@@ -31,10 +31,22 @@ depriv bash -c "mkdir -p '$DEST_DIR'"
 # Cambia al directorio Sherlock en el Escritorio del usuario
 depriv bash -c "cd '$DEST_DIR' || { echo 'No se pudo cambiar al directorio $DEST_DIR.'; exit 1; }"
 
+# Verifica si el entorno virtual ya existe y lo elimina si es necesario
+if [ -d "$DEST_DIR/venv" ]; then
+    echo "El entorno virtual ya existe. Se eliminará antes de crear uno nuevo."
+    depriv bash -c "rm -rf '$DEST_DIR/venv'"
+fi
+
 # Crea un entorno virtual en el directorio Sherlock
-depriv bash -c "python3 -m venv venv"
+depriv bash -c "python3 -m venv '$DEST_DIR/venv'"
 if [ $? -ne 0 ]; then
-    echo 'Error al crear el entorno virtual. Verifica que el paquete python3-venv esté instalado.'
+    echo 'Error al crear el entorno virtual. Verifica que el paquete python3-venv esté instalado y que la ruta sea correcta.'
+    exit 1
+fi
+
+# Verifica si el entorno virtual fue creado correctamente
+if [ ! -f "$DEST_DIR/venv/bin/activate" ]; then
+    echo 'No se encontró el script activate en el entorno virtual. Verifica la creación del entorno virtual.'
     exit 1
 fi
 
@@ -42,9 +54,13 @@ fi
 depriv bash -c "
 source '$DEST_DIR/venv/bin/activate'
 pip install --upgrade pip
+if [ \$? -ne 0 ]; then
+    echo 'Error al actualizar pip. Verifica que pip esté correctamente configurado.'
+    exit 1
+fi
 pip install sherlock-project
 if [ \$? -ne 0 ]; then
-    echo 'Error al instalar sherlock-project. Verifica que pip esté correctamente configurado y que el entorno virtual esté activado.'
+    echo 'Error al instalar sherlock-project. Verifica que el entorno virtual esté activado.'
     exit 1
 fi
 "
