@@ -1,0 +1,8 @@
+[Desktop Entry]
+Version=1.0
+Name=Tor Browser
+Exec=gnome-terminal -- bash -c "cd ~/Escritorio/Tor/tor-browser && ./start-tor-browser; exec bash"
+Icon=utilities-terminal
+Terminal=false
+Type=Application
+Categories=Info-Gath;
