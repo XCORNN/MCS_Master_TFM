@@ -15,6 +15,9 @@ if ! sudo -v; then
     exit 1
 fi
 
+# Obtiene el directorio de escritorio del usuario actual
+DEST_DIR="/home/$SUDO_USER/Escritorio/sherlock"
+
 # Actualiza el sistema
 sudo apt update
 sudo apt upgrade -y
@@ -23,10 +26,10 @@ sudo apt upgrade -y
 sudo apt install -y python3-pip python3-venv
 
 # Crea el directorio Sherlock en el Escritorio del usuario
-depriv bash -c "mkdir -p $HOME/Escritorio/sherlock"
+depriv bash -c "mkdir -p '$DEST_DIR'"
 
 # Cambia al directorio Sherlock en el Escritorio del usuario
-depriv bash -c "cd $HOME/Escritorio/sherlock || { echo 'No se pudo cambiar al directorio $HOME/Escritorio/sherlock.'; exit 1; }"
+depriv bash -c "cd '$DEST_DIR' || { echo 'No se pudo cambiar al directorio $DEST_DIR.'; exit 1; }"
 
 # Crea un entorno virtual en el directorio Sherlock
 depriv bash -c "python3 -m venv venv"
@@ -37,7 +40,7 @@ fi
 
 # Activa el entorno virtual e instala sherlock-project
 depriv bash -c "
-source $HOME/Escritorio/sherlock/venv/bin/activate
+source '$DEST_DIR/venv/bin/activate'
 pip install sherlock-project
 if [ \$? -ne 0 ]; then
     echo 'Error al instalar sherlock-project. Verifica que pip esté correctamente configurado.'
@@ -46,6 +49,6 @@ fi
 "
 
 # Confirmación de instalación
-echo 'Sherlock ha sido instalado correctamente en $HOME/Escritorio/sherlock'
+echo 'Sherlock ha sido instalado correctamente en $DEST_DIR'
 echo 'Para usar Sherlock, activa el entorno virtual y ejecuta sherlock:'
-echo 'source $HOME/Escritorio/sherlock/venv/bin/activate && sherlock'
+echo 'source '$DEST_DIR'/venv/bin/activate && sherlock'
