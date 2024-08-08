@@ -69,3 +69,7 @@ fi
 echo 'Sherlock ha sido instalado correctamente en $DEST_DIR'
 echo 'Para usar Sherlock, activa el entorno virtual y ejecuta sherlock:'
 echo 'source '$DEST_DIR'/venv/bin/activate && sherlock'
+
+
+#Uso
+# source /home/$USER/Escritorio/sherlock/venv/bin/activate && sherlock
