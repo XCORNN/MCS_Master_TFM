@@ -64,3 +64,7 @@ echo 'Para ejecutar Photon, usa el siguiente comando:'
 echo 'source /home/$SUDO_USER/Escritorio/Photon/venv/bin/activate && python3 /home/$SUDO_USER/Escritorio/Photon/photon.py'
 "
 
+# Elimina la carpeta Photon/Photon si aún existe
+depriv bash -c "
+rm -rf /home/$SUDO_USER/Escritorio/Photon/Photon
+"
