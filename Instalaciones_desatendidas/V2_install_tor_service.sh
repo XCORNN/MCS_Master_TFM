@@ -8,6 +8,14 @@ if [ "$(id -u)" != "0" ]; then
    exit 1
 fi
 
+# Verifica si wget y gpg están instalados
+for cmd in wget gpg; do
+    if ! command -v $cmd >/dev/null 2>&1; then
+        echo "El comando $cmd no está instalado. Instalando..."
+        apt-get install -y $cmd
+    fi
+done
+
 # Actualiza el índice de paquetes e instala apt-transport-https
 echo "Instalando apt-transport-https..."
 apt-get update -y
@@ -24,9 +32,14 @@ fi
 DIST=$(lsb_release -c | awk '{print $2}')
 
 # Agrega el repositorio de Tor a sources.list.d
+TOR_LIST="/etc/apt/sources.list.d/tor.list"
 echo "Agregando el repositorio de Tor a sources.list.d..."
-echo "deb [signed-by=/usr/share/keyrings/deb.torproject.org-keyring.gpg] https://deb.torproject.org/torproject.org $DIST main" > /etc/apt/sources.list.d/tor.list
-echo "deb-src [signed-by=/usr/share/keyrings/deb.torproject.org-keyring.gpg] https://deb.torproject.org/torproject.org $DIST main" >> /etc/apt/sources.list.d/tor.list
+if [ -f "$TOR_LIST" ]; then
+    echo "El archivo $TOR_LIST ya existe. Asegúrate de que no haya duplicados."
+else
+    echo "deb [signed-by=/usr/share/keyrings/deb.torproject.org-keyring.gpg] https://deb.torproject.org/torproject.org $DIST main" > "$TOR_LIST"
+    echo "deb-src [signed-by=/usr/share/keyrings/deb.torproject.org-keyring.gpg] https://deb.torproject.org/torproject.org $DIST main" >> "$TOR_LIST"
+fi
 
 # Actualiza el índice de paquetes e instala Tor y el keyring de Tor
 echo "Actualizando el índice de paquetes e instalando Tor..."
@@ -49,4 +62,3 @@ if ! systemctl enable tor >/dev/null 2>&1; then
 fi
 
 echo "Tor se ha instalado y está ejecutándose."
-
