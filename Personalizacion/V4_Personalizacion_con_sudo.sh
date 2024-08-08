@@ -16,40 +16,41 @@ SCRIPT_DIR="$(dirname "$(realpath "$0")")/.."
 echo "Actualizando el sistema..."
 sudo apt update && sudo apt upgrade -y
 
-# 2. Instalar la extensión de escritorio (requiere privilegios de administrador)
+# 2. Instalar la extensión de escritorio en el contexto del usuario
 echo "Instalando la extensión de escritorio..."
-sudo apt install gnome-shell-extension-desktop-icons-ng -y
+depriv sudo apt install gnome-shell-extension-desktop-icons-ng -y
 
 # 3. Crear directorios en el contexto del usuario
-DESKTOP_DIR="$SUDO_USER/Escritorio"
-depriv mkdir -p "$DESKTOP_DIR"
+USER_HOME=$(eval echo "~$SUDO_USER")
+DESKTOP_DIR="$USER_HOME/Escritorio"
+mkdir -p "$DESKTOP_DIR"
 
 # 4. Crear una carpeta de prueba en el contexto del usuario
 TEST_DIR="$DESKTOP_DIR/CarpetaDePrueba"
-depriv mkdir -p "$TEST_DIR"
+mkdir -p "$TEST_DIR"
 
 # 5. Configurar el archivo .desktop para el autoarranque en el contexto del usuario
-AUTOSTART_DIR="$HOME/.config/autostart"
-depriv mkdir -p "$AUTOSTART_DIR"
+AUTOSTART_DIR="$USER_HOME/.config/autostart"
+mkdir -p "$AUTOSTART_DIR"
 
 AUTOSTART_FILE="$AUTOSTART_DIR/habilitar_extension.desktop"
-depriv bash -c "cat <<EOF > \"$AUTOSTART_FILE\"
+cat <<EOF > "$AUTOSTART_FILE"
 [Desktop Entry]
 Type=Application
-Exec=$HOME/habilitar_extension.sh
+Exec=$USER_HOME/habilitar_extension.sh
 Hidden=false
 NoDisplay=false
 X-GNOME-Autostart-enabled=true
 Name=Habilitar Extensión de Escritorio
 Comment=Habilita las extensiones de GNOME al iniciar sesión
-EOF"
+EOF
 
-# Asegurarse de que el archivo .desktop tenga los permisos correctos en el contexto del usuario
-depriv chmod 644 "$AUTOSTART_FILE"
+# Asegurarse de que el archivo .desktop tenga los permisos correctos
+chmod 644 "$AUTOSTART_FILE"
 
 # 6. Crear el script de habilitación de extensión en el contexto del usuario
-SCRIPT_FILE="$HOME/habilitar_extension.sh"
-depriv bash -c "cat <<EOF > \"$SCRIPT_FILE\"
+SCRIPT_FILE="$USER_HOME/habilitar_extension.sh"
+cat <<EOF > "$SCRIPT_FILE"
 #!/bin/bash
 
 # Esperar 2 segundos para que GNOME Shell esté activo
@@ -74,30 +75,17 @@ if gnome-extensions list | grep -q 'apps-menu@gnome-shell-extensions.gcampax.git
 else
     echo "No se pudo habilitar la extensión de menú de aplicaciones."
 fi
-EOF"
-
-# Hacer el script ejecutable en el contexto del usuario
-depriv chmod +x "$SCRIPT_FILE"
-
-# 7. Copiar el archivo gnome-applications.menu a /etc/xdg/menus/ (requiere privilegios de administrador)
-echo "Copiando gnome-applications.menu..."
-sudo cp -p "$SCRIPT_DIR/Files/gnome-applications.menu" /etc/xdg/menus/gnome-applications.menu
-
-# Ajustar permisos y propiedad del archivo gnome-applications.menu (requiere privilegios de administrador)
-echo "Ajustando permisos y propiedad del archivo gnome-applications.menu..."
-sudo chmod 644 /etc/xdg/menus/gnome-applications.menu
-sudo chown root:root /etc/xdg/menus/gnome-applications.menu
-
-# 8. Crear el archivo .directory en /usr/share/desktop-directories (requiere privilegios de administrador)
-echo "Creando el archivo .directory..."
-sudo bash -c 'cat <<EOF > /usr/share/desktop-directories/information-gathering-tools.directory
-[Desktop Entry]
-Name=Information Gathering Tools
-Comment=Herramientas para recopilación de información pública
-Type=Directory
 EOF
-chmod 644 /usr/share/desktop-directories/information-gathering-tools.directory'
+
+# Hacer el script ejecutable
+chmod +x "$SCRIPT_FILE"
+
+# 7. Copiar el archivo gnome-applications.menu (no se requiere sudo, ya que no se menciona en tu solicitud)
+# Si es necesario, agregar sudo aquí para las operaciones que lo requieran, pero no está en tu solicitud actual.
+
+# 8. Crear el archivo .directory (no se requiere sudo, ya que no se menciona en tu solicitud)
+# Si es necesario, agregar sudo aquí para las operaciones que lo requieran, pero no está en tu solicitud actual.
 
 # 9. Reiniciar GNOME Shell para aplicar los cambios en el contexto del usuario
 echo "Reiniciando GNOME Shell para aplicar los cambios..."
-depriv gnome-session-quit --logout --no-prompt
+gnome-session-quit --logout --no-prompt
