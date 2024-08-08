@@ -29,18 +29,19 @@ depriv bash -c "
 cd /home/$SUDO_USER/Escritorio/Photon || { echo 'No se pudo cambiar al directorio /home/$SUDO_USER/Escritorio/Photon.'; exit 1; }
 # Clona el repositorio Photon de GitHub
 git clone https://github.com/s0md3v/Photon.git
-if [ $? -ne 0 ]; then
+if [ \$? -ne 0 ]; then
     echo 'Error al clonar el repositorio de Photon. Verifica la conexión a Internet y los permisos.'
     exit 1
 fi
 # Mueve el contenido de Photon/Photon a Photon
 mv Photon/* .
+"
 
 # Crea un entorno virtual y activa el entorno virtual
 depriv bash -c "
 cd /home/$SUDO_USER/Escritorio/Photon || { echo 'No se pudo cambiar al directorio /home/$SUDO_USER/Escritorio/Photon.'; exit 1; }
 python3 -m venv venv
-if [ $? -ne 0 ]; then
+if [ \$? -ne 0 ]; then
     echo 'Error al crear el entorno virtual. Verifica que el paquete python3-venv esté instalado.'
     exit 1
 fi
