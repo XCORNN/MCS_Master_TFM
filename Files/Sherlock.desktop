@@ -1,0 +1,8 @@
+[Desktop Entry]
+Version=1.0
+Name=Sherlock
+Exec=gnome-terminal -- bash -c "source /home/$USER/Escritorio/sherlock/venv/bin/activate && sherlock; exec bash"
+Icon=utilities-terminal
+Terminal=false
+Type=Application
+Categories=Info-Gath;
