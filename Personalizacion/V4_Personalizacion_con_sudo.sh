@@ -23,7 +23,7 @@ sudo apt update && sudo apt upgrade -y
 
 # 2. Instalar la extensión de escritorio en el contexto del usuario
 echo "Instalando la extensión de escritorio..."
-depriv sudo apt install gnome-shell-extension-desktop-icons-ng -y
+sudo apt install gnome-shell-extension-desktop-icons-ng -y
 
 # 3. Crear directorios en el contexto del usuario
 USER_HOME=$(eval echo "~$SUDO_USER")
@@ -85,11 +85,7 @@ EOF
 # Hacer el script ejecutable
 chmod +x "$SCRIPT_FILE"
 
-# 7. Copiar el archivo gnome-applications.menu (no se requiere sudo, ya que no se menciona en tu solicitud)
-# Si es necesario, agregar sudo aquí para las operaciones que lo requieran, pero no está en tu solicitud actual.
-
-# 8. Crear el archivo .directory (no se requiere sudo, ya que no se menciona en tu solicitud)
-# Si es necesario, agregar sudo aquí para las operaciones que lo requieran, pero no está en tu solicitud actual.
+# 7. (Opcional) Copiar el archivo gnome-applications.menu o realizar otras tareas administrativas (añadir si es necesario)
 
 # 9. Reiniciar GNOME Shell para aplicar los cambios en el contexto del usuario
 echo "Reiniciando GNOME Shell para aplicar los cambios..."
