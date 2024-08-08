@@ -29,3 +29,6 @@ sudo chmod +x "$DESKTOP_DIR/Goohak/goohak"
 
 # Mensaje de éxito
 echo "[*] Instalación completada con éxito. GooHak está listo para usarse."
+
+# USO (dentro de la carpeta contenedora)
+# ./goohak domain.com
