@@ -1,0 +1,8 @@
+[Desktop Entry]
+Version=1.0
+Name=Recon-NG
+Exec=gnome-terminal -- bash -c "cd ~/Escritorio/Recon-NG && source venv/bin/activate && ./recon-ng; exec bash"
+Icon=utilities-terminal
+Terminal=false
+Type=Application
+Categories=Info-Gath;
