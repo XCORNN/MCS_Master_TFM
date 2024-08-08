@@ -77,5 +77,8 @@ fi
 depriv bash -c "
 echo 'Sublist3r ha sido instalado correctamente en $DEST_DIR/Sublist3r'
 echo 'Para ejecutar Sublist3r, usa el siguiente comando:'
-echo 'source $DEST_DIR/venv/bin/activate && python3 $DEST_DIR/Sublist3r/Sublist3r/sublist3r.py'
+echo 'source $DEST_DIR/venv/bin/activate && python3 $DEST_DIR/Sublist3r/sublist3r.py'
 "
+
+#Uso
+#source /home/$USER/Escritorio/Sublist3r/venv/bin/activate && python3 /home/$USER/Escritorio/Sublist3r/Sublist3r/sublist3r.py
