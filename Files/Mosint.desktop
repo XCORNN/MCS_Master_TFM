@@ -1,0 +1,8 @@
+[Desktop Entry]
+Version=1.0
+Name=Mosint
+Exec=gnome-terminal -- bash -c "cd /home/$USER/Escritorio/Mosint/mosint/v3/cmd/mosint && source /home/$USER/Escritorio/Mosint/venv/bin/activate && go run main.go; exec bash"
+Icon=utilities-terminal
+Terminal=false
+Type=Application
+Categories=Info-Gath;
