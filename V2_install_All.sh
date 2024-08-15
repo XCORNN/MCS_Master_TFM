@@ -18,6 +18,7 @@ SCRIPTS=(
     "V2_install_sslscan.sh"
     "V2_install_dmitry.sh"
     "V2_install_sherlock.sh"
+    "V2_install_burpsuite.sh"
     "V2_install_mosint.sh"
     "V2_install_osrframework.sh"
     "V2_install_FOCA.sh"
