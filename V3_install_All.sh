@@ -25,13 +25,16 @@ INSTALL_SCRIPTS=(
     "V2_Foca_sqlExpress.sh"
 )
 
+# Nombre del script de personalización
+PERSONALIZACION_SCRIPT="V2_Personalizacion.sh"
+
 # Función para verificar si el script se ejecutó correctamente
 check_success() {
-    if [ $? -eq 0 ]; then
-        echo "$1 se ejecutó correctamente."
-    else
+    if [ $? -ne 0 ]; then
         echo "Error al ejecutar $1."
         exit 1
+    else
+        echo "$1 se ejecutó correctamente."
     fi
 }
 
@@ -96,18 +99,16 @@ cd .. || { echo "Error al navegar al directorio padre"; exit 1; }
 cd Personalizacion || { echo "Error al cambiar al directorio Personalizacion"; exit 1; }
 
 # Verificar si V2_Personalizacion.sh existe y es ejecutable
-if [ -f "V2_Personalizacion.sh" ]; then
+if [ -f "$PERSONALIZACION_SCRIPT" ]; then
     # Asegurarse de que V2_Personalizacion.sh sea ejecutable
-    chmod +x V2_Personalizacion.sh
+    chmod +x "$PERSONALIZACION_SCRIPT"
 
     # Ejecutar el script adicional
-    echo "Ejecutando V2_Personalizacion.sh..."
-    bash "./V2_Personalizacion.sh"
-    check_success "V2_Personalizacion.sh"
-    
-    echo "V2_Personalizacion.sh se ejecutó correctamente."
+    echo "Ejecutando $PERSONALIZACION_SCRIPT..."
+    bash "./$PERSONALIZACION_SCRIPT"
+    check_success "$PERSONALIZACION_SCRIPT"
 else
-    echo "No se encontró V2_Personalizacion.sh en el directorio Personalizacion."
+    echo "No se encontró $PERSONALIZACION_SCRIPT en el directorio Personalizacion."
     exit 1
 fi
 
