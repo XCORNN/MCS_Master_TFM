@@ -1,7 +1,7 @@
 [Desktop Entry]
 Version=1.0
-Name=TheHarvester
-Exec=gnome-terminal -- bash -c "cd ~/Escritorio/Sublist3r/Sublist3r/ && source venv/bin/activate && python3 sublist3r.py; exec bash"
+Name=Sublist3r
+Exec=gnome-terminal -- bash -c "source ~/Escritorio/Sublist3r/Sublist3r/venv/bin/activate && python3 ~/Escritorio/Sublist3r/Sublist3r/sublist3r.py; exec bash"
 Icon=utilities-terminal
 Terminal=false
 Type=Application
