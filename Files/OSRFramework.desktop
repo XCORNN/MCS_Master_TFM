@@ -1,7 +1,7 @@
 [Desktop Entry]
 Version=1.0
 Name=OSRFramework
-Exec=gnome-terminal -- bash -c "cd /home/$USER/Escritorio/osrframework-venv && source venv/bin/activate && python3 usufy.py; exec bash"
+Exec=gnome-terminal -- bash -c "cd /home/$USER/Escritorio/osrframework-venv/venv && source venv/bin/activate && python3 usufy.py; exec bash"
 Icon=utilities-terminal
 Terminal=false
 Type=Application
