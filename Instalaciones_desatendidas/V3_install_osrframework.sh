@@ -55,4 +55,19 @@ venv/bin/pip install --upgrade cfscrape
 venv/bin/pip install --upgrade osrframework
 "
 
+# Mensaje de finalización y uso
 echo "Instalación completada."
+echo ""
+echo "Para activar el entorno virtual y utilizar la aplicación, sigue estos pasos:"
+echo ""
+echo "1. Abre una terminal."
+echo "2. Navega al directorio donde se creó el entorno virtual:"
+echo "   cd /home/$SUDO_USER/Escritorio/osrframework-venv"
+echo "3. Activa el entorno virtual con el siguiente comando:"
+echo "   source venv/bin/activate"
+echo "4. Una vez activado, puedes ejecutar la aplicación o trabajar con los paquetes instalados."
+echo "5. Para desactivar el entorno virtual, simplemente usa el comando:"
+echo "   deactivate"
+echo ""
+echo "Recuerda que debes activar el entorno virtual cada vez que desees trabajar con la aplicación."
+
