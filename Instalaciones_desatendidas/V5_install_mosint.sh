@@ -24,24 +24,27 @@ sudo apt install -y golang-go python3 python3-pip python3-venv git
 # Define las rutas
 INSTALL_DIR="/home/$SUDO_USER/Escritorio/Mosint"
 VENV_DIR="$INSTALL_DIR/venv"
-MOSINT_DIR="$INSTALL_DIR/mosint/v3/cmd/mosint"
+MOSINT_REPO_DIR="$INSTALL_DIR/mosint"
+MOSINT_CMD_DIR="$MOSINT_REPO_DIR/v3/cmd/mosint"
 
 # Crea el directorio Mosint en el Escritorio
 depriv bash -c "mkdir -p '$INSTALL_DIR'"
 
-# Clona el repositorio y realiza las operaciones necesarias
+# Clona el repositorio mosint en la subcarpeta
 depriv bash -c "
 cd '$INSTALL_DIR' || { echo 'No se pudo cambiar al directorio $INSTALL_DIR.'; exit 1; }
-git clone https://github.com/alpkeskin/mosint.git
-if [ $? -ne 0 ]; then
-    echo 'Error al clonar el repositorio de mosint. Verifica la conexión a Internet y los permisos.'
-    exit 1
+if [ ! -d 'mosint' ]; then
+    git clone https://github.com/alpkeskin/mosint.git
+    if [ $? -ne 0 ]; then
+        echo 'Error al clonar el repositorio de mosint. Verifica la conexión a Internet y los permisos.'
+        exit 1
+    fi
 fi
 "
 
-# Crea el entorno virtual y activa el entorno virtual
+# Crea el entorno virtual
 depriv bash -c "
-cd '$MOSINT_DIR' || { echo 'No se pudo cambiar al directorio $MOSINT_DIR.'; exit 1; }
+cd '$MOSINT_CMD_DIR' || { echo 'No se pudo cambiar al directorio $MOSINT_CMD_DIR.'; exit 1; }
 python3 -m venv '$VENV_DIR'
 if [ $? -ne 0 ]; then
     echo 'Error al crear el entorno virtual. Verifica que el paquete python3-venv esté instalado.'
@@ -49,10 +52,15 @@ if [ $? -ne 0 ]; then
 fi
 "
 
-# Ejecuta el comando go run main.go para verificar la instalación
+# Verifica la instalación de go y ejecuta el comando go run main.go
 depriv bash -c "
-cd '$MOSINT_DIR' || { echo 'No se pudo cambiar al directorio $MOSINT_DIR.'; exit 1; }
+cd '$MOSINT_CMD_DIR' || { echo 'No se pudo cambiar al directorio $MOSINT_CMD_DIR.'; exit 1; }
 source '$VENV_DIR/bin/activate'
+go version &>/dev/null
+if [ $? -ne 0 ]; then
+    echo 'Error: Go no está instalado correctamente o no está en el PATH.'
+    exit 1
+fi
 go run main.go -h &>/dev/null
 if [ $? -ne 0 ]; then
     echo 'Error al ejecutar go run main.go -h. Verifica la instalación de Go y el código del repositorio.'
@@ -60,9 +68,9 @@ if [ $? -ne 0 ]; then
 fi
 "
 
-# Confirmación de instalación y comando para usar mosint
+# Confirmación de instalación y comandos para usar mosint
 depriv bash -c "
-cd '$MOSINT_DIR' || { echo 'No se pudo cambiar al directorio $MOSINT_DIR.'; exit 1; }
+cd '$MOSINT_CMD_DIR' || { echo 'No se pudo cambiar al directorio $MOSINT_CMD_DIR.'; exit 1; }
 echo 'mosint ha sido instalado correctamente en $INSTALL_DIR'
 echo 'Para usar mosint, activa el entorno virtual con:'
 echo 'source $VENV_DIR/bin/activate'
