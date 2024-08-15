@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# Define the base URL of the GitHub repository
+# Define la URL base del repositorio de GitHub
 REPO_URL="https://github.com/XCORNN/MCS_Master_TFM"
 
-# List of scripts to execute
+# Lista de scripts a ejecutar
 SCRIPTS=(
     "V2_install_Harvester.sh"
     "V2_install_Maltego.sh"
@@ -25,79 +25,79 @@ SCRIPTS=(
     "V2_Foca_sqlExpress.sh"
 )
 
-# Function to check if the script executed successfully
+# Función para verificar si el script se ejecutó correctamente
 check_success() {
     if [ $? -eq 0 ]; then
-        echo "$1 executed successfully."
+        echo "$1 se ejecutó correctamente."
     else
-        echo "Error executing $1."
+        echo "Error al ejecutar $1."
         exit 1
     fi
 }
 
-# Function to clone the repository
+# Función para clonar el repositorio
 clone_repo() {
-    echo "Cloning the repository..."
+    echo "Clonando el repositorio..."
     git clone "$REPO_URL"
     check_success "git clone"
 }
 
-# Check if inside MCS_Master_TFM and if Instalaciones_desatendidas exists
+# Verificar si estamos dentro de MCS_Master_TFM y si existe Instalaciones_desatendidas
 if [ -d "Instalaciones_desatendidas" ]; then
-    echo "Already inside the repository directory."
+    echo "Ya estás dentro del directorio del repositorio."
 else
-    # Navigate up to see if we're in a subdirectory
-    cd .. || { echo "Failed to navigate up a directory"; exit 1; }
+    # Navegar hacia arriba para ver si estamos en un subdirectorio
+    cd .. || { echo "Error al navegar hacia arriba"; exit 1; }
     
     if [ -d "MCS_Master_TFM" ]; then
-        echo "Navigating to the repository directory."
-        cd MCS_Master_TFM || { echo "Failed to change to MCS_Master_TFM directory"; exit 1; }
+        echo "Navegando al directorio del repositorio."
+        cd MCS_Master_TFM || { echo "Error al cambiar al directorio MCS_Master_TFM"; exit 1; }
     else
-        # If not in a subdirectory of the repo, clone it
+        # Si no estamos en un subdirectorio del repositorio, clonar el repositorio
         clone_repo
-        cd MCS_Master_TFM || { echo "Failed to change to MCS_Master_TFM directory"; exit 1; }
+        cd MCS_Master_TFM || { echo "Error al cambiar al directorio MCS_Master_TFM"; exit 1; }
     fi
     
-    # Check again if Instalaciones_desatendidas exists
+    # Verificar nuevamente si existe Instalaciones_desatendidas
     if [ ! -d "Instalaciones_desatendidas" ]; then
-        echo "Failed to find Instalaciones_desatendidas after cloning."
+        echo "No se encontró Instalaciones_desatendidas después de clonar."
         exit 1
     fi
 fi
 
-# Navigate to the directory containing the scripts
-cd Instalaciones_desatendidas || { echo "Failed to change directory to Instalaciones_desatendidas"; exit 1; }
+# Navegar al directorio que contiene los scripts
+cd Instalaciones_desatendidas || { echo "Error al cambiar al directorio Instalaciones_desatendidas"; exit 1; }
 
-# Make all scripts executable
-echo "Setting execute permissions for all scripts..."
+# Hacer que todos los scripts sean ejecutables
+echo "Estableciendo permisos de ejecución para todos los scripts..."
 chmod +x *.sh
 check_success "chmod +x *.sh"
 
-# Execute each script in the sequence
+# Ejecutar cada script en la secuencia
 for script in "${SCRIPTS[@]}"; do
-    echo "Executing $script..."
+    echo "Ejecutando $script..."
     bash "./$script"
     check_success "$script"
 done
 
-echo "All scripts executed successfully."
+echo "Todos los scripts se ejecutaron correctamente."
 
-# Return to the parent directory and execute the additional script
-cd .. || { echo "Failed to navigate to the parent directory"; exit 1; }
+# Regresar al directorio padre y ejecutar el script adicional
+cd .. || { echo "Error al navegar al directorio padre"; exit 1; }
 
-# Make sure V2_Personalizacion.sh is executable
+# Asegurarse de que V2_Personalizacion.sh sea ejecutable
 chmod +x V2_Personalizacion.sh
 
-# Execute the additional script
-echo "Executing V2_Personalizacion.sh..."
+# Ejecutar el script adicional
+echo "Ejecutando V2_Personalizacion.sh..."
 bash "./V2_Personalizacion.sh"
 check_success "V2_Personalizacion.sh"
 
-echo "V2_Personalizacion.sh executed successfully."
+echo "V2_Personalizacion.sh se ejecutó correctamente."
 
-# Display a notification to restart the system
+# Mostrar una notificación para reiniciar el sistema
 if command -v zenity > /dev/null; then
-    zenity --info --title="Restart Required" --text="You need to restart the system to apply the changes."
+    zenity --info --title="Reinicio Requerido" --text="Necesitas reiniciar el sistema para aplicar los cambios."
 else
-    echo "Zenity is not installed. Please restart your system to apply the changes."
+    echo "Zenity no está instalado. Por favor, reinicia el sistema para aplicar los cambios."
 fi
