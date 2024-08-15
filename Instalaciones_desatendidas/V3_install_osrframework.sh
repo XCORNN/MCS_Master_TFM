@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Función para cambiar al usuario que invocó sudo
+# Función para ejecutar comandos como el usuario que invocó sudo
 depriv() {
   if [[ $SUDO_USER ]]; then
     sudo -u "$SUDO_USER" -- "$@"
@@ -9,7 +9,7 @@ depriv() {
   fi
 }
 
-# Función para verificar si el comando existe
+# Función para verificar si un comando existe
 command_exists() {
   command -v "$1" &> /dev/null
 }
@@ -27,8 +27,7 @@ check_python_and_pip() {
   # Verificar Python
   if ! command_exists python3; then
     echo "Python 3 no está instalado. Instalando Python 3..."
-    depriv sudo apt update || error_exit "Error al actualizar la lista de paquetes."
-    depriv sudo apt install -y python3 || error_exit "Error al instalar Python 3."
+    depriv "apt update -y && apt install -y python3" || error_exit "Error al instalar Python 3."
   else
     echo "Python 3 está instalado."
   fi
@@ -36,8 +35,7 @@ check_python_and_pip() {
   # Verificar Pip
   if ! command_exists pip3; then
     echo "Pip no está instalado. Instalando Pip..."
-    depriv sudo apt update || error_exit "Error al actualizar la lista de paquetes."
-    depriv sudo apt install -y python3-pip || error_exit "Error al instalar Pip."
+    depriv "apt update -y && apt install -y python3-pip" || error_exit "Error al instalar Pip."
   else
     echo "Pip está instalado."
   fi
@@ -45,7 +43,7 @@ check_python_and_pip() {
   # Verificar virtualenv
   if ! pip3 show virtualenv &> /dev/null; then
     echo "virtualenv no está instalado. Instalando virtualenv..."
-    depriv pip3 install virtualenv --user || error_exit "Error al instalar virtualenv."
+    depriv "pip3 install virtualenv --user" || error_exit "Error al instalar virtualenv."
   else
     echo "virtualenv está instalado."
   fi
@@ -57,15 +55,19 @@ create_and_activate_venv() {
   local base_dir="/home/$USER/Escritorio/osrframework"
   local venv_dir="$base_dir/venv"
   
-  mkdir -p "$base_dir" || error_exit "Error al crear el directorio base."
+  depriv "mkdir -p $base_dir" || error_exit "Error al crear el directorio base."
 
-  depriv virtualenv "$venv_dir" || error_exit "Error al crear el entorno virtual."
+  # Crear entorno virtual
+  depriv "virtualenv $venv_dir" || error_exit "Error al crear el entorno virtual."
+
+  # Activar entorno virtual
   source "$venv_dir/bin/activate" || error_exit "Error al activar el entorno virtual."
 }
 
 # Instalar osrframework dentro del entorno virtual
 install_osrframework() {
   echo "Instalando osrframework dentro del entorno virtual..."
+  source "$VENV_DIR/bin/activate" || error_exit "Error al activar el entorno virtual."
   pip install --upgrade pip || error_exit "Error al actualizar pip."
   pip install osrframework || error_exit "Error al instalar osrframework."
 }
