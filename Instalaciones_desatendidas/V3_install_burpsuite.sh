@@ -43,8 +43,13 @@ java_version=$(java -version 2>&1 | awk -F '"' '/version/ {print $2}')
 if [[ -z "$java_version" ]] || [[ "$java_version" != "21"* ]]; then
     wget https://download.oracle.com/java/21/latest/jdk-21_linux-x64_bin.deb -O "$BURP_DIR/jdk-21_linux-x64_bin.deb"
     dpkg -i "$BURP_DIR/jdk-21_linux-x64_bin.deb"
-    rm "$BURP_DIR/jdk-21_linux-x64_bin.deb"
+    rm "$BURP_DIR/jdk-21_linux-x64_bin.deb"  # Eliminar archivo de instalación de Java
 fi
 
 # Ejecutar el instalador de Burp Suite en modo silencioso
 sudo -u $SUDO_USER "$BURP_INSTALLER" -q -dir "$BURP_DIR"
+
+# Limpiar archivos temporales
+rm "$BURP_INSTALLER"  # Eliminar el instalador de Burp Suite
+
+echo "Instalación completada y archivos temporales eliminados."
