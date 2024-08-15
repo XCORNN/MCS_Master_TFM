@@ -109,4 +109,4 @@ fi
 
 # 8. Reiniciar GNOME Shell para aplicar los cambios en el contexto del usuario
 echo "Reiniciando GNOME Shell para aplicar los cambios..."
-sudo reboot now
+#sudo reboot now
