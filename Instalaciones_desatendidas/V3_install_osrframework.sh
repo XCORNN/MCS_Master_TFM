@@ -19,8 +19,7 @@ fi
 DEST_DIR="/home/$SUDO_USER/Escritorio/osrframework-venv"
 
 # Instalar paquetes necesarios
-depriv sudo apt update
-depriv sudo apt install -y python3 python3-pip python3-venv
+depriv bash -c "sudo apt update && sudo apt install -y python3 python3-pip python3-venv"
 
 # Crea el directorio de destino si no existe
 depriv bash -c "
