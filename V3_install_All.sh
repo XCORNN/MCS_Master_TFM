@@ -42,6 +42,15 @@ clone_repo() {
     check_success "git clone"
 }
 
+# Función para instalar zenity si no está instalado
+install_zenity() {
+    if ! command -v zenity > /dev/null; then
+        echo "Zenity no está instalado. Instalando zenity..."
+        sudo apt-get update && sudo apt-get install -y zenity
+        check_success "instalación de zenity"
+    fi
+}
+
 # Verificar si estamos dentro de MCS_Master_TFM y si existe Instalaciones_desatendidas
 if [ -d "Instalaciones_desatendidas" ]; then
     echo "Ya estás dentro del directorio del repositorio."
@@ -82,22 +91,30 @@ done
 
 echo "Todos los scripts se ejecutaron correctamente."
 
-# Regresar al directorio padre y ejecutar el script adicional
+# Regresar al directorio MCS_Master_TFM y luego al subdirectorio Personalizacion
 cd .. || { echo "Error al navegar al directorio padre"; exit 1; }
+cd Personalizacion || { echo "Error al cambiar al directorio Personalizacion"; exit 1; }
 
-# Asegurarse de que V2_Personalizacion.sh sea ejecutable
-chmod +x V2_Personalizacion.sh
+# Verificar si V2_Personalizacion.sh existe y es ejecutable
+if [ -f "V2_Personalizacion.sh" ]; then
+    # Asegurarse de que V2_Personalizacion.sh sea ejecutable
+    chmod +x V2_Personalizacion.sh
 
-# Ejecutar el script adicional
-echo "Ejecutando V2_Personalizacion.sh..."
-bash "./V2_Personalizacion.sh"
-check_success "V2_Personalizacion.sh"
+    # Ejecutar el script adicional
+    echo "Ejecutando V2_Personalizacion.sh..."
+    bash "./V2_Personalizacion.sh"
+    check_success "V2_Personalizacion.sh"
+    
+    echo "V2_Personalizacion.sh se ejecutó correctamente."
+else
+    echo "No se encontró V2_Personalizacion.sh en el directorio Personalizacion."
+    exit 1
+fi
 
-echo "V2_Personalizacion.sh se ejecutó correctamente."
+# Instalar zenity si no está instalado
+install_zenity
 
 # Mostrar una notificación para reiniciar el sistema
-if command -v zenity > /dev/null; then
-    zenity --info --title="Reinicio Requerido" --text="Necesitas reiniciar el sistema para aplicar los cambios."
-else
-    echo "Zenity no está instalado. Por favor, reinicia el sistema para aplicar los cambios."
-fi
+zenity --info --title="Reinicio Requerido" --text="Necesitas reiniciar el sistema para aplicar los cambios."
+
+echo "Notificación de reinicio mostrada."
