@@ -4,7 +4,7 @@
 export PATH=$PATH:/usr/local/sbin:/usr/sbin:/sbin
 
 # Verificar si es root
-if [ "$(id -u)" -ne 0 ]; then
+if [ "$(id -u)" -ne 0; then
     echo "Este script debe ejecutarse como root."
     exit 1
 fi
@@ -53,3 +53,6 @@ sudo -u $SUDO_USER "$BURP_INSTALLER" -q -dir "$BURP_DIR"
 rm "$BURP_INSTALLER"  # Eliminar el instalador de Burp Suite
 
 echo "Instalación completada y archivos temporales eliminados."
+
+# Instrucciones para ejecutar Burp Suite
+echo "Puedes ejecutar Burp Suite desde el menú de aplicaciones o directamente desde la carpeta de instalación con el comando '$BURP_DIR/BurpSuiteCommunity'."
