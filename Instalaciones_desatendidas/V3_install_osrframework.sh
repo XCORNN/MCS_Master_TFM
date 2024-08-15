@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Función para ejecutar comandos como el usuario que invocó sudo
+# Función para cambiar al usuario que invocó sudo
 depriv() {
   if [[ $SUDO_USER ]]; then
     sudo -u "$SUDO_USER" -- "$@"
@@ -9,107 +9,44 @@ depriv() {
   fi
 }
 
-# Función para verificar si un comando existe
-command_exists() {
-  command -v "$1" &> /dev/null
-}
-
-# Función para mostrar mensajes de error y salir del script
-error_exit() {
-  echo "$1" 1>&2
-  exit 1
-}
-
-# Verificar la instalación de Python y pip
-check_python_and_pip() {
-  echo "Verificando Python y Pip..."
-
-  # Verificar Python
-  if ! command_exists python3; then
-    echo "Python 3 no está instalado. Instalando Python 3..."
-    depriv "apt update -y && apt install -y python3" || error_exit "Error al instalar Python 3."
-  else
-    echo "Python 3 está instalado."
-  fi
-
-  # Verificar Pip
-  if ! command_exists pip3; then
-    echo "Pip no está instalado. Instalando Pip..."
-    depriv "apt update -y && apt install -y python3-pip" || error_exit "Error al instalar Pip."
-  else
-    echo "Pip está instalado."
-  fi
-
-  # Verificar virtualenv
-  if ! pip3 show virtualenv &> /dev/null; then
-    echo "virtualenv no está instalado. Instalando virtualenv..."
-    depriv "pip3 install virtualenv --user" || error_exit "Error al instalar virtualenv."
-  else
-    echo "virtualenv está instalado."
-  fi
-}
-
-# Crear y activar el entorno virtual
-create_and_activate_venv() {
-  echo "Creando el entorno virtual en /home/$USER/Escritorio/osrframework/venv..."
-  local base_dir="/home/$USER/Escritorio/osrframework"
-  local venv_dir="$base_dir/venv"
-  
-  depriv "mkdir -p $base_dir" || error_exit "Error al crear el directorio base."
-
-  # Crear entorno virtual
-  depriv "virtualenv $venv_dir" || error_exit "Error al crear el entorno virtual."
-
-  # Activar entorno virtual
-  source "$venv_dir/bin/activate" || error_exit "Error al activar el entorno virtual."
-}
-
-# Instalar osrframework dentro del entorno virtual
-install_osrframework() {
-  echo "Instalando osrframework dentro del entorno virtual..."
-  source "$VENV_DIR/bin/activate" || error_exit "Error al activar el entorno virtual."
-  pip install --upgrade pip || error_exit "Error al actualizar pip."
-  pip install osrframework || error_exit "Error al instalar osrframework."
-}
-
-# Verificar la instalación
-verify_installation() {
-  echo "Verificando la instalación de osrframework..."
-  if ! command_exists osrframework; then
-    echo "osrframework no se encuentra en el PATH. Verificando la instalación..."
-    local osrframework_path=$(find "$VENV_DIR/bin" -name "osrframework" 2> /dev/null)
-    if [ -z "$osrframework_path" ]; then
-      echo "No se encontró osrframework. Asegúrate de que el directorio '$VENV_DIR/bin' esté en tu PATH."
-      echo "Puedes añadirlo con: export PATH=$VENV_DIR/bin:$PATH"
-      exit 1
-    else
-      echo "osrframework se encuentra en $osrframework_path"
-    fi
-  else
-    echo "osrframework está disponible en el PATH."
-  fi
-}
-
-# Ejecutar comandos de prueba para verificar la funcionalidad
-run_tests() {
-  echo "Probando la ejecución de comandos..."
-  if ! osrframework --help > /dev/null 2>&1; then
-    echo "Error al ejecutar osrframework. Verifica la instalación y las dependencias."
+# Verifica si el usuario tiene permisos de sudo
+if ! sudo -v; then
+    echo "El usuario no tiene permisos de sudo. Por favor, asegúrate de tener permisos para instalar paquetes."
     exit 1
-  else
-    echo "osrframework está funcionando correctamente."
-  fi
-}
+fi
 
-# Variables globales
-BASE_DIR="/home/$USER/Escritorio/osrframework"
-VENV_DIR="$BASE_DIR/venv"
+# Verifica e instala python3-pip y virtualenv si no están instalados
+if ! command -v pip3 &> /dev/null; then
+    echo "pip3 no está instalado. Instalando..."
+    sudo apt update
+    sudo apt install -y python3-pip
+fi
 
-# Ejecutar los pasos
-check_python_and_pip
-create_and_activate_venv
-install_osrframework
-verify_installation
-run_tests
+if ! pip3 show virtualenv &> /dev/null; then
+    echo "virtualenv no está instalado. Instalando..."
+    pip3 install virtualenv --user
+fi
 
-echo "Instalación completada con éxito."
+# Configura el entorno virtual
+echo "Creando entorno virtual..."
+depriv mkdir -p $HOME/osrframework-venv
+depriv virtualenv $HOME/osrframework-venv
+
+# Activa el entorno virtual e instala OSRFramework
+echo "Instalando OSRFramework en el entorno virtual..."
+source $HOME/osrframework-venv/bin/activate
+pip install osrframework
+
+# Copia los scripts a un directorio accesible
+echo "Copiando scripts a ~/Escritorio/osrframework..."
+mkdir -p $HOME/Escritorio/osrframework
+cp -r ~/.local/bin/* $HOME/Escritorio/osrframework
+
+echo "Instalación completa. Puedes usar el entorno virtual con 'source $HOME/osrframework-venv/bin/activate'."
+
+# Mensaje final
+echo "Para activar el entorno virtual, usa el comando 'source $HOME/osrframework-venv/bin/activate'."
+echo "Recuerda desactivar el entorno virtual con 'deactivate' cuando hayas terminado."
+
+# Salida del script
+exit 0
