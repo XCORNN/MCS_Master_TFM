@@ -49,6 +49,11 @@ sudo wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/debian/
 echo "Updating package lists..."
 sudo apt update
 
+# Descargar e instalar silenciosamente wine-mono 8.1.0 en el cache del usuario
+echo "Ensuring silent installation of wine-mono 8.1.0..."
+depriv bash -c "mkdir -p /home/$SUDO_USER/.cache/wine/ && \
+wget -O /home/$SUDO_USER/.cache/wine/wine-mono-8.1.0-x86.msi https://dl.winehq.org/wine/wine-mono/8.1.0/wine-mono-8.1.0-x86.msi"
+
 # Install WINE
 echo "Installing WINE..."
 sudo apt install --install-recommends -y winehq-stable
@@ -60,11 +65,6 @@ sudo apt install -y winetricks
 # Install additional components using Winetricks
 echo "Installing additional components with Winetricks..."
 depriv winetricks -q dotnet48 gdiplus fontfix
-
-# Descargar e instalar silenciosamente wine-mono 8.1.0
-echo "Ensuring silent installation of wine-mono 8.1.0..."
-mkdir -p $HOME/.cache/wine/
-wget -O $HOME/.cache/wine/wine-mono-8.1.0-x86.msi https://dl.winehq.org/wine/wine-mono/8.1.0/wine-mono-8.1.0-x86.msi
 
 # Crear carpeta FOCA en el Escritorio
 depriv mkdir -p "/home/$SUDO_USER/Escritorio/Foca"
