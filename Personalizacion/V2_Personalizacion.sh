@@ -35,14 +35,6 @@ sudo apt install gnome-shell-extension-desktop-icons-ng -y
 DESKTOP_DIR="$USER_HOME/Escritorio"
 mkdir -p "$DESKTOP_DIR"
 
-# 4. Crear una carpeta de prueba en el contexto del usuario
-TEST_DIR="$DESKTOP_DIR/CarpetaDePrueba"
-mkdir -p "$TEST_DIR"
-
-# Asignar la propiedad y permisos correctos al usuario normal para la carpeta de prueba
-sudo chown "$SUDO_USER":"$SUDO_USER" "$TEST_DIR"
-sudo chmod 755 "$TEST_DIR"  # Permisos típicos para directorios
-
 # 5. Configurar el archivo .desktop para el autoarranque en el contexto del usuario
 AUTOSTART_DIR="$USER_HOME/.config/autostart"
 mkdir -p "$AUTOSTART_DIR"
