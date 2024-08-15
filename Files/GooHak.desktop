@@ -1,7 +1,7 @@
 [Desktop Entry]
 Version=1.0
 Name=GooHak
-Exec=gnome-terminal -- bash -c "cd ~/Escritorio/GooHak/GooHak && ./goohak; exec bash"
+Exec=gnome-terminal -- bash -c "cd ~/Escritorio/GooHak/Goohak && ./goohak; exec bash"
 Icon=utilities-terminal
 Terminal=false
 Type=Application
