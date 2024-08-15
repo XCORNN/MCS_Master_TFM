@@ -101,7 +101,6 @@ sudo chmod 755 "$SCRIPT_FILE"  # Mantiene el permiso de ejecución
 # 7. Copiar archivos .desktop desde la carpeta Files a ~/.local/share/applications/
 echo "Copiando archivos .desktop..."
 if [ -d "$FILES_DIR" ]; then
-    mkdir -p "$USER_HOME/.local/share/applications"
     cp "$FILES_DIR"/*.desktop "$USER_HOME/.local/share/applications/"
     echo "Archivos .desktop copiados exitosamente."
 else
