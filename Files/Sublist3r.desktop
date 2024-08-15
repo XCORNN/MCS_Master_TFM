@@ -1,7 +1,7 @@
 [Desktop Entry]
 Version=1.0
 Name=Sublist3r
-Exec=gnome-terminal -- bash -c "source /home/$USER/Escritorio/Sublist3r/Sublist3r/venv/bin/activate && python3 /home/$USER/Escritorio/Sublist3r/Sublist3r/sublist3r.py; exec bash"
+Exec=gnome-terminal -- bash -c "source /home/$USER/Escritorio/Sublist3r/venv/bin/activate && python3 /home/$USER/Escritorio/Sublist3r/Sublist3r/sublist3r.py; exec bash"
 Icon=utilities-terminal
 Terminal=false
 Type=Application
