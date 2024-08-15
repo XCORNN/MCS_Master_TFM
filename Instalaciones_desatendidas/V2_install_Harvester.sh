@@ -73,23 +73,6 @@ source venv/bin/activate
 pip install -r requirements/base.txt
 "
 
-# Crear el archivo .desktop
-echo "Creando el archivo .desktop..."
-cat <<EOF | tee /usr/share/applications/theHarvester.desktop > /dev/null
-[Desktop Entry]
-Version=1.0
-Name=TheHarvester
-Exec=gnome-terminal -- bash -c "cd ~/Escritorio/theHarvester/theHarvester && source venv/bin/activate && python3 theHarvester.py; exec bash"
-Icon=utilities-terminal
-Terminal=false
-Type=Application
-Categories=Info-Gath;
-EOF
-
-# Cambiar permisos del archivo .desktop
-echo "Asignando permisos 644 al archivo .desktop..."
-chmod 644 /usr/share/applications/theHarvester.desktop
-
 echo "Instalación completa de theHarvester. Puedes ejecutar el script manualmente usando:"
 echo "source ~/Escritorio/theHarvester/theHarvester/venv/bin/activate"
 echo "python3 ~/Escritorio/theHarvester/theHarvester/theHarvester.py"
