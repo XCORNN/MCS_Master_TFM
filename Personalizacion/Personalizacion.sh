@@ -35,6 +35,15 @@ sudo apt install gnome-shell-extension-desktop-icons-ng -y
 DESKTOP_DIR="$USER_HOME/Escritorio"
 mkdir -p "$DESKTOP_DIR"
 
+# 4. Copiar archivo .txt al escritorio del usuario
+TXT_FILE="$FILES_DIR/Readme.txt"
+if [ -f "$TXT_FILE" ]; then
+    cp "$TXT_FILE" "$DESKTOP_DIR/"
+    echo "Archivo .txt copiado al escritorio exitosamente."
+else
+    echo "El archivo .txt no existe: $TXT_FILE"
+fi
+
 # 5. Configurar el archivo .desktop para el autoarranque en el contexto del usuario
 AUTOSTART_DIR="$USER_HOME/.config/autostart"
 mkdir -p "$AUTOSTART_DIR"
