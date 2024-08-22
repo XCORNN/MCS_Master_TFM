@@ -83,12 +83,12 @@ Para clonar este repositorio:
 
 Modificar permisos para permitir ejecución:
 
-    sudo chmod +x V2_install_All.sh
+    sudo chmod +x install_All.sh
 
 Ejecutar el script para TODAS las herramientas: 
 
-    sudo ./V2_install_ALL.sh
+    sudo ./install_ALL.sh
 
 Instalacion INDIVIDUAL de las herramientas: 
     
-    sudo ./V2_install_NOMBREdeHERRAMIENTA.sh
+    sudo ./install_NOMBREdeHERRAMIENTA.sh
