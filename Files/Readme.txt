@@ -1,3 +1,5 @@
+Puedes ejecutar las aplicaciones desde el menú de aplicaciones o directamente desde la carpeta de instalación.
+
 THEHARVESTER
 Para usar theHarvester:
  1. Navega al directorio del programa:
