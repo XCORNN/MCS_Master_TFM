@@ -52,10 +52,9 @@ Paquete de personalización de gnome
 
 ## Instalación
 
-Es importante que **NO se ejecuten las instalaciones como root**, ya que **está programado para que utilice la variable SUDO_USER para crear las necesidades en el escritorio del usuario**.
+Es importante que **NO se ejecute la instalación como root**, ya que **el script está programado para crear los elementos necesarios en el escritorio del usuario**.
 
-
-Acceso a root:
+**Acceso a root:**
 
     sudo su
 
@@ -65,7 +64,7 @@ Añadir usuario a sudoers:
 
 (es posible que necesites reiniciar para aplicar los cambios)
 
--
+<br>
 
 **Desde tu usuario**
 
