@@ -2,7 +2,7 @@
 
 Este repositorio tiene como objetivo automatizar las descargas e instalaciones de ciertas herramientas de OSINT en un **Entorno Debian 12 limpio**, para realizar un despliegue rápido y seguro.
 
-Mediante la descarga e instalación del repositorio obtienes los scripts de ejecución para crear todo el despliegue o tan solo las herramientas necesarias.
+Al descargar e instalar este repositorio, obtendrás scripts que te permitirán realizar el despliegue completo o instalar únicamente las herramientas necesarias.
 
 ## Descripción
 Herramientas de código abierto utilizadas para la recolección de correos electrónicos, nombres de usuarios, hosts y subdominios de diferentes fuentes públicas como motores de búsqueda y claves PGP.
