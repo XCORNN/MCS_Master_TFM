@@ -26,7 +26,7 @@ INSTALL_SCRIPTS=(
 )
 
 # Nombre del script de personalización
-PERSONALIZACION_SCRIPT="V2_Personalizacion.sh"
+PERSONALIZACION_SCRIPT="Personalizacion.sh"
 
 # Función para verificar si el script se ejecutó correctamente
 check_success() {
