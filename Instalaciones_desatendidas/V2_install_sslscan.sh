@@ -1,4 +1,7 @@
-#Update the package index:
+#!/bin/bash
+
+# Actualizar la lista de paquetes disponibles
 apt-get update
-#Install sslscan deb package:
+
+# Instalar la herramienta sslscan
 apt-get install sslscan
