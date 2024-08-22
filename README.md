@@ -1,7 +1,7 @@
 # MCS_Master_TFM
 Master_TFM
 
-Este repositorio tiene como objetivo automatizar las descargas e instalaciones de ciertas herramientas de OSINT en un Entorno Debian 12 limpio, para realizar un despliegue rápido y seguro.
+Este repositorio tiene como objetivo automatizar las descargas e instalaciones de ciertas herramientas de OSINT en un **Entorno Debian 12 limpio**, para realizar un despliegue rápido y seguro.
 
 Mediante la descarga e instalación del repositorio obtienes los scripts de ejecución para crear todo el despliegue o tan solo las herramientas necesarias.
 
@@ -10,7 +10,7 @@ Herramientas de código abierto utilizadas para la recolección de correos elect
 
 ## Pre-requisitos
 
-Añadir el usuario principal (no root) al grupo sudoers para la correcta ejecución de los scripts.
+Añadir el usuario principal **(no root)** al grupo sudoers para la correcta ejecución de los scripts.
 
 ## Paquetes:
 
@@ -52,7 +52,7 @@ Paquete de personalización de gnome
 
 ## Instalación
 
-Es importante que NO se ejecuten las instalaciones como root, ya que está programado para que utilice la variable SUDO_USER para crear las necesidades en el escritorio del usuario.
+Es importante que **NO se ejecuten las instalaciones como root**, ya que **está programado para que utilice la variable SUDO_USER para crear las necesidades en el escritorio del usuario**.
 
 
 Acceso a root:
@@ -67,7 +67,7 @@ Añadir usuario a sudoers:
 
 -
 
-Desde tu usuario
+**Desde tu usuario**
 
 Actualizar repositorios y actualizaciones a última versión:
 
