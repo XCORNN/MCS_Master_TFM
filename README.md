@@ -92,3 +92,13 @@ Ejecutar el script para TODAS las herramientas:
 Instalacion INDIVIDUAL de las herramientas: 
     
     sudo ./install_NOMBREdeHERRAMIENTA.sh
+
+## Uso
+
+### Instalación desde "install_ALL.sh"
+
+Una vez finalizado el script de instalación total, se te pedirá reiniciar el equipo para aplicar los cambios en el escritorio y las extensiones. Tras reiniciar y volver a iniciar sesión, verás que se han añadido las aplicaciones al escritorio y encontrarás un archivo `readme.txt` con las instrucciones de uso para cada una de las aplicaciones, así como sus rutas de instalación. Además, se habrá añadido una extensión de aplicaciones en la parte superior, que te proporcionará accesos directos a cada una de las aplicaciones.
+
+### Instalación Individual
+
+Al finalizar el script de instalación individual, se mostrará en pantalla la información con los comandos necesarios para ejecutarlo. También puedes consultar el archivo `readme.txt` dentro de la carpeta `Files` para revisar las instrucciones de uso de la aplicación.
