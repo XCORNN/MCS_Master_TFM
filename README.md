@@ -55,7 +55,7 @@ Es importante que **NO se ejecute la instalación como root**, ya que **el scrip
 
 **1 -Acceso a root:**
 
-    sudo su
+    su root
 
 Añadir usuario a sudoers:
 
